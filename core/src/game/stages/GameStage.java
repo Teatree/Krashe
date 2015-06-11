@@ -5,16 +5,14 @@ package game.stages;
         import com.uwsoft.editor.renderer.resources.ResourceManager;
         import game.actors.DrunkBugController;
         import game.actors.FlowerController;
+        import game.utils.AssetsManager;
 
 /**
  * Created by Teatree on 5/25/2015.
  */
 public class GameStage extends Overlap2DStage {
 
-    ResourceManager resourceManager;
-
     public GameStage(ResourceManager resourceManager) {
-        this.resourceManager = resourceManager;
 
         initSceneLoader(resourceManager);
 
@@ -38,8 +36,8 @@ public class GameStage extends Overlap2DStage {
         drunkBug3.addScript(flowerController);
         drunkBug3.setX(500);
 
-        flowerController.spriterActor = drunkBug3.getSpriterActorById("blueBugAni");
-        flowerController.spriterActor2 = drunkBug3.getSpriterActorById("drunkBugAni");
+        flowerController.saIdle = drunkBug3.getSpriterActorById("blueBugAni");
+        flowerController.saClose = drunkBug3.getSpriterActorById("drunkBugAni");
         addActor(drunkBug);
         addActor(drunkBug2);
         addActor(drunkBug3);

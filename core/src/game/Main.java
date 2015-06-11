@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.*;
 import com.uwsoft.editor.renderer.resources.ResourceManager;
 import game.stages.GameStage;
+import game.utils.AssetsManager;
 
 public class Main extends ApplicationAdapter {
 
@@ -18,15 +19,13 @@ public class Main extends ApplicationAdapter {
 	Array<Viewport> viewports;
 	Array<String> names;
 
-	private ResourceManager resourceManager;
 
 	@Override
 	public void create () {
 		names = getViewportNames();
-		resourceManager = new ResourceManager();
-		resourceManager.initAllResources();
 
-		stage = new GameStage(resourceManager);
+		AssetsManager.load();
+		stage = new GameStage(AssetsManager.resourceManager);
 		viewports = getViewports(stage.getCamera());
 		stage.setViewport(viewports.first());
 

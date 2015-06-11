@@ -10,6 +10,9 @@ import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.physics.PhysicsBodyLoader;
 import com.uwsoft.editor.renderer.script.IScript;
+import com.badlogic.gdx.utils.Timer.Task;
+
+import java.util.Timer;
 
 /**
  * Created by MainUser on 07/06/2015.
@@ -19,39 +22,57 @@ public class FlowerController implements IScript {
     private Overlap2DStage stage;
 
     private CompositeItem item;
+    private boolean isMovingUp = false;
 
-    public SpriterActor spriterActor;
-    public SpriterActor spriterActor2;
+    public SpriterActor saIdle;
+    public SpriterActor saClose;
+    public SpriterActor saOpen;
+
 
     public FlowerController(Overlap2DStage stage){ this.stage = stage; }
 
     @Override
     public void init(CompositeItem item) {
         this.item = item;
-        if(spriterActor != null) {
-            spriterActor.setVisible(false);
-        }
+
         item.setX(Gdx.graphics.getWidth() - 200);
         item.setY(0);
         item.setOrigin(item.getWidth()/2, 0);
     }
 
-    public void addMovementAction() {
-        item.addAction(Actions.sequence(
-                Actions.moveTo(Gdx.graphics.getWidth() - 100,
-                        Gdx.graphics.getHeight() - 100, 0.2f),
-                Actions.moveTo(Gdx.graphics.getWidth() - 200, 0, 0.2f)));
+    public void addMovementActionUp() {
+        item.addAction(
+                Actions.sequence(
+                        Actions.moveTo(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100, 0.7f)));
+    }
+
+    public void addMovementActionDown() {
+        item.addAction(
+                Actions.sequence(
+                        Actions.moveTo(Gdx.graphics.getWidth() - 200, 0, 0.7f)));
     }
 
     @Override
     public void act(float delta) {
-        if (Gdx.input.isTouched()){
-            addMovementAction();
-            spriterActor2.setVisible(false);
-            spriterActor.setVisible(true);
-        }else{
-            spriterActor.setVisible(false);
-            spriterActor2.setVisible(true);
+        if (Gdx.input.isTouched() && !isMovingUp) {
+            isMovingUp = true;
+            saIdle.setAnimation(0);
+        }
+
+        if (isMovingUp) {
+            addMovementActionUp();
+            saClose.setVisible(false);
+            saIdle.setVisible(true);
+            if (item.getY() > (Gdx.graphics.getHeight() - 120)) {
+                isMovingUp = false;
+            }
+        }
+
+        if (!isMovingUp && item.getY() != (Gdx.graphics.getWidth() - 100)){  // WRONG, you are checking Y again Width! numbnuts
+            addMovementActionDown();
+            saClose.setVisible(true);
+            saIdle.setVisible(false);
+            saIdle.setAnimation(0);
         }
     }
 

@@ -27,6 +27,8 @@ public class GameStage extends Overlap2DStage {
         CompositeItem drunkBug = sceneLoader.getLibraryAsActor("drunkBugLib");
         CompositeItem drunkBug2 = sceneLoader.getLibraryAsActor("drunkBugLib");
         CompositeItem drunkBug3 = sceneLoader.getLibraryAsActor("flowerLib");
+
+//            drunkBug.setX(-drunkBug.getWidth());
 //            drunkBug.setX(-drunkBug.getWidth());
 //            drunkBug.addItem(drunkBug);
         drunkBug.addScript(drunkBugController);
@@ -36,8 +38,10 @@ public class GameStage extends Overlap2DStage {
         drunkBug3.addScript(flowerController);
         drunkBug3.setX(500);
 
-        flowerController.saIdle = drunkBug3.getSpriterActorById("blueBugAni");
-        flowerController.saClose = drunkBug3.getSpriterActorById("drunkBugAni");
+        flowerController.saIdle = drunkBug3.getSpriterActorById("floweridle_ani");
+        flowerController.saClose = drunkBug3.getSpriterActorById("flowerattack_ani");
+        flowerController.itemHeadImg = drunkBug3.getImageById("flower_head");
+        flowerController.itemPeduncleImg = drunkBug3.getImageById("flower_peduncle");
         addActor(drunkBug);
         addActor(drunkBug2);
         addActor(drunkBug3);

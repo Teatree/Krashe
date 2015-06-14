@@ -6,8 +6,29 @@ filter: Linear,Linear
 repeat: none
 background
   rotate: false
-  xy: 2, 2
+  xy: 2, 154
   size: 1200, 786
   orig: 1200, 786
+  offset: 0, 0
+  index: -1
+flowerhead
+  rotate: false
+  xy: 2, 2
+  size: 143, 150
+  orig: 143, 150
+  offset: 0, 0
+  index: -1
+flowerpeducle
+  rotate: false
+  xy: 1204, 50
+  size: 63, 890
+  orig: 63, 890
+  offset: 0, 0
+  index: -1
+pot
+  rotate: false
+  xy: 1269, 882
+  size: 62, 58
+  orig: 62, 58
   offset: 0, 0
   index: -1

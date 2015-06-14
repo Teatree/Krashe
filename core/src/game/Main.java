@@ -42,6 +42,7 @@ public class Main extends ApplicationAdapter {
 
 //		stage.getViewport().update(width, height, false);
 		stage.act();
+		stage.setDebugAll(true);
 		stage.draw();
 	}
 

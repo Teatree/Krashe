@@ -1,20 +1,17 @@
 package game.actors;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.actor.SpriterActor;
-import com.uwsoft.editor.renderer.physics.PhysicsBodyLoader;
 import com.uwsoft.editor.renderer.script.IScript;
-import static game.utils.GlobalConstants.POINT_TRAVEL;
-import com.badlogic.gdx.utils.Timer.Task;
+import game.stages.GameStage;
 
-import java.util.Timer;
+import static game.utils.GlobalConstants.POINT_TRAVEL;
 
 /**
  * Created by MainUser on 07/06/2015.
@@ -30,7 +27,10 @@ public class FlowerController implements IScript {
     public SpriterActor saIdle;
     public SpriterActor saClose;
     public SpriterActor saOpen;
-    public Image itemHeadImg;
+
+    public CompositeItem itemHeadC;
+    public Rectangle headBoundsRect = new Rectangle();
+
     public Image itemPeduncleImg;
 
 
@@ -56,8 +56,10 @@ public class FlowerController implements IScript {
                 Actions.sequence(
                         Actions.moveTo(1802, -585, 0.7f)));
     }
+
     @Override
     public void act(float delta) {
+        checkForCollisions();
 
         if (Gdx.input.isTouched() && !isMovingUp) {
             isMovingUp = true;
@@ -69,7 +71,7 @@ public class FlowerController implements IScript {
             saIdle.setVisible(true);
             saClose.setVisible(false);
 
-            itemHeadImg.setVisible(false);
+            itemHeadC.setVisible(false);
             itemPeduncleImg.setVisible(false);
         }
 
@@ -78,7 +80,7 @@ public class FlowerController implements IScript {
             saIdle.setVisible(false);
             saClose.setVisible(false);
 
-            itemHeadImg.setVisible(true);
+            itemHeadC.setVisible(true);
             itemPeduncleImg.setVisible(true);
             if (item.getY() > POINT_TRAVEL-20) {
                 isMovingUp = false;
@@ -86,23 +88,32 @@ public class FlowerController implements IScript {
         }
 
     }
-
-
     private void checkForCollisions() {
-        // Vectors of ray from middle bottom
-        Vector2 rayFrom = new Vector2((item.getX()+item.getWidth()/2)* PhysicsBodyLoader.SCALE, item.getY()*PhysicsBodyLoader.SCALE);
-        Vector2 rayTo = new Vector2((item.getX()+item.getWidth()/2)*PhysicsBodyLoader.SCALE, (item.getY())*PhysicsBodyLoader.SCALE);
-
-        // Cast the ray
-        stage.getWorld().rayCast(new RayCastCallback() {
-            @Override
-            public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                // reposition player slightly upper the collision point
-                item.setY(point.y/PhysicsBodyLoader.SCALE+0.1f);
-
-                return 0;
+        updateRect();
+        for(BugController bug: GameStage.bugs){
+            if(bug.getBoundsRectangle().overlaps(headBoundsRect)){
+                GameStage.bugs.remove(bug);
+                removeActor(bug);
             }
-        }, rayFrom, rayTo);
+        }
+    }
+
+    private void removeActor(BugController bug) {
+        for (Actor actor : stage.getActors()) {
+            if(actor.equals(bug.getCompositeItem())){
+                actor.remove();
+            }
+        }
+    }
+
+
+    private void updateRect() {
+        headBoundsRect.x = (int)itemHeadC.getX();
+        headBoundsRect.y = (int)itemHeadC.getY();
+        headBoundsRect.width = (int)itemHeadC.getWidth();
+        headBoundsRect.height = (int)itemHeadC.getHeight();
+
+//        stage.getActors().get(3).setBounds(headBoundsRect.getX(), headBoundsRect.getY(), headBoundsRect.getWidth(), headBoundsRect.getHeight());
     }
 
     @Override

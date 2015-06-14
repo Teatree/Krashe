@@ -3,6 +3,7 @@ package game.actors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -15,12 +16,14 @@ import com.uwsoft.editor.renderer.script.IScript;
 /**
  * Created by CyberJoe on 10/18/2014.
  */
-public class DrunkBugController implements IScript {
+public class DrunkBugController implements IScript, BugController {
 
     private Overlap2DStage stage;
 
     private CompositeItem item;
     private SpriterActor spriterActor;
+
+    public Rectangle boundsRect;
 
     private float velocity = 0;
     private float startYPosition;
@@ -32,6 +35,8 @@ public class DrunkBugController implements IScript {
     @Override
     public void init(CompositeItem item) {
         this.item = item;
+        boundsRect = new Rectangle();
+
         startYPosition= MathUtils.random(200, Gdx.graphics.getHeight() - 100);
         item.setX(0);
         item.setY(startYPosition -100);
@@ -43,9 +48,10 @@ public class DrunkBugController implements IScript {
 
     @Override
     public void act(float delta) {
+        updateRect();
         item.setY(startYPosition + (-(float) Math.cos(item.getX() / 20) * 75));
         item.setX(item.getX() + velocity);
-        velocity+=delta*0.02;
+        velocity+=delta*0.2;
     }
 
 //    /*
@@ -79,6 +85,27 @@ public class DrunkBugController implements IScript {
 //            }
 //        }, rayFrom, rayTo);
 //    }
+
+    @Override
+    public void updateRect() {
+        boundsRect.x = (int)item.getX();
+        boundsRect.y = (int)item.getY();
+        boundsRect.width = (int)item.getWidth();
+        boundsRect.height = (int)item.getHeight();
+
+//        stage.getActors().get(1).setBounds(boundsRect.getX(), boundsRect.getY(), boundsRect.getWidth(), boundsRect.getHeight());
+    }
+
+    @Override
+    public Rectangle getBoundsRectangle() {
+        updateRect();
+        return boundsRect;
+    }
+
+    @Override
+    public CompositeItem getCompositeItem() {
+        return item;
+    }
 
     @Override
     public void dispose() {

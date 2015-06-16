@@ -51,7 +51,7 @@ public class DrunkBugController implements IScript, BugController {
         updateRect();
         item.setY(startYPosition + (-(float) Math.cos(item.getX() / 20) * 75));
         item.setX(item.getX() + velocity);
-        velocity+=delta*0.2;
+        velocity+=delta*0.4;
     }
 
 //    /*

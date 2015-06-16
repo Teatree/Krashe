@@ -28,9 +28,9 @@ public class FlowerController implements IScript {
     public SpriterActor saClose;
     public SpriterActor saOpen;
 
-    public CompositeItem itemHeadC;
     public Rectangle headBoundsRect = new Rectangle();
 
+    public CompositeItem itemHeadC;
     public Image itemPeduncleImg;
 
 
@@ -39,7 +39,6 @@ public class FlowerController implements IScript {
     @Override
     public void init(CompositeItem item) {
         this.item = item;
-
         item.setX(Gdx.graphics.getWidth() - 200);
         item.setY(0);
         item.setOrigin(item.getWidth()/2, 0);
@@ -59,6 +58,7 @@ public class FlowerController implements IScript {
 
     @Override
     public void act(float delta) {
+        updateRect();
         checkForCollisions();
 
         if (Gdx.input.isTouched() && !isMovingUp) {
@@ -89,12 +89,24 @@ public class FlowerController implements IScript {
 
     }
     private void checkForCollisions() {
-        updateRect();
+
         for(BugController bug: GameStage.bugs){
-            if(bug.getBoundsRectangle().overlaps(headBoundsRect)){
+            Rectangle posXrect = headBoundsRect;
+            Rectangle posXbug = bug.getBoundsRectangle();
+
+            System.out.println("posXrect: " + posXrect.getX());
+            System.out.println("posXbug: " + posXbug.getX());
+
+            if(posXrect.overlaps(posXbug)){
+                GameStage.bugs.remove(bug);
+//              removeActor(bug);
                 GameStage.bugs.remove(bug);
                 removeActor(bug);
             }
+//            if(bug.getBoundsRectangle().overlaps(headBoundsRect)){
+//                GameStage.bugs.remove(bug);
+//                removeActor(bug);
+//            }
         }
     }
 
@@ -108,12 +120,12 @@ public class FlowerController implements IScript {
 
 
     private void updateRect() {
-        headBoundsRect.x = (int)itemHeadC.getX();
-        headBoundsRect.y = (int)itemHeadC.getY();
-        headBoundsRect.width = (int)itemHeadC.getWidth();
-        headBoundsRect.height = (int)itemHeadC.getHeight();
+            headBoundsRect.x = item.getX();
+            headBoundsRect.y = item.getY();
+            headBoundsRect.width = item.getWidth();
+            headBoundsRect.height = item.getHeight();
 
-//        stage.getActors().get(3).setBounds(headBoundsRect.getX(), headBoundsRect.getY(), headBoundsRect.getWidth(), headBoundsRect.getHeight());
+        stage.getActors().get(1).setBounds(headBoundsRect.getX(), headBoundsRect.getY(), headBoundsRect.getWidth(), headBoundsRect.getHeight());
     }
 
     @Override

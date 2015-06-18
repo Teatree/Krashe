@@ -30,7 +30,7 @@ public class FlowerController implements IScript {
 
     public Rectangle headBoundsRect = new Rectangle();
 
-    public CompositeItem itemHeadC;
+    public Image itemHeadC;
     public Image itemPeduncleImg;
 
 
@@ -47,13 +47,15 @@ public class FlowerController implements IScript {
     public void addMovementActionUp() {
         item.addAction(
                 Actions.sequence(
-                        Actions.moveTo(1802, POINT_TRAVEL, 0.7f)));
+                        Actions.moveBy(0, 20)));
+//                        Actions.moveTo(1802, POINT_TRAVEL, 1f)));
     }
 
     public void addMovementActionDown() {
         item.addAction(
                 Actions.sequence(
-                        Actions.moveTo(1802, -585, 0.7f)));
+                        Actions.moveBy(0, -20)));
+//                        Actions.moveTo(1802, -585, 1f)));
     }
 
     @Override
@@ -66,13 +68,16 @@ public class FlowerController implements IScript {
             saClose.setAnimation(1);
         }
 
-        if (!isMovingUp && item.getY() >= POINT_TRAVEL-20){  // WRONG, you are checking Y against Width! numbnuts
+        if (!isMovingUp && headBoundsRect.getY() >= POINT_TRAVEL-20){
             addMovementActionDown();
-            saIdle.setVisible(true);
-            saClose.setVisible(false);
 
-            itemHeadC.setVisible(false);
-            itemPeduncleImg.setVisible(false);
+            if(headBoundsRect.getY() <= POINT_TRAVEL) {
+                saIdle.setVisible(true);
+                saClose.setVisible(false);
+
+                itemHeadC.setVisible(false);
+                itemPeduncleImg.setVisible(false);
+            }
         }
 
         if (isMovingUp) {
@@ -82,10 +87,14 @@ public class FlowerController implements IScript {
 
             itemHeadC.setVisible(true);
             itemPeduncleImg.setVisible(true);
-            if (item.getY() > POINT_TRAVEL-20) {
+//            if (headBoundsRect.getY() < POINT_TRAVEL-20) {
+            if (headBoundsRect.getY() > 1200) {
                 isMovingUp = false;
+//                System.out.println("POINT_TRAVEL: " + headBoundsRect.getY());
             }
         }
+
+
 
     }
     private void checkForCollisions() {
@@ -94,8 +103,8 @@ public class FlowerController implements IScript {
             Rectangle posXrect = headBoundsRect;
             Rectangle posXbug = bug.getBoundsRectangle();
 
-            System.out.println("posXrect: " + posXrect.getX());
-            System.out.println("posXbug: " + posXbug.getX());
+//            System.out.println("posXrect: " + posXrect.getX());
+//            System.out.println("posXbug: " + posXbug.getX());
 
             if(posXrect.overlaps(posXbug)){
                 GameStage.bugs.remove(bug);
@@ -120,18 +129,15 @@ public class FlowerController implements IScript {
 
 
     private void updateRect() {
-            headBoundsRect.x = item.getX();
-            headBoundsRect.y = item.getY();
-            headBoundsRect.width = item.getWidth();
-            headBoundsRect.height = item.getHeight();
-
-        stage.getActors().get(1).setBounds(headBoundsRect.getX(), headBoundsRect.getY(), headBoundsRect.getWidth(), headBoundsRect.getHeight());
+            headBoundsRect.x = item.getX() + item.getImageById("flower_head").getX();
+            headBoundsRect.y = item.getY() + item.getImageById("flower_head").getY();
+            headBoundsRect.width = item.getImageById("flower_head").getImageWidth();
+            headBoundsRect.height = item.getImageById("flower_head").getImageHeight();
     }
 
     @Override
     public void dispose() {
 
     }
-
 
 }

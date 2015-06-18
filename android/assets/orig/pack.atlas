@@ -1,33 +1,33 @@
 
 pack.png
-size: 2048,1024
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 background
   rotate: false
-  xy: 2, 154
+  xy: 2, 766
   size: 1200, 786
   orig: 1200, 786
   offset: 0, 0
   index: -1
 flowerhead
   rotate: false
-  xy: 2, 2
+  xy: 2, 614
   size: 143, 150
   orig: 143, 150
   offset: 0, 0
   index: -1
 flowerpeducle
   rotate: false
-  xy: 1204, 50
-  size: 63, 890
-  orig: 63, 890
+  xy: 1204, 2
+  size: 63, 1550
+  orig: 63, 1550
   offset: 0, 0
   index: -1
 pot
   rotate: false
-  xy: 1269, 882
+  xy: 1269, 1494
   size: 62, 58
   orig: 62, 58
   offset: 0, 0

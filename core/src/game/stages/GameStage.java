@@ -45,11 +45,12 @@ public class GameStage extends Overlap2DStage {
         drunkBug2.setX(400);
         drunkBug2.setY(1900);
         flowerL.addScript(flowerController);
-        flowerL.setX(2200);
+        flowerL.setX(1800);
+        flowerL.setY(-500);
 
         flowerController.saIdle = flowerL.getSpriterActorById("floweridle_ani");
         flowerController.saClose = flowerL.getSpriterActorById("flowerattack_ani");
-        flowerController.itemHeadC = flowerL.getCompositeById("flower_headC");
+        flowerController.itemHeadC = flowerL.getImageById("flower_head");
         flowerController.itemPeduncleImg = flowerL.getImageById("flower_peduncle");
 
         addActor(flowerL);

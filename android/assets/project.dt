@@ -1,1 +1,1 @@
-{"originalResolution":{"name":"orig","width":2400,"height":1440},"scenes":[{"sceneName":"MainScene","physicsPropertiesVO":{}},{"sceneName":"OtherScene","physicsPropertiesVO":{}}],"meshes":{"2":{"minPolygonData":[[{"x":-11.250061,"y":148.00006},{"x":-11.250061,"y":65.00006},{"x":-0.2501831,"y":-13.999939},{"x":144.74982,"y":-15.999939},{"x":157.74982,"y":71.00006},{"x":146.74982,"y":146.00006}]]}}}
+{"originalResolution":{"name":"orig","width":2400,"height":1440},"scenes":[{"sceneName":"MainScene","physicsPropertiesVO":{}},{"sceneName":"OtherScene","physicsPropertiesVO":{}}]}

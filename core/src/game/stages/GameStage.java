@@ -1,11 +1,13 @@
 package game.stages;
 
+        import com.badlogic.gdx.utils.Timer;
         import com.uwsoft.editor.renderer.Overlap2DStage;
         import com.uwsoft.editor.renderer.actor.CompositeItem;
         import com.uwsoft.editor.renderer.resources.ResourceManager;
         import game.actors.BugController;
         import game.actors.DrunkBugController;
         import game.actors.FlowerController;
+        import game.utils.MrSpawner;
 
         import java.util.ArrayList;
         import java.util.LinkedList;
@@ -16,7 +18,8 @@ package game.stages;
  */
 public class GameStage extends Overlap2DStage {
 
-    public static List<BugController> bugs = new LinkedList<>();
+    public static volatile List<BugController> bugs = new LinkedList<>();
+    public GameStage getInstance(){return this;}
 
     public GameStage(ResourceManager resourceManager) {
 
@@ -26,24 +29,25 @@ public class GameStage extends Overlap2DStage {
 
         addActor(sceneLoader.getRoot());
 
-        DrunkBugController drunkBugController = new DrunkBugController(this);
-        DrunkBugController drunkBugController2 = new DrunkBugController(this);
+        final MrSpawner spawner = new MrSpawner();
+//        bugs.add(spawner.spawn(this, sceneLoader));
+//        bugs.add(spawner.spawn(this, sceneLoader));
+
+        synchronized (bugs){
+            Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                bugs.add(spawner.spawn(getInstance(), sceneLoader));
+            }
+        }, 0.5F, 2F);}
+
+        initFlower();
+    }
+
+    private void initFlower() {
         FlowerController flowerController = new FlowerController(this);
-//        sceneLoader.getRoot().getCompositeById("drunkBug").addScript(drunkBug);
-        CompositeItem drunkBug = sceneLoader.getLibraryAsActor("drunkBugLib");
-        CompositeItem drunkBug2 = sceneLoader.getLibraryAsActor("drunkBugLib");
-        bugs.add(drunkBugController);
-        bugs.add(drunkBugController2);
         CompositeItem flowerL = sceneLoader.getLibraryAsActor("flowerLib");
 
-//            drunkBug.setX(-drunkBug.getWidth());
-//            drunkBug.setX(-drunkBug.getWidth());
-//            drunkBug.addItem(drunkBug);
-        drunkBug.addScript(drunkBugController);
-        drunkBug.setX(100);
-        drunkBug2.addScript(drunkBugController2);
-        drunkBug2.setX(400);
-        drunkBug2.setY(1900);
         flowerL.addScript(flowerController);
         flowerL.setX(1800);
         flowerL.setY(-500);
@@ -54,19 +58,6 @@ public class GameStage extends Overlap2DStage {
         flowerController.itemPeduncleImg = flowerL.getImageById("flower_peduncle");
 
         addActor(flowerL);
-        addActor(drunkBug);
-        addActor(drunkBug2);
-
-//        for(int i = 0;  i < 3; i++) {
-//            CompositeItem pipe = sceneLoader.getLibraryAsActor("pipeGroup");
-//            pipe.setX(-pipe.getWidth());
-//            game.addItem(pipe);
-//
-//            pipes.add(pipe);
-//        }
-
-//        FlowerController flowerController = new FlowerController(this);
-//        sceneLoader.getRoot().getCompositeById("drunkBug").addScript(flowerController);
     }
 
 

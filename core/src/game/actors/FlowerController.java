@@ -99,23 +99,25 @@ public class FlowerController implements IScript {
     }
     private void checkForCollisions() {
 
-        for(BugController bug: GameStage.bugs){
-            Rectangle posXrect = headBoundsRect;
-            Rectangle posXbug = bug.getBoundsRectangle();
+        synchronized (GameStage.bugs){
+            for(BugController bug: GameStage.bugs){
+                Rectangle posXrect = headBoundsRect;
+                Rectangle posXbug = bug.getBoundsRectangle();
 
 //            System.out.println("posXrect: " + posXrect.getX());
 //            System.out.println("posXbug: " + posXbug.getX());
 
-            if(posXrect.overlaps(posXbug)){
-                GameStage.bugs.remove(bug);
+                if(posXrect.overlaps(posXbug)){
+                    GameStage.bugs.remove(bug);
 //              removeActor(bug);
-                GameStage.bugs.remove(bug);
-                removeActor(bug);
-            }
+                    GameStage.bugs.remove(bug);
+                    removeActor(bug);
+                }
 //            if(bug.getBoundsRectangle().overlaps(headBoundsRect)){
 //                GameStage.bugs.remove(bug);
 //                removeActor(bug);
 //            }
+            }
         }
     }
 

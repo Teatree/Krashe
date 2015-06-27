@@ -1,6 +1,5 @@
 package game.utils;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.SceneLoader;
@@ -8,6 +7,7 @@ import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.actors.BugController;
 import game.actors.DrunkBugController;
+import game.actors.SimpleBugController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -51,11 +51,14 @@ public class MrSpawner {
 
     public BugController spawnUnsafe(Overlap2DStage stage, SceneLoader sceneLoader) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         Map.Entry<String, Class> type = getType();
-        CompositeItem compI = sceneLoader.getLibraryAsActor(type.getKey());
+        CompositeItem compI;
+            compI = sceneLoader.getLibraryAsActor(type.getKey());
 
-        BugController buntroller = (BugController) type.getValue()
-                .getConstructor(Overlap2DStage.class).newInstance(stage);
-        compI.addScript((IScript) buntroller);
+//          BugController buntroller = (BugController) type.getValue()
+//                    .getConstructor(Overlap2DStage.class).newInstance(stage);
+        BugController buntroller = (BugController) SimpleBugController.class
+                    .getConstructor(Overlap2DStage.class).newInstance(stage);
+            compI.addScript((IScript) buntroller);
 
         Vector2 pos = getPos();
 

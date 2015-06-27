@@ -9,9 +9,9 @@ import game.stages.GameStage;
 /**
  * Created by NastyaJoe on n/n/2015.
  */
-public class DrunkBugController extends BugController implements IScript  {
+public class QueenBeeBugController extends BugController implements IScript  {
 
-    public DrunkBugController(Overlap2DStage stage) {
+    public QueenBeeBugController(Overlap2DStage stage) {
         this.stage = stage;
     }
 
@@ -24,7 +24,7 @@ public class DrunkBugController extends BugController implements IScript  {
 //        item.setX(0);
 //        item.setY(startYPosition -100);
 
-        spriterActor = item.getSpriterActorById("drunkBug");
+        spriterActor = item.getSpriterActorById("chargerBug");
 
         item.setOrigin(item.getWidth() / 2, 0);
     }

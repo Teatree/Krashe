@@ -45,10 +45,11 @@ public class GameStage extends Overlap2DStage {
             timer = 0;
         }
         if (Gdx.input.isTouched() && isGameOver()){
+            getActors().removeRange(2, getActors().size-1);
             reloadBugs();
-            for (int i=2; i<getActors().size; i++){
-                getActors().removeIndex(i);
-            }
+//            for (int i=2; i<getActors().size; i++){
+//                getActors().removeIndex(i);
+//            }
         }
 
     }

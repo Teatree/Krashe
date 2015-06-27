@@ -40,36 +40,36 @@ public class SimpleBugController extends BugController implements IScript  {
 
     @Override
     public void act(float delta) {
-        counter++;
+//        counter++;
         float moveCoefficient = (-(float) Math.sin(item.getX() / xCoefficient) * yCoefficient);
-        if (moveCoefficient > -0.7 && moveCoefficient < 0.7 && !changeCoefficientsSlowly){
+//        if (moveCoefficient > -0.7 && moveCoefficient < 0.7 && !changeCoefficientsSlowly){
             Random random = new Random();
-            xCoefficientTemp = random.nextInt(50) + 30;
-            yCoefficientTemp = random.nextInt(40) + 20;
-            System.out.println("xCoefficient: " + xCoefficient);
-            moveCoefficient = -(float)Math.sin(item.getX() / xCoefficient) * yCoefficient;
-            counter = 0;
-            changeCoefficientsSlowly = true;
-        }
-        if (changeCoefficientsSlowly){
-            System.out.println("yes, changing slowly");
-            if(xCoefficient < xCoefficientTemp) {
-                xCoefficient++;
-            }
-            if(xCoefficient > xCoefficientTemp){
-                xCoefficient--;
-            }
-            if(yCoefficient < yCoefficientTemp){
-                yCoefficient++;
-            }
-            if(yCoefficient > yCoefficientTemp){
-                yCoefficient--;
-            }
-            if(yCoefficient == yCoefficientTemp || xCoefficient == yCoefficientTemp){
-                changeCoefficientsSlowly = false;
-            }
-            moveCoefficient = -(float)Math.sin(item.getX() / xCoefficient) * yCoefficient;
-        }
+            xCoefficientTemp = (random.nextInt(5) + 3)/2;
+            yCoefficientTemp = random.nextInt(3) + 2;
+//            System.out.println("xCoefficient: " + xCoefficient);
+//            moveCoefficient = -(float)Math.sin(item.getX() / xCoefficient) * yCoefficient;
+//            counter = 0;
+//            changeCoefficientsSlowly = true;
+//        }
+//        if (changeCoefficientsSlowly){
+//            System.out.println("yes, changing slowly");
+//            if(xCoefficient < xCoefficientTemp) {
+//                xCoefficient++;
+//            }
+//            if(xCoefficient > xCoefficientTemp){
+//                xCoefficient--;
+//            }
+//            if(yCoefficient < yCoefficientTemp){
+//                yCoefficient++;
+//            }
+//            if(yCoefficient > yCoefficientTemp){
+//                yCoefficient--;
+//            }
+//            if(yCoefficient == yCoefficientTemp || xCoefficient == yCoefficientTemp){
+//                changeCoefficientsSlowly = false;
+//            }
+//            moveCoefficient = -(float)Math.sin(item.getX() / xCoefficient) * yCoefficient;
+//        }
 
         if(!((GameStage)stage).isGameOver()) {
             updateRect();

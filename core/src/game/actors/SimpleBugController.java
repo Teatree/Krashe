@@ -13,12 +13,8 @@ import java.util.Random;
  */
 public class SimpleBugController extends BugController implements IScript  {
 
-    private int counter = 0;
     private int xCoefficient = 90;
     private int yCoefficient = 75;
-    private int xCoefficientTemp = 1;
-    private int yCoefficientTemp = 1;
-    private boolean changeCoefficientsSlowly = false;
 
     public SimpleBugController(Overlap2DStage stage) {
         this.stage = stage;
@@ -28,11 +24,6 @@ public class SimpleBugController extends BugController implements IScript  {
     public void init(CompositeItem item) {
         this.item = item;
         boundsRect = new Rectangle();
-
-//        startYPosition= MathUtils.random(200, Gdx.graphics.getHeight() - 100);
-//        item.setX(0);
-//        item.setY(startYPosition -100);
-
         spriterActor = item.getSpriterActorById("chargerBug");
 
         item.setOrigin(item.getWidth() / 2, 0);
@@ -40,36 +31,8 @@ public class SimpleBugController extends BugController implements IScript  {
 
     @Override
     public void act(float delta) {
-//        counter++;
         float moveCoefficient = (-(float) Math.sin(item.getX() / xCoefficient) * yCoefficient);
-//        if (moveCoefficient > -0.7 && moveCoefficient < 0.7 && !changeCoefficientsSlowly){
-            Random random = new Random();
-            xCoefficientTemp = (random.nextInt(5) + 3)/2;
-            yCoefficientTemp = random.nextInt(3) + 2;
-//            System.out.println("xCoefficient: " + xCoefficient);
-//            moveCoefficient = -(float)Math.sin(item.getX() / xCoefficient) * yCoefficient;
-//            counter = 0;
-//            changeCoefficientsSlowly = true;
-//        }
-//        if (changeCoefficientsSlowly){
-//            System.out.println("yes, changing slowly");
-//            if(xCoefficient < xCoefficientTemp) {
-//                xCoefficient++;
-//            }
-//            if(xCoefficient > xCoefficientTemp){
-//                xCoefficient--;
-//            }
-//            if(yCoefficient < yCoefficientTemp){
-//                yCoefficient++;
-//            }
-//            if(yCoefficient > yCoefficientTemp){
-//                yCoefficient--;
-//            }
-//            if(yCoefficient == yCoefficientTemp || xCoefficient == yCoefficientTemp){
-//                changeCoefficientsSlowly = false;
-//            }
-//            moveCoefficient = -(float)Math.sin(item.getX() / xCoefficient) * yCoefficient;
-//        }
+        Random random = new Random();
 
         if(!((GameStage)stage).isGameOver()) {
             updateRect();
@@ -80,16 +43,12 @@ public class SimpleBugController extends BugController implements IScript  {
         }
     }
 
-//    /*
-
     @Override
     public void updateRect() {
         boundsRect.x = (int)item.getX();
         boundsRect.y = (int)item.getY();
         boundsRect.width = (int)item.getWidth();
         boundsRect.height = (int)item.getHeight();
-
-//        stage.getActors().get(1).setBounds(boundsRect.getX(), boundsRect.getY(), boundsRect.getWidth(), boundsRect.getHeight());
     }
 
     @Override

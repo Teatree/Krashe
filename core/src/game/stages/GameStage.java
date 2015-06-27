@@ -40,7 +40,7 @@ public class GameStage extends Overlap2DStage {
 
     public void update(){
         timer++;
-        if (timer == 600){
+        if (timer == 200){
                 bugs.add(spawner.spawn(getInstance(), sceneLoader));
             timer = 0;
         }
@@ -64,7 +64,7 @@ public class GameStage extends Overlap2DStage {
 
         flowerL.addScript(flowerController);
         flowerL.setX(1800);
-        flowerL.setY(-500);
+        flowerL.setY(-410);
 
         flowerController.saIdle = flowerL.getSpriterActorById("floweridle_ani");
         flowerController.saClose = flowerL.getSpriterActorById("flowerattack_ani");

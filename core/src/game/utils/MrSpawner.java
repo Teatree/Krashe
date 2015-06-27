@@ -55,11 +55,11 @@ public class MrSpawner {
         CompositeItem compI;
             compI = sceneLoader.getLibraryAsActor(type.getKey());
 
-          BugController buntroller = (BugController) type.getValue()
-                    .getConstructor(Overlap2DStage.class).newInstance(stage);
-//        BugController buntroller = (BugController) SimpleBugController.class
+//          BugController buntroller = (BugController) type.getValue()
 //                    .getConstructor(Overlap2DStage.class).newInstance(stage);
-//            compI.addScript((IScript) buntroller);
+        BugController buntroller = (BugController) SimpleBugController.class
+                    .getConstructor(Overlap2DStage.class).newInstance(stage);
+            compI.addScript((IScript) buntroller);
 
         Vector2 pos = getPos();
 

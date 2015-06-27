@@ -35,7 +35,7 @@ public class MrSpawner {
         MIN_X = -600;
         MIN_Y = 300;
         MAX_X = -300;
-        MAX_Y = Gdx.graphics.getHeight()-300;
+        MAX_Y = 1200;
     }
 
     private Vector2 getPos(){
@@ -58,9 +58,10 @@ public class MrSpawner {
         compI.addScript((IScript) buntroller);
 
         Vector2 pos = getPos();
-        compI.setPosition(pos.x,pos.y);
 
         stage.addActor(compI);
+        compI.setPosition(pos.x,pos.y);
+        buntroller.startYPosition = pos.y;
 
         return buntroller;
     }

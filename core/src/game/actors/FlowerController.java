@@ -11,12 +11,16 @@ import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.stages.GameStage;
 
+import java.util.Iterator;
+
 import static game.utils.GlobalConstants.POINT_TRAVEL;
 
 /**
  * Created by MainUser on 07/06/2015.
  */
 public class FlowerController implements IScript {
+
+    public long bugCounter = 0L;
 
     private Overlap2DStage stage;
 
@@ -33,15 +37,16 @@ public class FlowerController implements IScript {
     public Image itemHeadC;
     public Image itemPeduncleImg;
 
-
-    public FlowerController(Overlap2DStage stage){ this.stage = stage; }
+    public FlowerController(Overlap2DStage stage) {
+        this.stage = stage;
+    }
 
     @Override
     public void init(CompositeItem item) {
         this.item = item;
         item.setX(Gdx.graphics.getWidth() - 200);
         item.setY(0);
-        item.setOrigin(item.getWidth()/2, 0);
+        item.setOrigin(item.getWidth() / 2, 0);
     }
 
     public void addMovementActionUp() {
@@ -60,81 +65,76 @@ public class FlowerController implements IScript {
 
     @Override
     public void act(float delta) {
-        updateRect();
-        checkForCollisions();
+        if(!((GameStage)stage).isGameOver()) {
+            updateRect();
+            checkForCollisions();
 
-        if (Gdx.input.isTouched() && !isMovingUp) {
-            isMovingUp = true;
-            saClose.setAnimation(1);
-        }
+            if (Gdx.input.isTouched() && !isMovingUp) {
+                isMovingUp = true;
+                saClose.setAnimation(1);
+            }
 
-        if (!isMovingUp && headBoundsRect.getY() >= POINT_TRAVEL-20){
-            addMovementActionDown();
+            if (!isMovingUp && headBoundsRect.getY() >= POINT_TRAVEL - 20) {
+                addMovementActionDown();
 
-            if(headBoundsRect.getY() <= POINT_TRAVEL) {
-                saIdle.setVisible(true);
+                if (headBoundsRect.getY() <= POINT_TRAVEL) {
+                    saIdle.setVisible(true);
+                    saClose.setVisible(false);
+
+                    itemHeadC.setVisible(false);
+                    itemPeduncleImg.setVisible(false);
+                }
+            }
+
+            if (isMovingUp) {
+                addMovementActionUp();
+                saIdle.setVisible(false);
                 saClose.setVisible(false);
 
-                itemHeadC.setVisible(false);
-                itemPeduncleImg.setVisible(false);
-            }
-        }
-
-        if (isMovingUp) {
-            addMovementActionUp();
-            saIdle.setVisible(false);
-            saClose.setVisible(false);
-
-            itemHeadC.setVisible(true);
-            itemPeduncleImg.setVisible(true);
+                itemHeadC.setVisible(true);
+                itemPeduncleImg.setVisible(true);
 //            if (headBoundsRect.getY() < POINT_TRAVEL-20) {
-            if (headBoundsRect.getY() > 1200) {
-                isMovingUp = false;
+                if (headBoundsRect.getY() > 1200) {
+                    isMovingUp = false;
 //                System.out.println("POINT_TRAVEL: " + headBoundsRect.getY());
+                }
             }
         }
-
-
-
     }
+
     private void checkForCollisions() {
 
-        synchronized (GameStage.bugs){
-            for(BugController bug: GameStage.bugs){
-                Rectangle posXrect = headBoundsRect;
-                Rectangle posXbug = bug.getBoundsRectangle();
+        Iterator<BugController> itr = ((GameStage) stage).getBugs().iterator();
+        while (itr.hasNext()) {
+            BugController bug = itr.next();
+            Rectangle posXrect = headBoundsRect;
+            Rectangle posXbug = bug.getBoundsRectangle();
 
 //            System.out.println("posXrect: " + posXrect.getX());
 //            System.out.println("posXbug: " + posXbug.getX());
 
-                if(posXrect.overlaps(posXbug)){
-                    GameStage.bugs.remove(bug);
-//              removeActor(bug);
-                    GameStage.bugs.remove(bug);
-                    removeActor(bug);
-                }
-//            if(bug.getBoundsRectangle().overlaps(headBoundsRect)){
-//                GameStage.bugs.remove(bug);
-//                removeActor(bug);
-//            }
+            if (posXrect.overlaps(posXbug)) {
+                itr.remove();
+                removeActor(bug);
+                bugCounter++;
+                System.out.println("I ate " + bugCounter + " bugs!");
             }
         }
     }
 
     private void removeActor(BugController bug) {
         for (Actor actor : stage.getActors()) {
-            if(actor.equals(bug.getCompositeItem())){
+            if (actor.equals(bug.getCompositeItem())) {
                 actor.remove();
             }
         }
     }
 
-
     private void updateRect() {
-            headBoundsRect.x = item.getX() + item.getImageById("flower_head").getX();
-            headBoundsRect.y = item.getY() + item.getImageById("flower_head").getY();
-            headBoundsRect.width = item.getImageById("flower_head").getImageWidth();
-            headBoundsRect.height = item.getImageById("flower_head").getImageHeight();
+        headBoundsRect.x = item.getX() + item.getImageById("flower_head").getX();
+        headBoundsRect.y = item.getY() + item.getImageById("flower_head").getY();
+        headBoundsRect.width = item.getImageById("flower_head").getImageWidth();
+        headBoundsRect.height = item.getImageById("flower_head").getImageHeight();
     }
 
     @Override

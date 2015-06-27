@@ -12,21 +12,12 @@ import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.physics.PhysicsBodyLoader;
 import com.uwsoft.editor.renderer.script.IScript;
+import game.stages.GameStage;
 
 /**
  * Created by CyberJoe on 10/18/2014.
  */
-public class DrunkBugController implements IScript, BugController {
-
-    private Overlap2DStage stage;
-
-    private CompositeItem item;
-    private SpriterActor spriterActor;
-
-    public Rectangle boundsRect;
-
-    private float velocity = 0;
-    private float startYPosition;
+public class DrunkBugController extends BugController implements IScript  {
 
     public DrunkBugController(Overlap2DStage stage) {
         this.stage = stage;
@@ -37,9 +28,9 @@ public class DrunkBugController implements IScript, BugController {
         this.item = item;
         boundsRect = new Rectangle();
 
-        startYPosition= MathUtils.random(200, Gdx.graphics.getHeight() - 100);
-        item.setX(0);
-        item.setY(startYPosition -100);
+//        startYPosition= MathUtils.random(200, Gdx.graphics.getHeight() - 100);
+//        item.setX(0);
+//        item.setY(startYPosition -100);
 
         spriterActor = item.getSpriterActorById("drunkBug");
 
@@ -48,43 +39,15 @@ public class DrunkBugController implements IScript, BugController {
 
     @Override
     public void act(float delta) {
-        updateRect();
-        item.setY(startYPosition + (-(float) Math.cos(item.getX() / 20) * 75));
-        item.setX(item.getX() + velocity);
-        velocity+=delta*0.4;
+        if(!((GameStage)stage).isGameOver()) {
+            updateRect();
+            item.setY(startYPosition + (-(float) Math.cos(item.getX() / 20) * 75));
+            item.setX(item.getX() + velocity);
+            velocity += delta * 0.4;
+        }
     }
 
 //    /*
-//    Ray cast down, and if collision is happening stop player and reposition to closest point of collision
-//     */
-//    private void checkForCollisions() {
-//        // Ray size is the exact size of the deltaY change we plan for this frame
-//        float raySize = -(verticalSpeed+Gdx.graphics.getDeltaTime())*Gdx.graphics.getDeltaTime();
-//
-//        // only check for collisions when moving down
-//        if(verticalSpeed >= 0) return;
-//
-//        // Vectors of ray from middle bottom
-//        Vector2 rayFrom = new Vector2((item.getX()+item.getWidth()/2)*PhysicsBodyLoader.SCALE, item.getY()*PhysicsBodyLoader.SCALE);
-//        Vector2 rayTo = new Vector2((item.getX()+item.getWidth()/2)*PhysicsBodyLoader.SCALE, (item.getY() - raySize)*PhysicsBodyLoader.SCALE);
-//
-//        // Cast the ray
-//        stage.getWorld().rayCast(new RayCastCallback() {
-//            @Override
-//            public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-//                // Stop the player
-//                verticalSpeed = 0;
-//
-//                // reposition player slightly upper the collision point
-//                item.setY(point.y/PhysicsBodyLoader.SCALE+0.1f);
-//
-//                // make sure it is grounded, to allow jumping again
-//                isGrounded = true;
-//
-//                return 0;
-//            }
-//        }, rayFrom, rayTo);
-//    }
 
     @Override
     public void updateRect() {

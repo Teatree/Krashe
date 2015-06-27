@@ -13,8 +13,6 @@ import game.utils.AssetsManager;
 
 public class Main extends ApplicationAdapter {
 
-//	private Viewport viewport;
-//	private Camera camera;
 	GameStage stage;
 	Array<Viewport> viewports;
 	Array<String> names;
@@ -34,18 +32,13 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		stage.update();
 
-			Gdx.gl.glClearColor(1, 0, 0, 1);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			stage.update();
-//		camera = new PerspectiveCamera();
-//		viewport = new FitViewport(1000, 800, camera);
-
-//		stage.getViewport().update(width, height, false);
-
-			stage.act();
-			stage.setDebugAll(true);
-			stage.draw();
+		stage.act();
+		stage.setDebugAll(true);
+		stage.draw();
 	}
 
 	public void resize(int width, int height) {

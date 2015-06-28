@@ -20,10 +20,6 @@ public class DrunkBugController extends BugController implements IScript  {
         this.item = item;
         boundsRect = new Rectangle();
 
-//        startYPosition= MathUtils.random(200, Gdx.graphics.getHeight() - 100);
-//        item.setX(0);
-//        item.setY(startYPosition -100);
-
         spriterActor = item.getSpriterActorById("drunkBug");
 
         item.setOrigin(item.getWidth() / 2, 0);
@@ -47,8 +43,6 @@ public class DrunkBugController extends BugController implements IScript  {
         boundsRect.y = (int)item.getY();
         boundsRect.width = (int)item.getWidth();
         boundsRect.height = (int)item.getHeight();
-
-//        stage.getActors().get(1).setBounds(boundsRect.getX(), boundsRect.getY(), boundsRect.getWidth(), boundsRect.getHeight());
     }
 
     @Override

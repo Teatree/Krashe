@@ -7,6 +7,8 @@ import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.actor.SpriterActor;
 import game.stages.GameStage;
 
+import java.util.Random;
+
 /**
  * Created by Teatree on 6/14/2015.
  */
@@ -17,7 +19,9 @@ public  abstract class BugController {
     protected CompositeItem item;
     protected SpriterActor spriterActor;
 
-    protected Rectangle boundsRect;
+    public Random rand = new Random();
+
+    protected Rectangle boundsRect = new Rectangle();
 
     protected float velocity = 0;
     public float startYPosition;

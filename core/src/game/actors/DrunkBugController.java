@@ -47,8 +47,6 @@ public class DrunkBugController extends BugController implements IScript  {
         boundsRect.y = (int)item.getY();
         boundsRect.width = (int)item.getWidth();
         boundsRect.height = (int)item.getHeight();
-
-//        stage.getActors().get(1).setBounds(boundsRect.getX(), boundsRect.getY(), boundsRect.getWidth(), boundsRect.getHeight());
     }
 
     @Override

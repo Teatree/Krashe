@@ -56,7 +56,6 @@ public class ChargerBugController extends BugController implements IScript  {
                     state = State.PREPARING;
                 }
             }
-
             // Preparing
             else if (state == State.PREPARING) {
                 velocity = delta * PREPARING_MVMNT_SPEED;

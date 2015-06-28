@@ -5,6 +5,7 @@ import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.stages.GameStage;
+import sun.java2d.opengl.OGLContext;
 
 /**
  * Created by NastyaJoe on n/n/2015.
@@ -55,6 +56,7 @@ public class ChargerBugController extends BugController implements IScript  {
                     state = State.PREPARING;
                 }
             }
+
             // Preparing
             else if (state == State.PREPARING) {
                 velocity = delta * PREPARING_MVMNT_SPEED;

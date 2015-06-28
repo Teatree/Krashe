@@ -6,6 +6,7 @@ import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.actors.BugController;
+import game.actors.ChargerBugController;
 import game.actors.DrunkBugController;
 import game.actors.SimpleBugController;
 
@@ -30,8 +31,8 @@ public class MrSpawner {
 
     private void init(){
         libBugs.put("drunkBugLib", DrunkBugController.class);
-        libBugs.put("chargerBugLib", DrunkBugController.class);
-        libBugs.put("simpleBugLib", DrunkBugController.class);
+        libBugs.put("chargerBugLib", ChargerBugController.class);
+        libBugs.put("simpleBugLib", SimpleBugController.class);
 
         MIN_X = -600;
         MIN_Y = 300;
@@ -52,14 +53,14 @@ public class MrSpawner {
 
     public BugController spawnUnsafe(Overlap2DStage stage, SceneLoader sceneLoader) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         Map.Entry<String, Class> type = getType();
-        CompositeItem compI;
-            compI = sceneLoader.getLibraryAsActor(type.getKey());
+//        CompositeItem compI = sceneLoader.getLibraryAsActor(type.getKey());
+        CompositeItem compI = sceneLoader.getLibraryAsActor("chargerBugLib");
 
 //          BugController buntroller = (BugController) type.getValue()
 //                    .getConstructor(Overlap2DStage.class).newInstance(stage);
-        BugController buntroller = (BugController) SimpleBugController.class
+        BugController buntroller = (BugController) ChargerBugController.class
                     .getConstructor(Overlap2DStage.class).newInstance(stage);
-            compI.addScript((IScript) buntroller);
+        compI.addScript((IScript) buntroller);
 
         Vector2 pos = getPos();
 

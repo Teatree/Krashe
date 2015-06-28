@@ -10,7 +10,7 @@ import sun.java2d.opengl.OGLContext;
 /**
  * Created by NastyaJoe on n/n/2015.
  */
-public class ChargerBugController extends BugController implements IScript  {
+public class ChargerBugController extends BugController implements IScript {
 
     public static final int MAX_IDLE_COUNT = 600;
     public static final int MIN_IDLE_COUNTER = 290;
@@ -31,17 +31,18 @@ public class ChargerBugController extends BugController implements IScript  {
         this.item = item;
         boundsRect = new Rectangle();
 
-        spriterActor = item.getSpriterActorById("chargerBug");
+        spriterActor = item.getSpriterActorById("chargerBugAni");
+        spriterActor.setAnimation(0);
 
         item.setOrigin(item.getWidth() / 2, 0);
 
         state = State.IDLE;
-        counter = rand.nextInt(MAX_IDLE_COUNT - MIN_IDLE_COUNTER)+MIN_IDLE_COUNTER;
+        counter = rand.nextInt(MAX_IDLE_COUNT - MIN_IDLE_COUNTER) + MIN_IDLE_COUNTER;
     }
 
     @Override
     public void act(float delta) {
-        if(!((GameStage)stage).isGameOver()) {
+        if (!((GameStage) stage).isGameOver()) {
             updateRect();
             counter--;
 
@@ -50,8 +51,10 @@ public class ChargerBugController extends BugController implements IScript  {
 
             // Idle
             if (state == State.IDLE) {
+//                System.out.println("spriterActor.getAnimations(); " + spriterActor.getAnimations());
                 velocity = delta * IDLE_MVMNT_SPEED;
                 if (counter == 0) {
+                    spriterActor.setAnimation(1);
                     counter = PREPARATION_TIME;
                     state = State.PREPARING;
                 }
@@ -60,6 +63,7 @@ public class ChargerBugController extends BugController implements IScript  {
             else if (state == State.PREPARING) {
                 velocity = delta * PREPARING_MVMNT_SPEED;
                 if (counter == 0) {
+                    spriterActor.setAnimation(2);
                     state = State.CHARGING;
                     velocity = delta * CHARGING_MVMNT_SPEED;
                 }
@@ -82,10 +86,10 @@ public class ChargerBugController extends BugController implements IScript  {
 
     @Override
     public void updateRect() {
-        boundsRect.x = (int)item.getX();
-        boundsRect.y = (int)item.getY();
-        boundsRect.width = (int)item.getWidth();
-        boundsRect.height = (int)item.getHeight();
+        boundsRect.x = (int) item.getX();
+        boundsRect.y = (int) item.getY();
+        boundsRect.width = (int) item.getWidth();
+        boundsRect.height = (int) item.getHeight();
     }
 
     @Override
@@ -105,7 +109,7 @@ public class ChargerBugController extends BugController implements IScript  {
         item.dispose();
     }
 
-    public enum State{
+    public enum State {
         IDLE,
         PREPARING,
         CHARGING;

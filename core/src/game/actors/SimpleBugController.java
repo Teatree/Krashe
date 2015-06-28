@@ -24,7 +24,6 @@ public class SimpleBugController extends BugController implements IScript  {
     public void init(CompositeItem item) {
         this.item = item;
         boundsRect = new Rectangle();
-
         spriterActor = item.getSpriterActorById("chargerBug");
 
         item.setOrigin(item.getWidth() / 2, 0);
@@ -32,8 +31,8 @@ public class SimpleBugController extends BugController implements IScript  {
 
     @Override
     public void act(float delta) {
-//        counter++;
         float moveCoefficient = (-(float) Math.sin(item.getX() / xCoefficient) * yCoefficient);
+        Random random = new Random();
 
         if(!((GameStage)stage).isGameOver()) {
             updateRect();
@@ -44,16 +43,12 @@ public class SimpleBugController extends BugController implements IScript  {
         }
     }
 
-//    /*
-
     @Override
     public void updateRect() {
         boundsRect.x = (int)item.getX();
         boundsRect.y = (int)item.getY();
         boundsRect.width = (int)item.getWidth();
         boundsRect.height = (int)item.getHeight();
-
-//        stage.getActors().get(1).setBounds(boundsRect.getX(), boundsRect.getY(), boundsRect.getWidth(), boundsRect.getHeight());
     }
 
     @Override

@@ -1,16 +1,16 @@
 package game.stages;
 
-import com.badlogic.gdx.Gdx;
-import com.uwsoft.editor.renderer.Overlap2DStage;
-import com.uwsoft.editor.renderer.actor.CompositeItem;
-import com.uwsoft.editor.renderer.resources.ResourceManager;
-import game.actors.BugController;
-import game.actors.FlowerController;
-import game.utils.MrSpawner;
+        import com.badlogic.gdx.Gdx;
+        import com.uwsoft.editor.renderer.Overlap2DStage;
+        import com.uwsoft.editor.renderer.actor.CompositeItem;
+        import com.uwsoft.editor.renderer.resources.ResourceManager;
+        import game.actors.BugController;
+        import game.actors.FlowerController;
+        import game.utils.MrSpawner;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.LinkedList;
+        import java.util.List;
 
 /**
  * Created by Teatree on 5/25/2015.
@@ -19,11 +19,7 @@ public class GameStage extends Overlap2DStage {
 
     public FlowerController flowerController;
     public List<BugController> bugs = new LinkedList<>();
-
-    public GameStage getInstance() {
-        return this;
-    }
-
+    public GameStage getInstance(){return this;}
     private int timer;
     final MrSpawner spawner = new MrSpawner();
 
@@ -35,19 +31,27 @@ public class GameStage extends Overlap2DStage {
 
         addActor(sceneLoader.getRoot());
 
+        final MrSpawner spawner = new MrSpawner();
+//        bugs.add(spawner.spawn(this, sceneLoader));
+//        bugs.add(spawner.spawn(this, sceneLoader));
+
         initFlower();
     }
 
-    public void update() {
+    public void update(){
         timer++;
-        if (timer == 100) {
-            bugs.add(spawner.spawn(getInstance(), sceneLoader));
+        if (timer == 200){
+                bugs.add(spawner.spawn(getInstance(), sceneLoader));
             timer = 0;
         }
-        if (Gdx.input.isTouched() && isGameOver()) {
-            getActors().removeRange(2, getActors().size - 1);
+        if (Gdx.input.isTouched() && isGameOver()){
+            getActors().removeRange(2, getActors().size-1);
             reloadBugs();
+//            for (int i=2; i<getActors().size; i++){
+//                getActors().removeIndex(i);
+//            }
         }
+
     }
 
     private void reloadBugs() {
@@ -60,7 +64,7 @@ public class GameStage extends Overlap2DStage {
 
         flowerL.addScript(flowerController);
         flowerL.setX(1800);
-        flowerL.setY(-500);
+        flowerL.setY(-410);
 
         flowerController.saIdle = flowerL.getSpriterActorById("floweridle_ani");
         flowerController.saClose = flowerL.getSpriterActorById("flowerattack_ani");
@@ -90,12 +94,10 @@ public class GameStage extends Overlap2DStage {
         return spawner;
     }
 
-    public boolean isGameOver() {
-        if (bugs != null && !bugs.isEmpty()) {
-            for (BugController bug : bugs) {
-                if (bug.isOutOfBounds()) {
-                    return true;
-                }
+    public boolean isGameOver(){
+        for(BugController bug : bugs){
+            if (bug.isOutOfBounds()){
+                return true;
             }
         }
         return false;

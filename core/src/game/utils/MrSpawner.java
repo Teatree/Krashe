@@ -53,13 +53,13 @@ public class MrSpawner {
 
     public BugController spawnUnsafe(Overlap2DStage stage, SceneLoader sceneLoader) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         Map.Entry<String, Class> type = getType();
-//        CompositeItem compI = sceneLoader.getLibraryAsActor(type.getKey());
-        CompositeItem compI = sceneLoader.getLibraryAsActor("chargerBugLib");
+        CompositeItem compI = sceneLoader.getLibraryAsActor(type.getKey());
+//        CompositeItem compI = sceneLoader.getLibraryAsActor("chargerBugLib");
 
-//          BugController buntroller = (BugController) type.getValue()
-//                    .getConstructor(Overlap2DStage.class).newInstance(stage);
-        BugController buntroller = (BugController) ChargerBugController.class
+          BugController buntroller = (BugController) type.getValue()
                     .getConstructor(Overlap2DStage.class).newInstance(stage);
+//        BugController buntroller = (BugController) ChargerBugController.class
+//                    .getConstructor(Overlap2DStage.class).newInstance(stage);
         compI.addScript((IScript) buntroller);
 
         Vector2 pos = getPos();

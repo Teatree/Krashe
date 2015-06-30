@@ -31,6 +31,8 @@ public class ChargerBugController extends BugController implements IScript {
         this.item = item;
         boundsRect = new Rectangle();
 
+        points = 35;
+
         spriterActor = item.getSpriterActorById("chargerBugAni");
         spriterActor.setAnimation(0);
 

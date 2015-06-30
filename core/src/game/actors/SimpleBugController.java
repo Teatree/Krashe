@@ -23,6 +23,9 @@ public class SimpleBugController extends BugController implements IScript  {
     @Override
     public void init(CompositeItem item) {
         this.item = item;
+
+        points = 10;
+
         boundsRect = new Rectangle();
         spriterActor = item.getSpriterActorById("chargerBug");
 

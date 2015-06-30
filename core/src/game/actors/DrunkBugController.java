@@ -20,6 +20,8 @@ public class DrunkBugController extends BugController implements IScript  {
         this.item = item;
         boundsRect = new Rectangle();
 
+        points = 25;
+
 //        startYPosition= MathUtils.random(200, Gdx.graphics.getHeight() - 100);
 //        item.setX(0);
 //        item.setY(startYPosition -100);

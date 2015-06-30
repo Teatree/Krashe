@@ -20,7 +20,7 @@ import static game.utils.GlobalConstants.POINT_TRAVEL;
  */
 public class FlowerController implements IScript {
 
-    public long bugCounter = 0L;
+    public long pointsAmount = 0L;
 
     private Overlap2DStage stage;
 
@@ -69,7 +69,9 @@ public class FlowerController implements IScript {
             updateRect();
             checkForCollisions();
 
-            if (Gdx.input.isTouched() && !isMovingUp) {
+            if (Gdx.input.justTouched() && !isMovingUp && headBoundsRect.getY() < 1200) {
+                System.out.print("Gdx.input.isTouched() "+Gdx.input.isTouched());
+                System.out.println(" isMovingUp " + isMovingUp);
                 isMovingUp = true;
                 saClose.setAnimation(1);
             }
@@ -116,8 +118,8 @@ public class FlowerController implements IScript {
             if (posXrect.overlaps(posXbug)) {
                 itr.remove();
                 removeActor(bug);
-                bugCounter++;
-                System.out.println("I ate " + bugCounter + " bugs!");
+                pointsAmount += bug.points;
+                System.out.println("I have " + pointsAmount + " points!");
             }
         }
     }

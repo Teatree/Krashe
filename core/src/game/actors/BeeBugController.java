@@ -19,6 +19,7 @@ public class BeeBugController extends BugController implements IScript  {
     public void init(CompositeItem item) {
         this.item = item;
         boundsRect = new Rectangle();
+        points = 25;
 
 //        startYPosition= MathUtils.random(200, Gdx.graphics.getHeight() - 100);
 //        item.setX(0);

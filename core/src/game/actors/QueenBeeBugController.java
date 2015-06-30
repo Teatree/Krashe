@@ -18,6 +18,9 @@ public class QueenBeeBugController extends BugController implements IScript  {
     @Override
     public void init(CompositeItem item) {
         this.item = item;
+
+        points = 100;
+
         boundsRect = new Rectangle();
 
 //        startYPosition= MathUtils.random(200, Gdx.graphics.getHeight() - 100);

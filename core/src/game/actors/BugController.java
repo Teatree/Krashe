@@ -19,6 +19,8 @@ public  abstract class BugController {
     protected CompositeItem item;
     protected SpriterActor spriterActor;
 
+    protected int points;
+
     public Random rand = new Random();
 
     protected Rectangle boundsRect = new Rectangle();

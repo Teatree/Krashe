@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.*;
-import com.uwsoft.editor.renderer.resources.ResourceManager;
 import game.stages.GameStage;
 import game.utils.AssetsManager;
 

@@ -4,11 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
-import com.uwsoft.editor.renderer.script.IScript;
-import game.actors.BugController;
-import game.actors.ChargerBugController;
-import game.actors.DrunkBugController;
-import game.actors.SimpleBugController;
+import game.actors.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -51,7 +47,7 @@ public class MrSpawner {
         return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[rand.nextInt(libBugs.size())];
     }
 
-    public BugController spawnUnsafe(Overlap2DStage stage, SceneLoader sceneLoader) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    public Bug spawnUnsafe(Overlap2DStage stage, SceneLoader sceneLoader) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         Map.Entry<String, Class> type = getType();
         CompositeItem compI = sceneLoader.getLibraryAsActor(type.getKey());
 //        CompositeItem compI = sceneLoader.getLibraryAsActor("chargerBugLib");
@@ -60,18 +56,19 @@ public class MrSpawner {
                     .getConstructor(Overlap2DStage.class).newInstance(stage);
 //        BugController buntroller = (BugController) ChargerBugController.class
 //                    .getConstructor(Overlap2DStage.class).newInstance(stage);
-        compI.addScript((IScript) buntroller);
+//        compI.addScript((IScript) buntroller);
+//
+//        Vector2 pos = getPos();
+//
+//        compI.setPosition(pos.x,pos.y);
+//        buntroller.startYPosition = pos.y;
+        Bug bug = new Bug(buntroller, compI, getPos());
 
-        Vector2 pos = getPos();
-
-        stage.addActor(compI);
-        compI.setPosition(pos.x,pos.y);
-        buntroller.startYPosition = pos.y;
-
-        return buntroller;
+        stage.addActor(bug.getCompositeItem());
+        return bug;
     }
 
-    public BugController spawn(Overlap2DStage stage, SceneLoader sceneLoader){
+    public Bug spawn(Overlap2DStage stage, SceneLoader sceneLoader){
         try {
             return spawnUnsafe(stage, sceneLoader);
         } catch (IllegalAccessException e) {

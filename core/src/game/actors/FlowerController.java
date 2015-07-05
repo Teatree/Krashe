@@ -106,19 +106,19 @@ public class FlowerController implements IScript {
 
     private void checkForCollisions() {
 
-        Iterator<BugController> itr = ((GameStage) stage).getBugs().iterator();
+        Iterator<Bug> itr = ((GameStage) stage).getBugs().iterator();
         while (itr.hasNext()) {
-            BugController bug = itr.next();
+            Bug bug = itr.next();
             Rectangle posXrect = headBoundsRect;
-            Rectangle posXbug = bug.getBoundsRectangle();
+            Rectangle posXbug = bug.getController().getBoundsRectangle();
 
 //            System.out.println("posXrect: " + posXrect.getX());
 //            System.out.println("posXbug: " + posXbug.getX());
 
             if (posXrect.overlaps(posXbug)) {
                 itr.remove();
-                removeActor(bug);
-                pointsAmount += bug.points;
+                removeActor(bug.getController());
+                pointsAmount += bug.getController().points;
                 System.out.println("I have " + pointsAmount + " points!");
             }
         }

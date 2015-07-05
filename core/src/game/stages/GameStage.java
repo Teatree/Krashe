@@ -4,6 +4,7 @@ package game.stages;
         import com.uwsoft.editor.renderer.Overlap2DStage;
         import com.uwsoft.editor.renderer.actor.CompositeItem;
         import com.uwsoft.editor.renderer.resources.ResourceManager;
+        import game.actors.Bug;
         import game.actors.BugController;
         import game.actors.FlowerController;
         import game.utils.MrSpawner;
@@ -18,7 +19,8 @@ package game.stages;
 public class GameStage extends Overlap2DStage {
 
     public FlowerController flowerController;
-    public List<BugController> bugs = new LinkedList<>();
+//    public List<BugController> bugs = new LinkedList<>();
+    public List<Bug> bugs = new LinkedList<>();
     public GameStage getInstance(){return this;}
     private int timer;
     final MrSpawner spawner = new MrSpawner();
@@ -74,11 +76,11 @@ public class GameStage extends Overlap2DStage {
         addActor(flowerL);
     }
 
-    public List<BugController> getBugs() {
+    public List<Bug> getBugs() {
         return bugs;
     }
 
-    public void setBugs(List<BugController> bugs) {
+    public void setBugs(List<Bug> bugs) {
         this.bugs = bugs;
     }
 
@@ -95,8 +97,8 @@ public class GameStage extends Overlap2DStage {
     }
 
     public boolean isGameOver(){
-        for(BugController bug : bugs){
-            if (bug.isOutOfBounds()){
+        for(Bug bug : bugs){
+            if (bug.getController().isOutOfBounds()){
                 return true;
             }
         }

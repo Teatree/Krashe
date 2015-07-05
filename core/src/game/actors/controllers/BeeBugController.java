@@ -1,4 +1,4 @@
-package game.actors;
+package game.actors.controllers;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.uwsoft.editor.renderer.Overlap2DStage;
@@ -6,27 +6,25 @@ import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.stages.GameStage;
 
-import java.util.Random;
-
 /**
  * Created by NastyaJoe on n/n/2015.
  */
-public class SimpleBugController extends BugController implements IScript  {
+public class BeeBugController extends BugController implements IScript  {
 
-    private int xCoefficient = 90;
-    private int yCoefficient = 75;
-
-    public SimpleBugController(Overlap2DStage stage) {
+    public BeeBugController(Overlap2DStage stage) {
         this.stage = stage;
     }
 
     @Override
     public void init(CompositeItem item) {
         this.item = item;
-
-        points = 10;
-
         boundsRect = new Rectangle();
+        points = 25;
+
+//        startYPosition= MathUtils.random(200, Gdx.graphics.getHeight() - 100);
+//        item.setX(0);
+//        item.setY(startYPosition -100);
+
         spriterActor = item.getSpriterActorById("chargerBug");
 
         item.setOrigin(item.getWidth() / 2, 0);
@@ -34,17 +32,15 @@ public class SimpleBugController extends BugController implements IScript  {
 
     @Override
     public void act(float delta) {
-        float moveCoefficient = (-(float) Math.sin(item.getX() / xCoefficient) * yCoefficient);
-        Random random = new Random();
-
         if(!((GameStage)stage).isGameOver()) {
             updateRect();
-            item.setY(startYPosition + moveCoefficient);
-//            System.out.println("sin are fun: " + moveCoefficient);
+            item.setY(startYPosition + (-(float) Math.cos(item.getX() / 20) * 75));
             item.setX(item.getX() + velocity);
             velocity += delta * 0.4;
         }
     }
+
+//    /*
 
     @Override
     public void updateRect() {
@@ -52,6 +48,8 @@ public class SimpleBugController extends BugController implements IScript  {
         boundsRect.y = (int)item.getY();
         boundsRect.width = (int)item.getWidth();
         boundsRect.height = (int)item.getHeight();
+
+//        stage.getActors().get(1).setBounds(boundsRect.getX(), boundsRect.getY(), boundsRect.getWidth(), boundsRect.getHeight());
     }
 
     @Override

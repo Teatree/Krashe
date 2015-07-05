@@ -1,4 +1,4 @@
-package game.actors;
+package game.actors.controllers;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.uwsoft.editor.renderer.Overlap2DStage;
@@ -9,9 +9,9 @@ import game.stages.GameStage;
 /**
  * Created by NastyaJoe on n/n/2015.
  */
-public class DrunkBugController extends BugController implements IScript  {
+public class SmellyBugController extends BugController implements IScript  {
 
-    public DrunkBugController(Overlap2DStage stage) {
+    public SmellyBugController(Overlap2DStage stage) {
         this.stage = stage;
     }
 
@@ -26,7 +26,7 @@ public class DrunkBugController extends BugController implements IScript  {
 //        item.setX(0);
 //        item.setY(startYPosition -100);
 
-        spriterActor = item.getSpriterActorById("drunkBug");
+        spriterActor = item.getSpriterActorById("chargerBug");
 
         item.setOrigin(item.getWidth() / 2, 0);
     }
@@ -49,6 +49,8 @@ public class DrunkBugController extends BugController implements IScript  {
         boundsRect.y = (int)item.getY();
         boundsRect.width = (int)item.getWidth();
         boundsRect.height = (int)item.getHeight();
+
+//        stage.getActors().get(1).setBounds(boundsRect.getX(), boundsRect.getY(), boundsRect.getWidth(), boundsRect.getHeight());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package game.actors;
+package game.actors.controllers;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.uwsoft.editor.renderer.Overlap2DStage;
@@ -9,18 +9,19 @@ import game.stages.GameStage;
 /**
  * Created by NastyaJoe on n/n/2015.
  */
-public class SmellyBugController extends BugController implements IScript  {
+public class QueenBeeBugController extends BugController implements IScript  {
 
-    public SmellyBugController(Overlap2DStage stage) {
+    public QueenBeeBugController(Overlap2DStage stage) {
         this.stage = stage;
     }
 
     @Override
     public void init(CompositeItem item) {
         this.item = item;
-        boundsRect = new Rectangle();
 
-        points = 25;
+        points = 100;
+
+        boundsRect = new Rectangle();
 
 //        startYPosition= MathUtils.random(200, Gdx.graphics.getHeight() - 100);
 //        item.setX(0);

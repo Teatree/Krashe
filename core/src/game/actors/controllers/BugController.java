@@ -1,6 +1,5 @@
-package game.actors;
+package game.actors.controllers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;

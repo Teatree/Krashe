@@ -5,8 +5,7 @@ package game.stages;
         import com.uwsoft.editor.renderer.actor.CompositeItem;
         import com.uwsoft.editor.renderer.resources.ResourceManager;
         import game.actors.Bug;
-        import game.actors.BugController;
-        import game.actors.FlowerController;
+        import game.actors.controllers.FlowerController;
         import game.utils.MrSpawner;
 
         import java.util.ArrayList;

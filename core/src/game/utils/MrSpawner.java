@@ -5,6 +5,10 @@ import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import game.actors.*;
+import game.actors.controllers.BugController;
+import game.actors.controllers.ChargerBugController;
+import game.actors.controllers.DrunkBugController;
+import game.actors.controllers.SimpleBugController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;

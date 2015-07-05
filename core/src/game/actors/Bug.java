@@ -3,6 +3,7 @@ package game.actors;
 import com.badlogic.gdx.math.Vector2;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
+import game.actors.controllers.BugController;
 
 /**
  * Created by MainUser on 04/07/2015.

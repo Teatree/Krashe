@@ -40,7 +40,7 @@ public class SimpleBugController extends BugController implements IScript  {
         if(!((GameStage)stage).isGameOver()) {
             updateRect();
             item.setY(startYPosition + moveCoefficient);
-            System.out.println("sin are fun: " + moveCoefficient);
+//            System.out.println("sin are fun: " + moveCoefficient);
             item.setX(item.getX() + velocity);
             velocity += delta * 0.4;
         }

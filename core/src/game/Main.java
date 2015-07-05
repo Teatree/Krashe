@@ -16,7 +16,6 @@ public class Main extends ApplicationAdapter {
 	Array<Viewport> viewports;
 	Array<String> names;
 
-
 	@Override
 	public void create () {
 		names = getViewportNames();
@@ -58,6 +57,7 @@ public class Main extends ApplicationAdapter {
 	}
 
 	static public Array<Viewport> getViewports (Camera camera) {
+
 		int minWorldWidth = 2400;
 		int minWorldHeight = 1440;
 		int maxWorldWidth = 2400;

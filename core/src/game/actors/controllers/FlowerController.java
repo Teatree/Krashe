@@ -11,6 +11,7 @@ import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.actors.Bug;
 import game.stages.GameStage;
+import game.utils.GlobalConstants;
 
 import java.util.Iterator;
 
@@ -120,7 +121,13 @@ public class FlowerController implements IScript {
                 itr.remove();
                 removeActor(bug.getController());
                 pointsAmount += bug.getController().points;
+                if (bug.getController() instanceof QueenBeeBugController) {
+                    GameStage.angeredBeesTimer = GlobalConstants.ANGERED_BEES_MODE_DURATION;
+                    GameStage.isAngeredBeesMode = true;
+                    System.out.println("BEE MODE ACTIVATED");
+                }
                 System.out.println("I have " + pointsAmount + " points!");
+
             }
         }
     }

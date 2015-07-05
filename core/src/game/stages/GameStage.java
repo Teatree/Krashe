@@ -6,6 +6,7 @@ package game.stages;
         import com.uwsoft.editor.renderer.resources.ResourceManager;
         import game.actors.Bug;
         import game.actors.controllers.FlowerController;
+        import game.utils.BugGenerator;
         import game.utils.MrSpawner;
 
         import java.util.ArrayList;
@@ -20,9 +21,14 @@ public class GameStage extends Overlap2DStage {
     public FlowerController flowerController;
 //    public List<BugController> bugs = new LinkedList<>();
     public List<Bug> bugs = new LinkedList<>();
+    private int spawnInterval = 200;
+
     public GameStage getInstance(){return this;}
     private int timer;
     final MrSpawner spawner = new MrSpawner();
+    public BugGenerator bugGenerator = new BugGenerator();
+    public static boolean isAngeredBeesMode = false;
+    public static int angeredBeesTimer = 0;
 
     public GameStage(ResourceManager resourceManager) {
 
@@ -32,27 +38,25 @@ public class GameStage extends Overlap2DStage {
 
         addActor(sceneLoader.getRoot());
 
-        final MrSpawner spawner = new MrSpawner();
-//        bugs.add(spawner.spawn(this, sceneLoader));
-//        bugs.add(spawner.spawn(this, sceneLoader));
-
         initFlower();
     }
 
     public void update(){
         timer++;
-        if (timer == 200){
-                bugs.add(spawner.spawn(getInstance(), sceneLoader));
+
+        if (timer >= spawnInterval){
+                bugs.add(spawner.spawn(bugGenerator.getBugSafe(getInstance(), sceneLoader), getInstance()));
             timer = 0;
         }
         if (Gdx.input.isTouched() && isGameOver()){
             getActors().removeRange(2, getActors().size-1);
             reloadBugs();
-//            for (int i=2; i<getActors().size; i++){
-//                getActors().removeIndex(i);
-//            }
+            isAngeredBeesMode = false;
         }
-
+        if (isAngeredBeesMode){
+            isAngeredBeesMode = angeredBeesTimer-- >= 0;
+            spawnInterval = isAngeredBeesMode ? 50 : 200;
+        }
     }
 
     private void reloadBugs() {

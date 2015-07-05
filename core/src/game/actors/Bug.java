@@ -16,14 +16,15 @@ public class Bug {
         return controller;
     }
 
-    public Bug(BugController controller, CompositeItem compositeItem, Vector2 position) {
+    public Bug(BugController controller, CompositeItem compositeItem) {
         this.controller = controller;
         this.compositeItem = compositeItem;
         compositeItem.addScript((IScript) controller);
+    }
 
-//        stage.addActor(compositeItem);
-        compositeItem.setPosition(position.x,position.y);
-        controller.startYPosition = position.y;
+    public void setPosition(Vector2 position) {
+        this.compositeItem.setPosition(position.x,position.y);
+        this.controller.startYPosition = position.y;
     }
 
     public void setController(BugController controller) {

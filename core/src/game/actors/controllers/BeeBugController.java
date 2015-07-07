@@ -25,7 +25,7 @@ public class BeeBugController extends BugController implements IScript  {
 //        item.setX(0);
 //        item.setY(startYPosition -100);
 
-        spriterActor = item.getSpriterActorById("chargerBug");
+        spriterActor = item.getSpriterActorById("beeBug");
 
         item.setOrigin(item.getWidth() / 2, 0);
     }

@@ -39,4 +39,7 @@ public  abstract class BugController {
         return false;
     }
 
+    public int getPoints(){
+        return points;
+    }
 }

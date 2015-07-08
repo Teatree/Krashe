@@ -112,16 +112,15 @@ public class FlowerController implements IScript {
         while (itr.hasNext()) {
             Bug bug = itr.next();
             Rectangle posXrect = headBoundsRect;
-            Rectangle posXbug = bug.getController().getBoundsRectangle();
 
 //            System.out.println("posXrect: " + posXrect.getX());
 //            System.out.println("posXbug: " + posXbug.getX());
 
-            if (posXrect.overlaps(posXbug)) {
+            if (bug.overlapsBoundingRectangle(posXrect)) {
                 itr.remove();
                 removeActor(bug.getController());
-                pointsAmount += bug.getController().points;
-                if (bug.getController() instanceof QueenBeeBugController) {
+                pointsAmount += bug.getPoints();
+                if (bug.isQueen()) {
                     GameStage.angeredBeesTimer = GlobalConstants.ANGERED_BEES_MODE_DURATION;
                     GameStage.isAngeredBeesMode = true;
                     System.out.println("BEE MODE ACTIVATED");

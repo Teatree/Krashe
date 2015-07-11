@@ -1,10 +1,14 @@
 package game.actors;
 
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
+import game.actors.controllers.BeeBugController;
 import game.actors.controllers.BugController;
+import game.actors.controllers.DrunkBugController;
 import game.actors.controllers.QueenBeeBugController;
 
 /**
@@ -23,6 +27,10 @@ public class Bug {
     public void setPosition(Vector2 position) {
         this.compositeItem.setPosition(position.x,position.y);
         this.controller.startYPosition = position.y;
+    }
+
+    public Vector2 getPosition() {
+        return new Vector2(compositeItem.getX(), compositeItem.getY());
     }
 
     public long getPoints(){
@@ -46,10 +54,13 @@ public class Bug {
     }
 
     public boolean isQueen() {
-        return controller instanceof QueenBeeBugController;
+        return controller instanceof DrunkBugController;
     }
 
     public boolean overlapsBoundingRectangle(Rectangle posXrect) {
         return controller.getBoundsRectangle().overlaps(posXrect);
+    }
+    public boolean overlapsAimCircle (Circle circle) {
+        return Intersector.overlaps(circle, controller.getBoundsRectangle());
     }
 }

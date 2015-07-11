@@ -21,7 +21,7 @@ public class QueenBeeBugController extends SimpleBugController implements IScrip
     public void init(CompositeItem item) {
         this.item = item;
 
-        points = 100;
+        points = 50;
 
         boundsRect = new Rectangle();
 

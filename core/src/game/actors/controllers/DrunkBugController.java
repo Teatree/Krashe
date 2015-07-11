@@ -44,20 +44,6 @@ public class DrunkBugController extends BugController implements IScript  {
 //    /*
 
     @Override
-    public void updateRect() {
-        boundsRect.x = (int)item.getX();
-        boundsRect.y = (int)item.getY();
-        boundsRect.width = (int)item.getWidth();
-        boundsRect.height = (int)item.getHeight();
-    }
-
-    @Override
-    public Rectangle getBoundsRectangle() {
-        updateRect();
-        return boundsRect;
-    }
-
-    @Override
     public CompositeItem getCompositeItem() {
         return item;
     }

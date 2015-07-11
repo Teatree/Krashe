@@ -41,25 +41,7 @@ public class SmellyBugController extends BugController implements IScript  {
         }
     }
 
-//    /*
 
-    @Override
-    public void updateRect() {
-        boundsRect.x = (int)item.getX();
-        boundsRect.y = (int)item.getY();
-        boundsRect.width = (int)item.getWidth();
-        boundsRect.height = (int)item.getHeight();
-
-//        stage.getActors().get(1).setBounds(boundsRect.getX(), boundsRect.getY(), boundsRect.getWidth(), boundsRect.getHeight());
-    }
-
-    @Override
-    public Rectangle getBoundsRectangle() {
-        updateRect();
-        return boundsRect;
-    }
-
-    @Override
     public CompositeItem getCompositeItem() {
         return item;
     }

@@ -24,10 +24,10 @@ public class BugGenerator {
     }
 
     private void init() {
-        libBugs.put("drunkBugLib", QueenBeeBugController.class);
+        libBugs.put("drunkBugLib", DrunkBugController.class);
         libBugs.put("chargerBugLib", ChargerBugController.class);
         libBugs.put("simpleBugLib", SimpleBugController.class);
-        libBugs.put("beeBugLib", SimpleBugController.class);
+        libBugs.put("beeBugLib", BeeBugController.class);
     }
 
     private Map.Entry<String, Class> getType(){
@@ -46,7 +46,7 @@ public class BugGenerator {
                 return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[3];
             }
         }else{
-            return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[2];
+            return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[3];
         }
     }
 

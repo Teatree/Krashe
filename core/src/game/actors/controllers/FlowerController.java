@@ -1,7 +1,9 @@
 package game.actors.controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -23,10 +25,15 @@ import static game.utils.GlobalConstants.POINT_TRAVEL;
 public class FlowerController implements IScript {
 
     public long pointsAmount = 0L;
+    public Circle aimCircle;
+    public Bug aimTarget;
 
     private Overlap2DStage stage;
 
     private CompositeItem item;
+    public float savedDx;
+    public float savedDy;
+    public Vector3 v3pos = new Vector3();
 
     private boolean isMovingUp = false;
 
@@ -49,6 +56,13 @@ public class FlowerController implements IScript {
         item.setX(Gdx.graphics.getWidth() - 200);
         item.setY(0);
         item.setOrigin(item.getWidth() / 2, 0);
+        aimCircle = new Circle();
+        aimCircle.setRadius(500);
+        aimCircle.setPosition(((float)headBoundsRect.x +headBoundsRect.width/2),
+                ((float)headBoundsRect.y +headBoundsRect.height/2));
+        v3pos.x = headBoundsRect.getX() + aimCircle.radius / 2;
+        v3pos.y = headBoundsRect.getY() + aimCircle.radius / 2;
+        v3pos.z = 0;
     }
 
     public void addMovementActionUp() {
@@ -103,7 +117,20 @@ public class FlowerController implements IScript {
 //                System.out.println("POINT_TRAVEL: " + headBoundsRect.getY());
                 }
             }
+
+            if (aimTarget != null){
+                item.setRotation(getRotation(new Vector3(aimTarget.getPosition().x, aimTarget.getPosition().y, 0)) * 57.29f);
+            }
+
         }
+    }
+
+    public float getRotation(Vector3 shotDir) {
+        double angle1 = Math.atan2(v3pos.y - headBoundsRect.getY(),
+                v3pos.x - 0);
+        double angle2 = Math.atan2(v3pos.y - shotDir.y, v3pos.x
+                - shotDir.x);
+        return (float) (angle2 - angle1);
     }
 
     private void checkForCollisions() {
@@ -115,9 +142,12 @@ public class FlowerController implements IScript {
 
 //            System.out.println("posXrect: " + posXrect.getX());
 //            System.out.println("posXbug: " + posXbug.getX());
-
+            if (bug.overlapsAimCircle(aimCircle) && aimTarget == null){
+                aimTarget = bug;
+            }
             if (bug.overlapsBoundingRectangle(posXrect)) {
                 itr.remove();
+                aimTarget = null;
                 removeActor(bug.getController());
                 pointsAmount += bug.getPoints();
                 if (bug.isQueen()) {
@@ -126,7 +156,6 @@ public class FlowerController implements IScript {
                     System.out.println("BEE MODE ACTIVATED");
                 }
                 System.out.println("I have " + pointsAmount + " points!");
-
             }
         }
     }

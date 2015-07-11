@@ -1,17 +1,21 @@
 package game.stages;
 
         import com.badlogic.gdx.Gdx;
+        import com.sun.org.apache.xpath.internal.SourceTree;
         import com.uwsoft.editor.renderer.Overlap2DStage;
         import com.uwsoft.editor.renderer.actor.CompositeItem;
         import com.uwsoft.editor.renderer.resources.ResourceManager;
         import game.actors.Bug;
         import game.actors.controllers.FlowerController;
         import game.utils.BugGenerator;
+        import game.utils.GlobalConstants;
         import game.utils.MrSpawner;
 
         import java.util.ArrayList;
         import java.util.LinkedList;
         import java.util.List;
+        import static game.utils.GlobalConstants.WAVE_DURATION;
+        import static game.utils.GlobalConstants.WAVE_PAUSE_DURATION;
 
 /**
  * Created by Teatree on 5/25/2015.
@@ -24,7 +28,9 @@ public class GameStage extends Overlap2DStage {
     private int spawnInterval = 200;
 
     public GameStage getInstance(){return this;}
-    private int timer;
+    private int intervalTimer;
+    private int pauseTimer;
+    private int waveTimer;
     final MrSpawner spawner = new MrSpawner();
     public BugGenerator bugGenerator = new BugGenerator();
     public static boolean isAngeredBeesMode = false;
@@ -42,20 +48,31 @@ public class GameStage extends Overlap2DStage {
     }
 
     public void update(){
-        timer++;
+        if (pauseTimer <= 0) {
+            intervalTimer++;
+            waveTimer++;
 
-        if (timer >= spawnInterval){
+            if (intervalTimer >= spawnInterval) {
                 bugs.add(spawner.spawn(bugGenerator.getBugSafe(getInstance(), sceneLoader), getInstance()));
-            timer = 0;
+                intervalTimer = 0;
+            }
+            if (isAngeredBeesMode) {
+                isAngeredBeesMode = angeredBeesTimer-- >= 0;
+                spawnInterval = isAngeredBeesMode ? 50 : 200;
+            }
+
+            if (waveTimer >= WAVE_DURATION){
+                pauseTimer = WAVE_PAUSE_DURATION;
+                waveTimer = 0;
+                System.out.println("SWITCHING TO PAUSE");
+            }
+        }else{
+            pauseTimer--;
         }
-        if (Gdx.input.isTouched() && isGameOver()){
-            getActors().removeRange(2, getActors().size-1);
+        if (Gdx.input.isTouched() && isGameOver()) {
+            getActors().removeRange(2, getActors().size - 1);
             reloadBugs();
             isAngeredBeesMode = false;
-        }
-        if (isAngeredBeesMode){
-            isAngeredBeesMode = angeredBeesTimer-- >= 0;
-            spawnInterval = isAngeredBeesMode ? 50 : 200;
         }
     }
 
@@ -87,12 +104,12 @@ public class GameStage extends Overlap2DStage {
         this.bugs = bugs;
     }
 
-    public int getTimer() {
-        return timer;
+    public int getIntervalTimer() {
+        return intervalTimer;
     }
 
-    public void setTimer(int timer) {
-        this.timer = timer;
+    public void setIntervalTimer(int intervalTimer) {
+        this.intervalTimer = intervalTimer;
     }
 
     public MrSpawner getSpawner() {

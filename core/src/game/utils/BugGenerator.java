@@ -54,8 +54,7 @@ public class BugGenerator {
         Map.Entry<String, Class> type = getType();
         CompositeItem compI = sceneLoader.getLibraryAsActor(type.getKey());
 
-        BugController buntroller = (BugController) type.getValue()
-                .getConstructor(Overlap2DStage.class).newInstance(stage);
+        BugController buntroller = (BugController) type.getValue().getConstructor(Overlap2DStage.class).newInstance(stage);
 
         return new Bug(buntroller, compI);
     }

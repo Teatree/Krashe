@@ -1,10 +1,13 @@
 package game.stages;
 
         import com.badlogic.gdx.Gdx;
+        import com.badlogic.gdx.scenes.scene2d.Actor;
         import com.uwsoft.editor.renderer.Overlap2DStage;
         import com.uwsoft.editor.renderer.actor.CompositeItem;
         import com.uwsoft.editor.renderer.resources.ResourceManager;
         import game.actors.Bug;
+        import game.actors.DandelionPowerUp;
+        import game.actors.controllers.DandelionController;
         import game.actors.controllers.FlowerController;
         import game.utils.BugGenerator;
         import game.utils.MrSpawner;
@@ -29,6 +32,7 @@ public class GameStage extends Overlap2DStage {
     public BugGenerator bugGenerator = new BugGenerator();
     public static boolean isAngeredBeesMode = false;
     public static int angeredBeesTimer = 0;
+    public DandelionPowerUp dandelionPowerup;
 
     public GameStage(ResourceManager resourceManager) {
 
@@ -39,6 +43,8 @@ public class GameStage extends Overlap2DStage {
         addActor(sceneLoader.getRoot());
 
         initFlower();
+
+        dandelionPowerup = new DandelionPowerUp(sceneLoader, this);
     }
 
     public void update(){
@@ -64,6 +70,7 @@ public class GameStage extends Overlap2DStage {
     }
 
     private void initFlower() {
+
         flowerController = new FlowerController(this);
         CompositeItem flowerL = sceneLoader.getLibraryAsActor("flowerLib");
 
@@ -78,6 +85,7 @@ public class GameStage extends Overlap2DStage {
 
         addActor(flowerL);
     }
+
 
     public List<Bug> getBugs() {
         return bugs;
@@ -106,5 +114,13 @@ public class GameStage extends Overlap2DStage {
             }
         }
         return false;
+    }
+
+    public void removeActor(CompositeItem item) {
+        for (Actor actor : this.getActors()) {
+            if (actor.equals(item)) {
+                actor.remove();
+            }
+        }
     }
 }

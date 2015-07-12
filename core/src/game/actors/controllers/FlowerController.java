@@ -55,14 +55,12 @@ public class FlowerController implements IScript {
         item.addAction(
                 Actions.sequence(
                         Actions.moveBy(0, 20)));
-//                        Actions.moveTo(1802, POINT_TRAVEL, 1f)));
     }
 
     public void addMovementActionDown() {
         item.addAction(
                 Actions.sequence(
                         Actions.moveBy(0, -20)));
-//                        Actions.moveTo(1802, -585, 1f)));
     }
 
     @Override
@@ -119,7 +117,7 @@ public class FlowerController implements IScript {
 
             if (posXrect.overlaps(posXbug)) {
                 itr.remove();
-                removeActor(bug.getController());
+                removeBug(bug.getController());
                 pointsAmount += bug.getController().points;
                 if (bug.getController() instanceof QueenBeeBugController) {
                     GameStage.angeredBeesTimer = GlobalConstants.ANGERED_BEES_MODE_DURATION;
@@ -132,7 +130,7 @@ public class FlowerController implements IScript {
         }
     }
 
-    private void removeActor(BugController bug) {
+    private void removeBug(BugController bug) {
         for (Actor actor : stage.getActors()) {
             if (actor.equals(bug.getCompositeItem())) {
                 actor.remove();

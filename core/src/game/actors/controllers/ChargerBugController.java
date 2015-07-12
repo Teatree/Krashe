@@ -52,7 +52,6 @@ public class ChargerBugController extends BugController implements IScript {
 
             // Idle
             if (state == State.IDLE) {
-//                System.out.println("spriterActor.getAnimations(); " + spriterActor.getAnimations());
                 velocity = delta * IDLE_MVMNT_SPEED;
                 if (counter == 0) {
                     spriterActor.setAnimation(1);

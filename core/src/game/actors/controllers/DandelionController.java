@@ -1,9 +1,7 @@
 package game.actors.controllers;
 
-import com.badlogic.gdx.Gdx;
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
-import com.uwsoft.editor.renderer.actor.SpriteAnimation;
 import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.actors.UmbrellaPowerUp;
@@ -75,7 +73,8 @@ public class DandelionController implements IScript {
     }
 
     private void spawnUmbrella(){
-        umbrellaPowerUp.getCompositeItem().setX(1100);
+        umbrellaPowerUp.createUmbrellaController();
+        umbrellaPowerUp.getCompositeItem().setX(1300);
         umbrellaPowerUp.getCompositeItem().setY(210);
         stage.addActor(umbrellaPowerUp.getCompositeItem());
     }

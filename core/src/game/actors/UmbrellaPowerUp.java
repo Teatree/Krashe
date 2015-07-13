@@ -15,7 +15,14 @@ public class UmbrellaPowerUp {
 
     public UmbrellaPowerUp(SceneLoader sceneLoader, Overlap2DStage stage) {
         item = sceneLoader.getLibraryAsActor("chargerBugLib");
+    }
+
+    public void createUmbrellaController(){
+        // This method was made so that
+        // I could create and Umbrella Controller
+        // Separately from powerup
         umbrellaController = new UmbrellaController();
+        umbrellaController.pushUmbrellaFor(-350f);
         item.addScript(umbrellaController);
     }
 

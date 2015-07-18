@@ -22,9 +22,13 @@ public class UmbrellaPowerUp {
         // I could create and Umbrella Controller
         // Separately from powerup
         umbrellaController = new UmbrellaController();
-        umbrellaController.pushUmbrellaFor(-350f);
         item.addScript(umbrellaController);
     }
+
+    public UmbrellaController getUmbrellaController(){
+        return umbrellaController;
+    }
+    public void setUmbrellaController(UmbrellaController uc){ umbrellaController = uc; }
 
     public CompositeItem getCompositeItem() {
         return item;

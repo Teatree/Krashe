@@ -27,6 +27,10 @@ public class Bug {
         this.controller.startYPosition = position.y;
     }
 
+    public int getPoints(){
+        return controller.points;
+    }
+
     public void setController(BugController controller) {
         this.controller = controller;
     }

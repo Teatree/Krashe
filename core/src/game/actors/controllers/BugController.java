@@ -18,7 +18,7 @@ public  abstract class BugController {
     protected CompositeItem item;
     protected SpriterActor spriterActor;
 
-    protected int points;
+    public int points;
 
     public Random rand = new Random();
 
@@ -38,5 +38,4 @@ public  abstract class BugController {
         }
         return false;
     }
-
 }

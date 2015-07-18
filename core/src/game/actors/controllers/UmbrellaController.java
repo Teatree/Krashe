@@ -1,22 +1,31 @@
 package game.actors.controllers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
+import game.stages.GameStage;
+
+import java.util.Random;
 
 /**
  * Created by MainUser on 12/07/2015.
  */
 public class UmbrellaController implements IScript{
     private CompositeItem item;
-    public float velocityX;
+    public Random random = new Random();
+    public Rectangle boundsRect = new Rectangle();
+    float velocityX;
     float velocityY;
     float gravity;
+    float speedIncrCoeficient = 1f;
 
     @Override
     public void init(CompositeItem item) {
         this.item = item;
 
-        velocityY = 45f; // has to be random
+        pushUmbrella(310, 400, 45, 55);
+
         gravity = 50f;
     }
 
@@ -25,14 +34,39 @@ public class UmbrellaController implements IScript{
         item.dispose();
     }
 
+    public void pushUmbrella(int randXmin, int randXmax, int randYmin, int randYmax) {
+        velocityX = (random.nextInt(randXmax-randXmin)+randXmin)*-1;
+//        gravity *= speedIncrCoeficient/2;
+        System.out.println("velocityX " + velocityX);
+        if(item.getY()> Gdx.graphics.getHeight()/2){
+            velocityY = random.nextInt((randYmax-randYmin)+randYmin)*-1;
+        }else {
+            velocityY = random.nextInt((randYmax - randYmin) + randYmin);
+        }
+        System.out.println("velocityY " + velocityY);
+//        speedIncrCoeficient += 0.5f;
+    }
+
     @Override
     public void act(float delta) {
         velocityX += gravity * delta;
-        item.setX(item.getX() + velocityX*delta);
+        item.setX(item.getX() + velocityX * delta);
         item.setY(item.getY() + velocityY*delta);
     }
 
-    public void pushUmbrellaFor(float pixels){
-        velocityX = pixels;
+    public void updateRect() {
+        boundsRect.x = (int)item.getX();
+        boundsRect.y = (int)item.getY();
+        boundsRect.width = (int)item.getWidth();
+        boundsRect.height = (int)item.getHeight();
+    }
+
+    public Rectangle getBoundsRectangle() {
+        updateRect();
+        return boundsRect;
+    }
+
+    public CompositeItem getCompositeItem(){
+        return item;
     }
 }

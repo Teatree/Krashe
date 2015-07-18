@@ -7,14 +7,19 @@ package game.stages;
         import com.uwsoft.editor.renderer.resources.ResourceManager;
         import game.actors.Bug;
         import game.actors.DandelionPowerUp;
+        import game.actors.UmbrellaPowerUp;
+        import game.actors.controllers.BugController;
         import game.actors.controllers.DandelionController;
         import game.actors.controllers.FlowerController;
         import game.utils.BugGenerator;
+        import game.utils.CollisionChecker;
+        import game.utils.GlobalConstants;
         import game.utils.MrSpawner;
 
         import java.util.ArrayList;
         import java.util.LinkedList;
         import java.util.List;
+        import java.util.Random;
 
 /**
  * Created by Teatree on 5/25/2015.
@@ -25,6 +30,7 @@ public class GameStage extends Overlap2DStage {
 //    public List<BugController> bugs = new LinkedList<>();
     public List<Bug> bugs = new LinkedList<>();
     private int spawnInterval = 200;
+    public Random random = new Random();
 
     public GameStage getInstance(){return this;}
     private int timer;
@@ -33,6 +39,8 @@ public class GameStage extends Overlap2DStage {
     public static boolean isAngeredBeesMode = false;
     public static int angeredBeesTimer = 0;
     public DandelionPowerUp dandelionPowerup;
+    public UmbrellaPowerUp umbrellaPowerUp;
+    public int dandelionSpawnCounter;
 
     public GameStage(ResourceManager resourceManager) {
 
@@ -44,11 +52,14 @@ public class GameStage extends Overlap2DStage {
 
         initFlower();
 
-        dandelionPowerup = new DandelionPowerUp(sceneLoader, this);
+        dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX - GlobalConstants.DANDELION_SPAWN_CHANCE_MIN)+ GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
+
+        umbrellaPowerUp = new UmbrellaPowerUp(sceneLoader, this);
     }
 
     public void update(){
         timer++;
+        dandelionSpawnCounter--;
 
         if (timer >= spawnInterval){
                 bugs.add(spawner.spawn(bugGenerator.getBugSafe(getInstance(), sceneLoader), getInstance()));
@@ -63,6 +74,14 @@ public class GameStage extends Overlap2DStage {
             isAngeredBeesMode = angeredBeesTimer-- >= 0;
             spawnInterval = isAngeredBeesMode ? 50 : 200;
         }
+
+        if (dandelionSpawnCounter <= 0){
+            dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX-GlobalConstants.DANDELION_SPAWN_CHANCE_MIN)+GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
+            dandelionPowerup = new DandelionPowerUp(sceneLoader, this);
+        }
+
+        CollisionChecker.checkCollisions(this);
+
     }
 
     private void reloadBugs() {
@@ -70,7 +89,6 @@ public class GameStage extends Overlap2DStage {
     }
 
     private void initFlower() {
-
         flowerController = new FlowerController(this);
         CompositeItem flowerL = sceneLoader.getLibraryAsActor("flowerLib");
 
@@ -108,11 +126,11 @@ public class GameStage extends Overlap2DStage {
     }
 
     public boolean isGameOver(){
-        for(Bug bug : bugs){
-            if (bug.getController().isOutOfBounds()){
-                return true;
-            }
-        }
+//        for(Bug bug : bugs){
+//            if (bug.getController().isOutOfBounds()){
+//                return true;
+//            }
+//        }
         return false;
     }
 

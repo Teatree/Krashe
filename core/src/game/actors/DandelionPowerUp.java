@@ -12,17 +12,14 @@ import game.actors.controllers.DandelionController;
 public class DandelionPowerUp {
     private CompositeItem item;
     private DandelionController dandelionController;
-    private UmbrellaPowerUp umbrellaPowerUp;
 
     public DandelionPowerUp(SceneLoader sceneLoader, Overlap2DStage stage) {
         this.item = sceneLoader.getLibraryAsActor("chargerBugLib");
         this.dandelionController = new DandelionController(stage);
+        dandelionController.sceneLoader = sceneLoader;
         item.addScript((IScript) dandelionController);
         item.setX(1700);
         item.setY(110);
         stage.addActor(item);
-
-        umbrellaPowerUp = new UmbrellaPowerUp(sceneLoader, stage);
-        dandelionController.setUmbrellaPowerUp(umbrellaPowerUp);
     }
 }

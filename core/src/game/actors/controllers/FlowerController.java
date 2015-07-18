@@ -67,7 +67,7 @@ public class FlowerController implements IScript {
     public void act(float delta) {
         if(!((GameStage)stage).isGameOver()) {
             updateRect();
-            checkForCollisions();
+//            checkForCollisions();
 
             if (Gdx.input.justTouched() && !isMovingUp && headBoundsRect.getY() < 1200) {
                 System.out.print("Gdx.input.isTouched() "+Gdx.input.isTouched());
@@ -104,39 +104,39 @@ public class FlowerController implements IScript {
         }
     }
 
-    private void checkForCollisions() {
-
-        Iterator<Bug> itr = ((GameStage) stage).getBugs().iterator();
-        while (itr.hasNext()) {
-            Bug bug = itr.next();
-            Rectangle posXrect = headBoundsRect;
-            Rectangle posXbug = bug.getController().getBoundsRectangle();
-
-//            System.out.println("posXrect: " + posXrect.getX());
-//            System.out.println("posXbug: " + posXbug.getX());
-
-            if (posXrect.overlaps(posXbug)) {
-                itr.remove();
-                removeBug(bug.getController());
-                pointsAmount += bug.getController().points;
-                if (bug.getController() instanceof QueenBeeBugController) {
-                    GameStage.angeredBeesTimer = GlobalConstants.ANGERED_BEES_MODE_DURATION;
-                    GameStage.isAngeredBeesMode = true;
-                    System.out.println("BEE MODE ACTIVATED");
-                }
-                System.out.println("I have " + pointsAmount + " points!");
-
-            }
-        }
-    }
-
-    private void removeBug(BugController bug) {
-        for (Actor actor : stage.getActors()) {
-            if (actor.equals(bug.getCompositeItem())) {
-                actor.remove();
-            }
-        }
-    }
+//    private void checkForCollisions() {
+//
+//        Iterator<Bug> itr = ((GameStage) stage).getBugs().iterator();
+//        while (itr.hasNext()) {
+//            Bug bug = itr.next();
+//            Rectangle posXrect = headBoundsRect;
+//            Rectangle posXbug = bug.getController().getBoundsRectangle();
+//
+////            System.out.println("posXrect: " + posXrect.getX());
+////            System.out.println("posXbug: " + posXbug.getX());
+//
+//            if (posXrect.overlaps(posXbug)) {
+//                itr.remove();
+//                removeBug(bug.getController());
+//                pointsAmount += bug.getController().points;
+//                if (bug.getController() instanceof QueenBeeBugController) {
+//                    GameStage.angeredBeesTimer = GlobalConstants.ANGERED_BEES_MODE_DURATION;
+//                    GameStage.isAngeredBeesMode = true;
+//                    System.out.println("BEE MODE ACTIVATED");
+//                }
+//                System.out.println("I have " + pointsAmount + " points!");
+//
+//            }
+//        }
+//    }
+//
+//    private void removeBug(BugController bug) {
+//        for (Actor actor : stage.getActors()) {
+//            if (actor.equals(bug.getCompositeItem())) {
+//                actor.remove();
+//            }
+//        }
+//    }
 
     private void updateRect() {
         headBoundsRect.x = item.getX() + item.getImageById("flower_head").getX();

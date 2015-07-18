@@ -4,8 +4,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
-import game.stages.GameStage;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 /**
  * Created by NastyaJoe on n/n/2015.

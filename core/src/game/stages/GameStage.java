@@ -5,11 +5,7 @@ package game.stages;
         import com.uwsoft.editor.renderer.Overlap2DStage;
         import com.uwsoft.editor.renderer.actor.CompositeItem;
         import com.uwsoft.editor.renderer.resources.ResourceManager;
-        import game.actors.Bug;
-        import game.actors.DandelionPowerUp;
-        import game.actors.UmbrellaPowerUp;
-        import game.actors.controllers.BugController;
-        import game.actors.controllers.DandelionController;
+        import game.actors.*;
         import game.actors.controllers.FlowerController;
         import game.utils.BugGenerator;
         import game.utils.CollisionChecker;
@@ -40,7 +36,10 @@ public class GameStage extends Overlap2DStage {
     public static int angeredBeesTimer = 0;
     public DandelionPowerUp dandelionPowerup;
     public UmbrellaPowerUp umbrellaPowerUp;
+    public CocoonPowerUp cocoonPowerUp;
+    public ButterflyPowerUp butterflyPowerUp;
     public int dandelionSpawnCounter;
+    public int cacoonSpawnCounter;
 
     public GameStage(ResourceManager resourceManager) {
 
@@ -53,13 +52,13 @@ public class GameStage extends Overlap2DStage {
         initFlower();
 
         dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX - GlobalConstants.DANDELION_SPAWN_CHANCE_MIN)+ GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
-
-        umbrellaPowerUp = new UmbrellaPowerUp(sceneLoader, this);
+        cacoonSpawnCounter = random.nextInt(GlobalConstants.COCOON_SPAWN_MAX - GlobalConstants.COCOON_SPAWN_MIN) + GlobalConstants.COCOON_SPAWN_MIN;
     }
 
     public void update(){
         timer++;
         dandelionSpawnCounter--;
+        cacoonSpawnCounter--;
 
         if (timer >= spawnInterval){
                 bugs.add(spawner.spawn(bugGenerator.getBugSafe(getInstance(), sceneLoader), getInstance()));
@@ -72,12 +71,17 @@ public class GameStage extends Overlap2DStage {
         }
         if (isAngeredBeesMode){
             isAngeredBeesMode = angeredBeesTimer-- >= 0;
-            spawnInterval = isAngeredBeesMode ? 50 : 200;
+            spawnInterval = isAngeredBeesMode ? GlobalConstants.BEE_SPAWN_INTERVAL_ANGERED : GlobalConstants.BEE_SPAWN_INTERVAL_REGULAR;
         }
 
-        if (dandelionSpawnCounter <= 0){
-            dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX-GlobalConstants.DANDELION_SPAWN_CHANCE_MIN)+GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
-            dandelionPowerup = new DandelionPowerUp(sceneLoader, this);
+//        if (dandelionSpawnCounter <= 0 && umbrellaPowerUp == null){
+//            dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX-GlobalConstants.DANDELION_SPAWN_CHANCE_MIN)+GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
+//            dandelionPowerup = new DandelionPowerUp(sceneLoader, this);
+//        }
+
+        if (cacoonSpawnCounter <= 0 && butterflyPowerUp == null){
+            cacoonSpawnCounter = random.nextInt(GlobalConstants.COCOON_SPAWN_MAX - GlobalConstants.COCOON_SPAWN_MIN) + GlobalConstants.COCOON_SPAWN_MIN;
+            cocoonPowerUp = new CocoonPowerUp(sceneLoader, this);
         }
 
         CollisionChecker.checkCollisions(this);

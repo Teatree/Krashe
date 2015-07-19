@@ -2,18 +2,13 @@ package game.actors.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.script.IScript;
-import game.actors.Bug;
 import game.stages.GameStage;
-import game.utils.GlobalConstants;
-
-import java.util.Iterator;
 
 import static game.utils.GlobalConstants.POINT_TRAVEL;
 
@@ -95,48 +90,16 @@ public class FlowerController implements IScript {
 
                 itemHeadC.setVisible(true);
                 itemPeduncleImg.setVisible(true);
-//            if (headBoundsRect.getY() < POINT_TRAVEL-20) {
+
                 if (headBoundsRect.getY() > 1200) {
+                    if (((GameStage) stage).cocoonPowerUp != null){
+                        ((GameStage) stage).cocoonPowerUp.getCocoonController().hit();
+                    }
                     isMovingUp = false;
-//                System.out.println("POINT_TRAVEL: " + headBoundsRect.getY());
                 }
             }
         }
     }
-
-//    private void checkForCollisions() {
-//
-//        Iterator<Bug> itr = ((GameStage) stage).getBugs().iterator();
-//        while (itr.hasNext()) {
-//            Bug bug = itr.next();
-//            Rectangle posXrect = headBoundsRect;
-//            Rectangle posXbug = bug.getController().getBoundsRectangle();
-//
-////            System.out.println("posXrect: " + posXrect.getX());
-////            System.out.println("posXbug: " + posXbug.getX());
-//
-//            if (posXrect.overlaps(posXbug)) {
-//                itr.remove();
-//                removeBug(bug.getController());
-//                pointsAmount += bug.getController().points;
-//                if (bug.getController() instanceof QueenBeeBugController) {
-//                    GameStage.angeredBeesTimer = GlobalConstants.ANGERED_BEES_MODE_DURATION;
-//                    GameStage.isAngeredBeesMode = true;
-//                    System.out.println("BEE MODE ACTIVATED");
-//                }
-//                System.out.println("I have " + pointsAmount + " points!");
-//
-//            }
-//        }
-//    }
-//
-//    private void removeBug(BugController bug) {
-//        for (Actor actor : stage.getActors()) {
-//            if (actor.equals(bug.getCompositeItem())) {
-//                actor.remove();
-//            }
-//        }
-//    }
 
     private void updateRect() {
         headBoundsRect.x = item.getX() + item.getImageById("flower_head").getX();

@@ -1,4 +1,4 @@
-package game.actors.controllers;
+package game.actors.controllers.powerups;
 
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.SceneLoader;
@@ -59,6 +59,7 @@ public class DandelionController implements IScript {
             }else if(counter >= GlobalConstants.DANDELION_DUYING_DURATION) {
                 state = State.DEAD;
                 ((GameStage)stage).removeActor(item);
+                ((GameStage)stage).dandelionPowerup = null;
             }
         }
     }

@@ -1,10 +1,9 @@
 package game.actors;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
-import game.actors.controllers.UmbrellaController;
+import game.actors.controllers.powerups.UmbrellaController;
 
 /**
  * Created by MainUser on 12/07/2015.

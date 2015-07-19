@@ -4,7 +4,7 @@ import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
-import game.actors.controllers.DandelionController;
+import game.actors.controllers.powerups.DandelionController;
 
 /**
  * Created by MainUser on 12/07/2015.

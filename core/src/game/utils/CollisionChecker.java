@@ -4,7 +4,8 @@ import com.badlogic.gdx.math.Rectangle;
 import game.actors.Bug;
 import game.actors.controllers.FlowerController;
 import game.actors.controllers.QueenBeeBugController;
-import game.actors.controllers.UmbrellaController;
+import game.actors.controllers.powerups.ButterflyController;
+import game.actors.controllers.powerups.UmbrellaController;
 import game.stages.GameStage;
 
 import java.util.Iterator;
@@ -17,6 +18,7 @@ public class CollisionChecker {
     public static void checkCollisions(GameStage stage) {
         checkCollisionBugs(stage);
         checkCollisionUmbrella(stage);
+        checkCollisionButterfly(stage);
     }
 
     private static void checkCollisionBugs(GameStage stage){
@@ -59,10 +61,33 @@ public class CollisionChecker {
             }
 
             if (isOutOfBounds(stage, posXumbrella)){
-                uc.pushUmbrella(350, 400, 45, 55);
+                uc.pushUmbrella(450, 500, 45, 55);
             }
         }
 
+    }
+    private static void checkCollisionButterfly(GameStage stage){
+        if(stage.butterflyPowerUp != null && stage.butterflyPowerUp.getButterflyController() != null) {
+            FlowerController fc = stage.flowerController;
+            ButterflyController bc = stage.butterflyPowerUp.getButterflyController();
+
+            Rectangle posXrect = fc.headBoundsRect;
+            Rectangle posXbutterfly = bc.getBoundsRectangle();
+            Rectangle posXbutterflyRectBehind = new Rectangle(posXbutterfly.getX()-300, posXbutterfly.getY(), posXbutterfly.getWidth(), posXbutterfly.getHeight());
+
+            if (posXrect.overlaps(posXbutterfly)) {
+                fc.pointsAmount += 200;
+                stage.removeActor(bc.getCompositeItem());
+                stage.butterflyPowerUp = null;
+                System.out.println("Giving 200!");
+                System.out.println("I now have " + fc.pointsAmount + " points!");
+            }
+
+            if (isOutOfBounds(stage, posXbutterflyRectBehind)){
+                stage.removeActor(stage.butterflyPowerUp.getCompositeItem());
+                System.out.println("Removing the lost butterfly, farewell");
+            }
+        }
     }
 
     public static boolean isOutOfBounds(GameStage stage, Rectangle boundsRect){

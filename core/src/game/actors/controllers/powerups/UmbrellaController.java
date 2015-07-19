@@ -1,4 +1,4 @@
-package game.actors.controllers;
+package game.actors.controllers.powerups;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
@@ -19,14 +19,13 @@ public class UmbrellaController implements IScript{
     float velocityY;
     float gravity;
     float speedIncrCoeficient = 1f;
+    float gravityDecreaseMultiplier = 1.5f;
 
     @Override
     public void init(CompositeItem item) {
         this.item = item;
 
         pushUmbrella(310, 400, 45, 55);
-
-        gravity = 50f;
     }
 
     @Override
@@ -35,16 +34,20 @@ public class UmbrellaController implements IScript{
     }
 
     public void pushUmbrella(int randXmin, int randXmax, int randYmin, int randYmax) {
-        velocityX = (random.nextInt(randXmax-randXmin)+randXmin)*-1;
+        velocityX = ((random.nextInt(randXmax-randXmin)+randXmin)*-1)*speedIncrCoeficient;
 //        gravity *= speedIncrCoeficient/2;
         System.out.println("velocityX " + velocityX);
         if(item.getY()> Gdx.graphics.getHeight()/2){
-            velocityY = random.nextInt((randYmax-randYmin)+randYmin)*-1;
+            velocityY = (random.nextInt((randYmax-randYmin)+randYmin)*-1)*speedIncrCoeficient;
         }else {
-            velocityY = random.nextInt((randYmax - randYmin) + randYmin);
+            velocityY = (random.nextInt((randYmax - randYmin) + randYmin))*speedIncrCoeficient;
         }
         System.out.println("velocityY " + velocityY);
 //        speedIncrCoeficient += 0.5f;
+        gravity = Math.abs(velocityX/(7-speedIncrCoeficient*gravityDecreaseMultiplier));
+        speedIncrCoeficient += 0.1f;
+        gravityDecreaseMultiplier -= 0.05f;
+        System.out.println("gravity " + gravity);
     }
 
     @Override

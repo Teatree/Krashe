@@ -13,7 +13,7 @@ public class UmbrellaPowerUp {
     private UmbrellaController umbrellaController;
 
     public UmbrellaPowerUp(SceneLoader sceneLoader, Overlap2DStage stage) {
-        item = sceneLoader.getLibraryAsActor("chargerBugLib");
+        item = sceneLoader.getLibraryAsActor("umbrellaLib");
     }
 
     public void createUmbrellaController(){

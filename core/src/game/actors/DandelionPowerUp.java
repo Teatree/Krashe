@@ -14,7 +14,7 @@ public class DandelionPowerUp {
     private DandelionController dandelionController;
 
     public DandelionPowerUp(SceneLoader sceneLoader, Overlap2DStage stage) {
-        this.item = sceneLoader.getLibraryAsActor("chargerBugLib");
+        this.item = sceneLoader.getLibraryAsActor("dandelionLib");
         this.dandelionController = new DandelionController(stage);
         dandelionController.sceneLoader = sceneLoader;
         item.addScript((IScript) dandelionController);

@@ -27,7 +27,7 @@ public class DandelionController implements IScript {
         this.item = item;
 
         state = State.GROWING;
-        spriterActor = item.getSpriterActorById("chargerBugAni");
+        spriterActor = item.getSpriterActorById("dandelion_ani");
         spriterActor.setAnimation(0);
     }
 

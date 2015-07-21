@@ -17,8 +17,6 @@ import static game.utils.GlobalConstants.POINT_TRAVEL;
  */
 public class FlowerController implements IScript {
 
-    public long pointsAmount = 0L;
-
     private Overlap2DStage stage;
 
     private CompositeItem item;

@@ -12,14 +12,14 @@ public class Bug {
     private BugController controller;
     private CompositeItem compositeItem;
 
-    public BugController getController() {
-        return controller;
-    }
-
     public Bug(BugController controller, CompositeItem compositeItem) {
         this.controller = controller;
         this.compositeItem = compositeItem;
         compositeItem.addScript((IScript) controller);
+    }
+
+    public BugController getController() {
+        return controller;
     }
 
     public void setPosition(Vector2 position) {

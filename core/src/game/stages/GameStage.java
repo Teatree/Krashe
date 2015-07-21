@@ -1,34 +1,35 @@
 package game.stages;
 
-        import com.badlogic.gdx.Gdx;
-        import com.badlogic.gdx.scenes.scene2d.Actor;
-        import com.uwsoft.editor.renderer.Overlap2DStage;
-        import com.uwsoft.editor.renderer.actor.CompositeItem;
-        import com.uwsoft.editor.renderer.resources.ResourceManager;
-        import game.actors.*;
-        import game.actors.controllers.FlowerController;
-        import game.utils.BugGenerator;
-        import game.utils.CollisionChecker;
-        import game.utils.GlobalConstants;
-        import game.utils.MrSpawner;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.uwsoft.editor.renderer.Overlap2DStage;
+import com.uwsoft.editor.renderer.actor.CompositeItem;
+import com.uwsoft.editor.renderer.resources.ResourceManager;
+import game.actors.*;
+import game.utils.BugGenerator;
+import game.utils.CollisionChecker;
+import game.utils.GlobalConstants;
+import game.utils.MrSpawner;
 
-        import java.util.ArrayList;
-        import java.util.LinkedList;
-        import java.util.List;
-        import java.util.Random;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Teatree on 5/25/2015.
  */
 public class GameStage extends Overlap2DStage {
 
-    public FlowerController flowerController;
-//    public List<BugController> bugs = new LinkedList<>();
+    public Flower flower;
     public List<Bug> bugs = new LinkedList<>();
     private int spawnInterval = 200;
     public Random random = new Random();
 
-    public GameStage getInstance(){return this;}
+    public GameStage getInstance() {
+        return this;
+    }
+
     private int timer;
     final MrSpawner spawner = new MrSpawner();
     public BugGenerator bugGenerator = new BugGenerator();
@@ -49,27 +50,27 @@ public class GameStage extends Overlap2DStage {
 
         addActor(sceneLoader.getRoot());
 
-        initFlower();
+        Flower.init(this, sceneLoader);
 
-        dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX - GlobalConstants.DANDELION_SPAWN_CHANCE_MIN)+ GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
+        dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX - GlobalConstants.DANDELION_SPAWN_CHANCE_MIN) + GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
         cacoonSpawnCounter = random.nextInt(GlobalConstants.COCOON_SPAWN_MAX - GlobalConstants.COCOON_SPAWN_MIN) + GlobalConstants.COCOON_SPAWN_MIN;
     }
 
-    public void update(){
+    public void update() {
         timer++;
         dandelionSpawnCounter--;
         cacoonSpawnCounter--;
 
-        if (timer >= spawnInterval){
-                bugs.add(spawner.spawn(bugGenerator.getBugSafe(getInstance(), sceneLoader), getInstance()));
+        if (timer >= spawnInterval) {
+            bugs.add(spawner.spawn(bugGenerator.getBugSafe(getInstance(), sceneLoader), getInstance()));
             timer = 0;
         }
-        if (Gdx.input.isTouched() && isGameOver()){
-            getActors().removeRange(2, getActors().size-1);
+        if (Gdx.input.isTouched() && isGameOver()) {
+            getActors().removeRange(2, getActors().size - 1);
             reloadBugs();
             isAngeredBeesMode = false;
         }
-        if (isAngeredBeesMode){
+        if (isAngeredBeesMode) {
             isAngeredBeesMode = angeredBeesTimer-- >= 0;
             spawnInterval = isAngeredBeesMode ? GlobalConstants.BEE_SPAWN_INTERVAL_ANGERED : GlobalConstants.BEE_SPAWN_INTERVAL_REGULAR;
         }
@@ -79,7 +80,7 @@ public class GameStage extends Overlap2DStage {
 //            dandelionPowerup = new DandelionPowerUp(sceneLoader, this);
 //        }
 
-        if (cacoonSpawnCounter <= 0 && butterflyPowerUp == null){
+        if (cacoonSpawnCounter <= 0 && butterflyPowerUp == null) {
             cacoonSpawnCounter = random.nextInt(GlobalConstants.COCOON_SPAWN_MAX - GlobalConstants.COCOON_SPAWN_MIN) + GlobalConstants.COCOON_SPAWN_MIN;
             cocoonPowerUp = new CocoonPowerUp(sceneLoader, this);
         }
@@ -92,21 +93,18 @@ public class GameStage extends Overlap2DStage {
         bugs = new ArrayList<>();
     }
 
-    private void initFlower() {
-        flowerController = new FlowerController(this);
-        CompositeItem flowerL = sceneLoader.getLibraryAsActor("flowerLib");
-
-        flowerL.addScript(flowerController);
-        flowerL.setX(1800);
-        flowerL.setY(-410);
-
-        flowerController.saIdle = flowerL.getSpriterActorById("floweridle_ani");
-        flowerController.saClose = flowerL.getSpriterActorById("flowerattack_ani");
-        flowerController.itemHeadC = flowerL.getImageById("flower_head");
-        flowerController.itemPeduncleImg = flowerL.getImageById("flower_peduncle");
-
-        addActor(flowerL);
-    }
+//    private void init() {
+////        FlowerController flowerController = new FlowerController(this);
+////        CompositeItem flowerL = sceneLoader.getLibraryAsActor("flowerLib");
+//
+//        flower = new Flower(new FlowerController(this), sceneLoader);
+////        flowerL.setX(1800);
+////        flowerL.setY(-410);
+//        flower.setPosition(1800, -410);
+//
+////        addActor(flowerL);
+//        addActor(flower.getFlowerLib());
+//    }
 
 
     public List<Bug> getBugs() {
@@ -129,7 +127,7 @@ public class GameStage extends Overlap2DStage {
         return spawner;
     }
 
-    public boolean isGameOver(){
+    public boolean isGameOver() {
 //        for(Bug bug : bugs){
 //            if (bug.getController().isOutOfBounds()){
 //                return true;

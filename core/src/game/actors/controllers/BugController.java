@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.actor.SpriterActor;
+import game.actors.Flower;
 import game.stages.GameStage;
 
 import java.util.Random;
@@ -32,8 +33,8 @@ public  abstract class BugController {
     public abstract CompositeItem getCompositeItem();
 
     public boolean isOutOfBounds(){
-        FlowerController flowerController = ((GameStage) stage).flowerController;
-        if (boundsRect.getX() >= flowerController.headBoundsRect.getX()+flowerController.headBoundsRect.getWidth()+100){
+        Flower flower = ((GameStage) stage).flower;
+        if (boundsRect.getX() >= flower.getBounds().getX()+flower.getBounds().getWidth()+100){
             return true;
         }
         return false;

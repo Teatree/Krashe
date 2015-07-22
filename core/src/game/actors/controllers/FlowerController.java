@@ -22,14 +22,15 @@ public class FlowerController implements IScript {
     private CompositeItem item;
 
     private boolean isMovingUp = false;
+    private boolean isEating = false;
 
-    public SpriterActor saIdle;
-    public SpriterActor saClose;
-    public SpriterActor saOpen;
+    private int eatCounter;
+
+    public SpriterActor saFlower;
+    public SpriterActor saHead;
 
     public Rectangle headBoundsRect = new Rectangle();
 
-    public Image itemHeadC;
     public Image itemPeduncleImg;
 
     public FlowerController(Overlap2DStage stage) {
@@ -62,53 +63,73 @@ public class FlowerController implements IScript {
             updateRect();
 //            checkForCollisions();
 
-            if (Gdx.input.justTouched() && !isMovingUp && headBoundsRect.getY() < 1200) {
-                System.out.print("Gdx.input.isTouched() "+Gdx.input.isTouched());
-                System.out.println(" isMovingUp " + isMovingUp);
-                isMovingUp = true;
-                saClose.setAnimation(1);
+            if (Gdx.input.justTouched() && !isMovingUp && headBoundsRect.getY() < 1000){
+                isEating = false;
+                saHead.setAnimation(0);
+                eatCounter = 0;
             }
 
-            if (!isMovingUp && headBoundsRect.getY() >= POINT_TRAVEL - 20) {
+            if (Gdx.input.justTouched() && !isMovingUp && headBoundsRect.getY() < 1000 && !isEating) {
+                if(!isEating) {
+                    System.out.print("Gdx.input.isTouched() " + Gdx.input.isTouched());
+                    System.out.println(" isMovingUp " + isMovingUp);
+                    isMovingUp = true;
+                }
+            }
+
+            if (!isMovingUp && headBoundsRect.getY() >= POINT_TRAVEL - 20 && !isEating) {
                 addMovementActionDown();
 
                 if (headBoundsRect.getY() <= POINT_TRAVEL) {
-                    saIdle.setVisible(true);
-                    saClose.setVisible(false);
+                    saFlower.setVisible(true);
 
-                    itemHeadC.setVisible(false);
+                    saHead.setVisible(false);
                     itemPeduncleImg.setVisible(false);
                 }
             }
 
-            if (isMovingUp) {
+            if (isMovingUp && !isEating) {
                 addMovementActionUp();
-                saIdle.setVisible(false);
-                saClose.setVisible(false);
+                saFlower.setVisible(false);
 
-                itemHeadC.setVisible(true);
+                saHead.setVisible(true);
                 itemPeduncleImg.setVisible(true);
 
-                if (headBoundsRect.getY() > 1200) {
+                if (headBoundsRect.getY() > 1000) {
                     if (((GameStage) stage).cocoonPowerUp != null){
                         ((GameStage) stage).cocoonPowerUp.getCocoonController().hit();
                     }
                     isMovingUp = false;
                 }
             }
+
+            if (isEating){
+                eatCounter++;
+                if(eatCounter>=30){
+                    isMovingUp = false;
+                    eatCounter = 0;
+                    saHead.setAnimation(0);
+                    isEating = false;
+                }
+            }
         }
     }
 
     private void updateRect() {
-        headBoundsRect.x = item.getX() + item.getImageById("flower_head").getX();
-        headBoundsRect.y = item.getY() + item.getImageById("flower_head").getY();
-        headBoundsRect.width = item.getImageById("flower_head").getImageWidth();
-        headBoundsRect.height = item.getImageById("flower_head").getImageHeight();
+        headBoundsRect.x = item.getX() + item.getSpriterActorById("flower_head2").getX();
+        headBoundsRect.y = item.getY() + item.getSpriterActorById("flower_head2").getY();
+        headBoundsRect.width = item.getSpriterActorById("flower_head2").getWidth();
+        headBoundsRect.height = item.getSpriterActorById("flower_head2").getHeight();
     }
 
     @Override
     public void dispose() {
-
+        item.dispose();
+        stage.dispose();
     }
 
+    public void eat() {
+        isEating = true;
+        saHead.setAnimation(1);
+    }
 }

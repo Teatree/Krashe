@@ -21,19 +21,19 @@ public class Flower {
         flowerLib = item;
         flowerLib.addScript(controller);
 
-        controller.saIdle = flowerLib.getSpriterActorById("floweridle_ani");
-        controller.saClose = flowerLib.getSpriterActorById("flowerattack_ani");
-        controller.itemHeadC = flowerLib.getImageById("flower_head");
+        controller.saFlower = flowerLib.getSpriterActorById("floweridle_ani");
+        controller.saHead = flowerLib.getSpriterActorById("flower_head2");
+        controller.saHead.setVisible(false);
         controller.itemPeduncleImg = flowerLib.getImageById("flower_peduncle");
-
+        controller.itemPeduncleImg.setVisible(false);
     }
 
     public static void init(GameStage stage, SceneLoader loader){
         Flower flower = new Flower(new FlowerController(stage),
-                                    loader.getLibraryAsActor("flowerLib"));
+                                    loader.getLibraryAsActor("flowerLib2"));
         stage.flower = flower;
 
-        flower.setPosition(1800, -410);
+        flower.setPosition(1800, -585);
 
         stage.addActor(flower.getFlowerLib());
     }

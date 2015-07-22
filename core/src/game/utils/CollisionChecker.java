@@ -40,7 +40,7 @@ public class CollisionChecker {
                     System.out.println("BEE MODE ACTIVATED");
                 }
                 System.out.println("I have " + flower.pointsAmount + " points!");
-
+                flower.getController().eat();
             }
         }
     }
@@ -59,6 +59,7 @@ public class CollisionChecker {
                 stage.umbrellaPowerUp = null;
                 System.out.println("Doubling points!");
                 System.out.println("I now have " + flower.pointsAmount + " points!");
+                flower.getController().eat();
             }
 
             if (isOutOfBounds(stage, posXumbrella)) {
@@ -83,6 +84,7 @@ public class CollisionChecker {
                 stage.butterflyPowerUp = null;
                 System.out.println("Giving 200!");
                 System.out.println("I now have " + flower.pointsAmount + " points!");
+                flower.getController().eat();
             }
 
             if (isOutOfBounds(stage, posXbutterflyRectBehind)) {

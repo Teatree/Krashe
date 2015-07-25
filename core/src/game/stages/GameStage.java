@@ -46,6 +46,11 @@ public class GameStage extends Overlap2DStage {
 
         initSceneLoader(resourceManager);
 
+        initGame();
+    }
+
+    public void initGame() {
+        clear();
         sceneLoader.loadScene("MainScene");
 
         addActor(sceneLoader.getRoot());
@@ -54,6 +59,13 @@ public class GameStage extends Overlap2DStage {
 
         dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX - GlobalConstants.DANDELION_SPAWN_CHANCE_MIN) + GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
         cacoonSpawnCounter = random.nextInt(GlobalConstants.COCOON_SPAWN_MAX - GlobalConstants.COCOON_SPAWN_MIN) + GlobalConstants.COCOON_SPAWN_MIN;
+    }
+
+    public void initMenu(){
+        sceneLoader.loadScene("MenuScene");
+        MenuScreenScript menu = new MenuScreenScript(this);
+        sceneLoader.sceneActor.addScript(menu);
+        addActor(sceneLoader.sceneActor);
     }
 
     public void update() {

@@ -29,6 +29,7 @@ public class BugGenerator {
         libBugs.put("chargerBugLib", ChargerBugController.class);
         libBugs.put("simpleBugLib", SimpleBugController.class);
         libBugs.put("beeBugLib", BeeBugController.class);
+        libBugs.put("queenBeeLib", QueenBeeBugController.class);
     }
 
     private Map.Entry<String, Class> getType(){
@@ -37,14 +38,16 @@ public class BugGenerator {
             if (probabilityValue < 10) {
                 //Drunk
                 return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[0];
-            } else if (probabilityValue >= 10 && probabilityValue < 50) {
+            } else if (probabilityValue >= 10 && probabilityValue < 40) {
                 //Simple
                 return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[2];
-            } else if (probabilityValue >= 50 && probabilityValue < 70) {
+            } else if (probabilityValue >= 41 && probabilityValue < 60) {
                 //Charger
                 return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[1];
-            } else {
+            } else if (probabilityValue >= 61 && probabilityValue < 70){
                 return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[3];
+            } else {
+                return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[4];
             }
         }else{
             return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[3];

@@ -35,7 +35,7 @@ public class GameStage extends Overlap2DStage {
     }
 
     public void initMenu(){
-        sceneLoader.loadScene("MainScene");
+        sceneLoader.loadScene("OtherScene");
         MenuScreenScript menu = new MenuScreenScript(this);
         sceneLoader.sceneActor.addScript(menu);
         addActor(sceneLoader.sceneActor);

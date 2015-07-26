@@ -87,10 +87,10 @@ public class CocoonController implements IScript {
     }
 
     private void spawnButterfly() {
-        ((GameStage) stage).butterflyPowerUp = new ButterflyPowerUp(sceneLoader, stage);
-        ((GameStage) stage).butterflyPowerUp.createUmbrellaController();
-        ((GameStage) stage).butterflyPowerUp.getCompositeItem().setX(1900);
-        ((GameStage) stage).butterflyPowerUp.getCompositeItem().setY(700);
-        stage.addActor(((GameStage) stage).butterflyPowerUp.getCompositeItem());
+        ((GameStage) stage).game.butterflyPowerUp = new ButterflyPowerUp(sceneLoader, stage);
+        ((GameStage) stage).game.butterflyPowerUp.createUmbrellaController();
+        ((GameStage) stage).game.butterflyPowerUp.getCompositeItem().setX(1900);
+        ((GameStage) stage).game.butterflyPowerUp.getCompositeItem().setY(700);
+        stage.addActor(((GameStage) stage).game.butterflyPowerUp.getCompositeItem());
     }
 }

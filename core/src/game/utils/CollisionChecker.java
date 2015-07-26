@@ -23,32 +23,44 @@ public class CollisionChecker {
     }
 
     private static void checkCollisionBugs(GameStage stage) {
-        Flower flower = stage.flower;
-        Iterator<Bug> itr = ((GameStage) stage).getBugs().iterator();
+        Flower flower = stage.game.flower;
+        Iterator<Bug> itr = ((GameStage) stage).game.getBugs().iterator();
         while (itr.hasNext()) {
             Bug bug = itr.next();
             Rectangle posXrect = flower.getBounds();
             Rectangle posXbug = bug.getController().getBoundsRectangle();
+            Rectangle posXbugBehind = new Rectangle(bug.getBounds().getX()-300, bug.getBounds().getY(), bug.getBounds().getWidth(), bug.getBounds().getHeight());
 
             if (posXrect.overlaps(posXbug)) {
                 itr.remove();
                 stage.removeActor(bug.getCompositeItem());
                 flower.pointsAmount += bug.getPoints();
                 if (bug.getController() instanceof QueenBeeBugController) {
-                    GameStage.angeredBeesTimer = GlobalConstants.ANGERED_BEES_MODE_DURATION;
-                    GameStage.isAngeredBeesMode = true;
+                    stage.game.angeredBeesTimer = GlobalConstants.ANGERED_BEES_MODE_DURATION;
+                    stage.game.isAngeredBeesMode = true;
                     System.out.println("BEE MODE ACTIVATED");
                 }
                 System.out.println("I have " + flower.pointsAmount + " points!");
                 flower.getController().eat();
             }
+
+
+            if (isOutOfBounds(stage, posXbugBehind)) {
+                System.err.println("Current HP was: " + flower.getCurHp());
+                flower.addCurHp(-1);
+                System.err.println("TAKING SOME HP OFF OF YOU!");
+                System.err.println("Current HP: " + flower.getCurHp());
+                System.err.println("removing that bug who just took hp off of you, take that bitch...");
+                stage.removeActor(bug.getCompositeItem());
+                itr.remove();
+            }
         }
     }
 
     private static void checkCollisionUmbrella(GameStage stage) {
-        if (stage.umbrellaPowerUp != null && stage.umbrellaPowerUp.getUmbrellaController() != null) {
-            Flower flower = stage.flower;
-            UmbrellaController uc = stage.umbrellaPowerUp.getUmbrellaController();
+        if (stage.game.umbrellaPowerUp != null && stage.game.umbrellaPowerUp.getUmbrellaController() != null) {
+            Flower flower = stage.game.flower;
+            UmbrellaController uc = stage.game.umbrellaPowerUp.getUmbrellaController();
 
             Rectangle posXrect = flower.getBounds();
             Rectangle posXumbrella = uc.getBoundsRectangle();
@@ -56,23 +68,29 @@ public class CollisionChecker {
             if (posXrect.overlaps(posXumbrella)) {
                 flower.pointsAmount *= 2;
                 stage.removeActor(uc.getCompositeItem());
-                stage.umbrellaPowerUp = null;
+                stage.game.umbrellaPowerUp = null;
                 System.out.println("Doubling points!");
                 System.out.println("I now have " + flower.pointsAmount + " points!");
                 flower.getController().eat();
+
+                Iterator<Bug> itr = ((GameStage) stage).game.getBugs().iterator();
+                while (itr.hasNext()) {
+                    Bug bug = itr.next();
+                    itr.remove();
+                    stage.removeActor(bug.getCompositeItem());
+                }
             }
 
             if (isOutOfBounds(stage, posXumbrella)) {
                 uc.pushUmbrella(450, 500, 45, 55);
             }
         }
-
     }
 
     private static void checkCollisionButterfly(GameStage stage) {
-        if (stage.butterflyPowerUp != null && stage.butterflyPowerUp.getButterflyController() != null) {
-            Flower flower = stage.flower;
-            ButterflyController bc = stage.butterflyPowerUp.getButterflyController();
+        if (stage.game.butterflyPowerUp != null && stage.game.butterflyPowerUp.getButterflyController() != null) {
+            Flower flower = stage.game.flower;
+            ButterflyController bc = stage.game.butterflyPowerUp.getButterflyController();
 
             Rectangle posXrect = flower.getBounds();
             Rectangle posXbutterfly = bc.getBoundsRectangle();
@@ -81,21 +99,21 @@ public class CollisionChecker {
             if (posXrect.overlaps(posXbutterfly)) {
                 flower.pointsAmount += 200;
                 stage.removeActor(bc.getCompositeItem());
-                stage.butterflyPowerUp = null;
+                stage.game.butterflyPowerUp = null;
                 System.out.println("Giving 200!");
                 System.out.println("I now have " + flower.pointsAmount + " points!");
                 flower.getController().eat();
             }
 
             if (isOutOfBounds(stage, posXbutterflyRectBehind)) {
-                stage.removeActor(stage.butterflyPowerUp.getCompositeItem());
+                stage.removeActor(stage.game.butterflyPowerUp.getCompositeItem());
                 System.out.println("Removing the lost butterfly, farewell");
             }
         }
     }
 
     public static boolean isOutOfBounds(GameStage stage, Rectangle boundsRect) {
-        if (boundsRect.getX() >= stage.flower.getBounds().getX() + stage.flower.getBounds().getWidth() + 100) {
+        if (boundsRect.getX() >= stage.game.flower.getBounds().getX() + stage.game.flower.getBounds().getWidth() + 100) {
             return true;
         }
         return false;

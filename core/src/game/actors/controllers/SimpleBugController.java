@@ -37,7 +37,7 @@ public class SimpleBugController extends BugController implements IScript  {
         float moveCoefficient = (-(float) Math.sin(item.getX() / xCoefficient) * yCoefficient);
         Random random = new Random();
 
-        if(!((GameStage)stage).isGameOver()) {
+        if(!((GameStage)stage).game.isGameOver()) {
             updateRect();
             item.setY(startYPosition + moveCoefficient);
 //            System.out.println("sin are fun: " + moveCoefficient);

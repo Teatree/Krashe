@@ -43,7 +43,7 @@ public class ChargerBugController extends BugController implements IScript {
 
     @Override
     public void act(float delta) {
-        if (!((GameStage) stage).isGameOver()) {
+        if (!((GameStage) stage).game.isGameOver()) {
             updateRect();
             counter--;
 

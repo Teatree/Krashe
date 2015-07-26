@@ -24,6 +24,8 @@ public abstract class GlobalConstants {
     public static final int BEE_SPAWN_INTERVAL_ANGERED = 50;
     public static final int BEE_SPAWN_INTERVAL_REGULAR = 200;
 
+    public static final int DEFAULT_MAX_HP = 2;
+
     public static int POINT_TRAVEL = Gdx.graphics.getHeight()-685;
 
 }

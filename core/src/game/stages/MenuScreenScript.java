@@ -24,7 +24,7 @@ public class MenuScreenScript implements IScript {
     @Override
     public void init(CompositeItem item) {
         menuItem = item;
-        ImageItem playBtn = menuItem.getImageById("playBtn");
+        ImageItem playBtn = menuItem.getImageById("pot");
 
         // Adding a Click listener to playButton so we can start game when clicked
         playBtn.addListener(new ClickListener(){

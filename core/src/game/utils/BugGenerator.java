@@ -5,6 +5,7 @@ package game.utils;
         import com.uwsoft.editor.renderer.actor.CompositeItem;
         import game.actors.Bug;
         import game.actors.controllers.*;
+        import game.stages.GameScreenScript;
         import game.stages.GameStage;
 
         import java.lang.reflect.InvocationTargetException;
@@ -31,7 +32,7 @@ public class BugGenerator {
     }
 
     private Map.Entry<String, Class> getType(){
-        if (!GameStage.isAngeredBeesMode) {
+        if (!GameScreenScript.isAngeredBeesMode) {
             int probabilityValue = rand.nextInt(100);
             if (probabilityValue < 10) {
                 //Drunk

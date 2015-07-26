@@ -9,6 +9,7 @@ import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.stages.GameStage;
+import game.utils.GlobalConstants;
 
 import static game.utils.GlobalConstants.POINT_TRAVEL;
 
@@ -59,7 +60,7 @@ public class FlowerController implements IScript {
 
     @Override
     public void act(float delta) {
-        if(!((GameStage)stage).isGameOver()) {
+        if(!((GameStage)stage).game.isGameOver()) {
             updateRect();
 //            checkForCollisions();
 
@@ -96,8 +97,8 @@ public class FlowerController implements IScript {
                 itemPeduncleImg.setVisible(true);
 
                 if (headBoundsRect.getY() > 1000) {
-                    if (((GameStage) stage).cocoonPowerUp != null){
-                        ((GameStage) stage).cocoonPowerUp.getCocoonController().hit();
+                    if (((GameStage) stage).game.cocoonPowerUp != null){
+                        ((GameStage) stage).game.cocoonPowerUp.getCocoonController().hit();
                     }
                     isMovingUp = false;
                 }
@@ -132,4 +133,6 @@ public class FlowerController implements IScript {
         isEating = true;
         saHead.setAnimation(1);
     }
+
+
 }

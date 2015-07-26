@@ -33,7 +33,7 @@ public  abstract class BugController {
     public abstract CompositeItem getCompositeItem();
 
     public boolean isOutOfBounds(){
-        Flower flower = ((GameStage) stage).flower;
+        Flower flower = ((GameStage) stage).game.flower;
         if (boundsRect.getX() >= flower.getBounds().getX()+flower.getBounds().getWidth()+100){
             return true;
         }

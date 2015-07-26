@@ -59,7 +59,7 @@ public class DandelionController implements IScript {
             }else if(counter >= GlobalConstants.DANDELION_DUYING_DURATION) {
                 state = State.DEAD;
                 ((GameStage)stage).removeActor(item);
-                ((GameStage)stage).dandelionPowerup = null;
+                ((GameStage)stage).game.dandelionPowerup = null;
             }
         }
     }
@@ -72,10 +72,10 @@ public class DandelionController implements IScript {
     }
 
     private void spawnUmbrella(){
-        ((GameStage)stage).umbrellaPowerUp = new UmbrellaPowerUp(sceneLoader, stage);
-        ((GameStage)stage).umbrellaPowerUp.createUmbrellaController();
-        ((GameStage)stage).umbrellaPowerUp.getCompositeItem().setX(1300);
-        ((GameStage)stage).umbrellaPowerUp.getCompositeItem().setY(210);
-        stage.addActor(((GameStage)stage).umbrellaPowerUp.getCompositeItem());
+        ((GameStage)stage).game.umbrellaPowerUp = new UmbrellaPowerUp(sceneLoader, stage);
+        ((GameStage)stage).game.umbrellaPowerUp.createUmbrellaController();
+        ((GameStage)stage).game.umbrellaPowerUp.getCompositeItem().setX(1300);
+        ((GameStage)stage).game.umbrellaPowerUp.getCompositeItem().setY(210);
+        stage.addActor(((GameStage)stage).game.umbrellaPowerUp.getCompositeItem());
     }
 }

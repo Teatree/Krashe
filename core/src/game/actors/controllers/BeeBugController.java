@@ -32,7 +32,7 @@ public class BeeBugController extends BugController implements IScript  {
 
     @Override
     public void act(float delta) {
-        if(!((GameStage)stage).isGameOver()) {
+        if(!((GameStage)stage).game.isGameOver()) {
             updateRect();
             item.setY(startYPosition + (-(float) Math.cos(item.getX() / 20) * 75));
             item.setX(item.getX() + velocity);

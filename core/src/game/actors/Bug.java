@@ -1,5 +1,6 @@
 package game.actors;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
@@ -25,6 +26,10 @@ public class Bug {
     public void setPosition(Vector2 position) {
         this.compositeItem.setPosition(position.x,position.y);
         this.controller.startYPosition = position.y;
+    }
+
+    public Rectangle getBounds(){
+        return controller.getBoundsRectangle();
     }
 
     public int getPoints(){

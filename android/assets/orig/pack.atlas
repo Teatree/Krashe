@@ -11,6 +11,63 @@ background
   orig: 1200, 786
   offset: 0, 0
   index: -1
+buttonback
+  rotate: false
+  xy: 1269, 1432
+  size: 121, 120
+  split: 17, 20, 17, 21
+  orig: 121, 120
+  offset: 0, 0
+  index: -1
+buttonnoAdsoff
+  rotate: false
+  xy: 2, 492
+  size: 120, 120
+  split: 14, 18, 11, 13
+  pad: 11, 13, 16, 14
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+buttonnoAdson
+  rotate: false
+  xy: 147, 644
+  size: 120, 120
+  split: 12, 15, 11, 14
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+buttonsettingsoff
+  rotate: false
+  xy: 1269, 1310
+  size: 120, 120
+  split: 18, 14, 15, 16
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+buttonsettingson
+  rotate: false
+  xy: 1392, 1432
+  size: 120, 120
+  split: 18, 14, 15, 17
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+buttonshopoff
+  rotate: false
+  xy: 2, 370
+  size: 120, 120
+  split: 14, 16, 17, 17
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+buttonshopon
+  rotate: false
+  xy: 269, 644
+  size: 120, 120
+  split: 14, 15, 16, 19
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
 flowerhead
   rotate: false
   xy: 2, 614
@@ -27,7 +84,7 @@ flowerpeducle
   index: -1
 pot
   rotate: false
-  xy: 1269, 1494
+  xy: 1269, 1250
   size: 62, 58
   orig: 62, 58
   offset: 0, 0

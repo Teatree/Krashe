@@ -35,7 +35,7 @@ public class Main extends ApplicationAdapter {
 		stage.update();
 
 		stage.act();
-		stage.setDebugAll(true);
+//		stage.setDebugAll(true);
 		stage.draw();
 	}
 

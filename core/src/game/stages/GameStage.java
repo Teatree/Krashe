@@ -41,6 +41,13 @@ public class GameStage extends Overlap2DStage {
         addActor(sceneLoader.sceneActor);
     }
 
+    public void initShopMenu(){
+        sceneLoader.loadScene("ShopScene");
+        ShopScreenScript shop = new ShopScreenScript(this);
+        sceneLoader.sceneActor.addScript(shop);
+        addActor(sceneLoader.sceneActor);
+    }
+
     public void update() {
 
     }

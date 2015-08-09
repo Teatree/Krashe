@@ -79,6 +79,8 @@ public class MenuScreenScript implements IScript {
                     pointer, int button) {
                 btnShop.setLayerVisibilty("normal", false);
                 btnShop.setLayerVisibilty("pressed", true);
+                stage.initShopMenu();
+
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer,

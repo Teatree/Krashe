@@ -38,28 +38,30 @@ public class DandelionController implements IScript {
 
     @Override
     public void act(float delta) {
-        counter++;
-        if (state == State.GROWING) {
-            if (counter >= GlobalConstants.DANDELION_GROWING_DURATION){
-                spriterActor.setAnimation(1);
-                state = State.IDLE;
-                counter = 0;
+        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
+            counter++;
+            if (state == State.GROWING) {
+                if (counter >= GlobalConstants.DANDELION_GROWING_DURATION) {
+                    spriterActor.setAnimation(1);
+                    state = State.IDLE;
+                    counter = 0;
+                }
             }
-        }
-        if (state == State.IDLE) {
-            if (counter >= GlobalConstants.DANDELION_IDLE_DURATION) {
-                spriterActor.setAnimation(2);
-                state = State.DYING;
-                counter = 0;
+            if (state == State.IDLE) {
+                if (counter >= GlobalConstants.DANDELION_IDLE_DURATION) {
+                    spriterActor.setAnimation(2);
+                    state = State.DYING;
+                    counter = 0;
+                }
             }
-        }
-        if (state == State.DYING) {
-            if (counter == GlobalConstants.DANDELION_UMBRELLA_DUYING_POINT){
-                spawnUmbrella();
-            }else if(counter >= GlobalConstants.DANDELION_DUYING_DURATION) {
-                state = State.DEAD;
-                ((GameStage)stage).removeActor(item);
-                ((GameStage)stage).game.dandelionPowerup = null;
+            if (state == State.DYING) {
+                if (counter == GlobalConstants.DANDELION_UMBRELLA_DUYING_POINT) {
+                    spawnUmbrella();
+                } else if (counter >= GlobalConstants.DANDELION_DUYING_DURATION) {
+                    state = State.DEAD;
+                    ((GameStage) stage).removeActor(item);
+                    ((GameStage) stage).game.dandelionPowerup = null;
+                }
             }
         }
     }

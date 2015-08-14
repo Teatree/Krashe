@@ -5,6 +5,7 @@ import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.stages.GameStage;
+import game.utils.GlobalConstants;
 
 /**
  * Created by NastyaJoe on n/n/2015.
@@ -43,7 +44,7 @@ public class ChargerBugController extends BugController implements IScript {
 
     @Override
     public void act(float delta) {
-        if (!((GameStage) stage).game.isGameOver()) {
+        if (!((GameStage) stage).game.isGameOver() && !GlobalConstants.GAME_PAUSED) {
             updateRect();
             counter--;
 

@@ -1,6 +1,8 @@
 package game.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.actors.*;
@@ -39,14 +41,38 @@ public class GameScreenScript implements IScript {
     public int dandelionSpawnCounter;
     public int cacoonSpawnCounter;
 
+    private boolean pausePressed = false;
+
     public GameScreenScript(GameStage stage) {
         this.stage = stage;
     }
 
     @Override
     public void init(CompositeItem item) {
+        gameItem = item;
         dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX - GlobalConstants.DANDELION_SPAWN_CHANCE_MIN) + GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
         cacoonSpawnCounter = random.nextInt(GlobalConstants.COCOON_SPAWN_MAX - GlobalConstants.COCOON_SPAWN_MIN) + GlobalConstants.COCOON_SPAWN_MIN;
+        final CompositeItem btnPause = gameItem.getCompositeById("btn_pause");
+
+        btnPause.addListener(new ClickListener(){
+            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
+            public boolean touchDown (InputEvent event, float x, float y, int
+                    pointer, int button) {
+                btnPause.setLayerVisibilty("normal", false);
+                btnPause.setLayerVisibilty("pressed", true);
+
+                GlobalConstants.GAME_PAUSED = true;
+                pausePressed = true;
+
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer,
+                                 int button) {
+                btnPause.setLayerVisibilty("normal", true);
+                btnPause.setLayerVisibilty("pressed", false);
+                pausePressed = false;
+            }
+        });
     }
 
     @Override
@@ -56,36 +82,45 @@ public class GameScreenScript implements IScript {
 
     @Override
     public void act(float delta) {
-        timer++;
-        dandelionSpawnCounter--;
-        cacoonSpawnCounter--;
+        for(Bug bug : bugs){
+            if (bug.getController().isOutOfBounds() && flower.getCurHp()<=0){
+                GlobalConstants.GAME_OVER = true;
+            }
+        }
+        if(GlobalConstants.GAME_PAUSED && !pausePressed && Gdx.input.justTouched()){
+            GlobalConstants.GAME_PAUSED = false;
+        }
+        if(!GlobalConstants.GAME_PAUSED) {
+            timer++;
+            dandelionSpawnCounter--;
+            cacoonSpawnCounter--;
 
-        if (timer >= spawnInterval) {
-            bugs.add(spawner.spawn(bugGenerator.getBugSafe(stage.getInstance(), stage.sceneLoader), stage.getInstance()));
-            timer = 0;
-        }
-        if (Gdx.input.isTouched() && isGameOver()) {
-            stage.getActors().removeRange(2, stage.getActors().size - 1);
-            reloadBugs();
-            isAngeredBeesMode = false;
-        }
-        if (isAngeredBeesMode) {
-            isAngeredBeesMode = angeredBeesTimer-- >= 0;
-            spawnInterval = isAngeredBeesMode ? GlobalConstants.BEE_SPAWN_INTERVAL_ANGERED : GlobalConstants.BEE_SPAWN_INTERVAL_REGULAR;
-        }
+            if (timer >= spawnInterval) {
+                bugs.add(spawner.spawn(bugGenerator.getBugSafe(stage.getInstance(), stage.sceneLoader), stage.getInstance()));
+                timer = 0;
+            }
+            if (Gdx.input.isTouched() && isGameOver()) {
+                stage.getActors().removeRange(2, stage.getActors().size - 1);
+                reloadBugs();
+                isAngeredBeesMode = false;
+            }
+            if (isAngeredBeesMode) {
+                isAngeredBeesMode = angeredBeesTimer-- >= 0;
+                spawnInterval = isAngeredBeesMode ? GlobalConstants.BEE_SPAWN_INTERVAL_ANGERED : GlobalConstants.BEE_SPAWN_INTERVAL_REGULAR;
+            }
 
-        if (dandelionSpawnCounter <= 0 && umbrellaPowerUp == null){
-            dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX-GlobalConstants.DANDELION_SPAWN_CHANCE_MIN)+GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
-            dandelionPowerup = new DandelionPowerUp(stage.sceneLoader, stage);
-        }
+            if (dandelionSpawnCounter <= 0 && umbrellaPowerUp == null) {
+                dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX - GlobalConstants.DANDELION_SPAWN_CHANCE_MIN) + GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
+                dandelionPowerup = new DandelionPowerUp(stage.sceneLoader, stage);
+            }
 
 //        if (cacoonSpawnCounter <= 0 && butterflyPowerUp == null) {
 //            cacoonSpawnCounter = random.nextInt(GlobalConstants.COCOON_SPAWN_MAX - GlobalConstants.COCOON_SPAWN_MIN) + GlobalConstants.COCOON_SPAWN_MIN;
 //            cocoonPowerUp = new CocoonPowerUp(sceneLoader, this);
 //        }
 
-        CollisionChecker.checkCollisions(stage);
-
+            CollisionChecker.checkCollisions(stage);
+        }
     }
 
     private void reloadBugs() {

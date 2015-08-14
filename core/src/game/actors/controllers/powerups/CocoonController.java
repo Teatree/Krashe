@@ -42,31 +42,33 @@ public class CocoonController implements IScript {
 
     @Override
     public void act(float delta) {
-        counter++;
-        if (state == State.SPAWNING) {
-            if (counter >= GlobalConstants.COCOON_SPAWNING_DURATION) {
-                spriterActor.setAnimation(1);
-                state = State.IDLE;
-                counter = 0;
-            }
-        }
-
-        if (state == State.HIT) {
-            if (counter >= GlobalConstants.COCOON_HIT_DURATION) {
-                spriterActor.setAnimation(1);
-                if (health <= 0) {
-                    state = State.DEAD;
-                    spawnButterfly();
-                    counter = 0;
-                } else {
+        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
+            counter++;
+            if (state == State.SPAWNING) {
+                if (counter >= GlobalConstants.COCOON_SPAWNING_DURATION) {
+                    spriterActor.setAnimation(1);
                     state = State.IDLE;
                     counter = 0;
                 }
             }
-        }
 
-        if (state == State.DEAD) {
-            ((GameStage)stage).removeActor(item);
+            if (state == State.HIT) {
+                if (counter >= GlobalConstants.COCOON_HIT_DURATION) {
+                    spriterActor.setAnimation(1);
+                    if (health <= 0) {
+                        state = State.DEAD;
+                        spawnButterfly();
+                        counter = 0;
+                    } else {
+                        state = State.IDLE;
+                        counter = 0;
+                    }
+                }
+            }
+
+            if (state == State.DEAD) {
+                ((GameStage) stage).removeActor(item);
+            }
         }
     }
 

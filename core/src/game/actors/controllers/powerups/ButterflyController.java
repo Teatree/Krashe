@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
+import game.stages.GameStage;
+import game.utils.GlobalConstants;
 
 import java.util.Random;
 
@@ -51,9 +53,11 @@ public class ButterflyController implements IScript{
 
     @Override
     public void act(float delta) {
-        velocityX += gravity * delta;
-        item.setX(item.getX() + velocityX * delta);
-        item.setY(item.getY() + velocityY*delta);
+        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
+            velocityX += gravity * delta;
+            item.setX(item.getX() + velocityX * delta);
+            item.setY(item.getY() + velocityY * delta);
+        }
     }
 
     public void updateRect() {

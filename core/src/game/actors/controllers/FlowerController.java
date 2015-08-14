@@ -60,7 +60,7 @@ public class FlowerController implements IScript {
 
     @Override
     public void act(float delta) {
-        if(!((GameStage)stage).game.isGameOver()) {
+        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
             updateRect();
 //            checkForCollisions();
 

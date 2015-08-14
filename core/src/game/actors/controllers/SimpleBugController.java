@@ -5,6 +5,7 @@ import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.stages.GameStage;
+import game.utils.GlobalConstants;
 
 import java.util.Random;
 
@@ -37,7 +38,7 @@ public class SimpleBugController extends BugController implements IScript  {
         float moveCoefficient = (-(float) Math.sin(item.getX() / xCoefficient) * yCoefficient);
         Random random = new Random();
 
-        if(!((GameStage)stage).game.isGameOver()) {
+        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
             updateRect();
             item.setY(startYPosition + moveCoefficient);
 //            System.out.println("sin are fun: " + moveCoefficient);

@@ -5,6 +5,7 @@ import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.stages.GameStage;
+import game.utils.GlobalConstants;
 
 /**
  * Created by NastyaJoe on n/n/2015.
@@ -32,7 +33,7 @@ public class BeeBugController extends BugController implements IScript  {
 
     @Override
     public void act(float delta) {
-        if(!((GameStage)stage).game.isGameOver()) {
+        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
             updateRect();
             item.setY(startYPosition + (-(float) Math.cos(item.getX() / 20) * 75));
             item.setX(item.getX() + velocity);

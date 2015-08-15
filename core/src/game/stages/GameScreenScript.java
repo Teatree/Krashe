@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
+import com.uwsoft.editor.renderer.actor.Image9patchItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.actors.*;
 import game.utils.BugGenerator;
@@ -42,6 +43,8 @@ public class GameScreenScript implements IScript {
     public int cacoonSpawnCounter;
 
     private boolean pausePressed = false;
+    private CompositeItem pausePopUp;
+    private CompositeItem backShadow;
 
     public GameScreenScript(GameStage stage) {
         this.stage = stage;
@@ -50,8 +53,15 @@ public class GameScreenScript implements IScript {
     @Override
     public void init(CompositeItem item) {
         gameItem = item;
+
+        pausePopUp = gameItem.getCompositeById("pop-up_pause");
+        pausePopUp.setVisible(false);
+        backShadow = gameItem.getCompositeById("backShadow");
+        backShadow.setVisible(false);
         dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX - GlobalConstants.DANDELION_SPAWN_CHANCE_MIN) + GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
         cacoonSpawnCounter = random.nextInt(GlobalConstants.COCOON_SPAWN_MAX - GlobalConstants.COCOON_SPAWN_MIN) + GlobalConstants.COCOON_SPAWN_MIN;
+        final CompositeItem pausePopUpContBtn = pausePopUp.getCompositeById("btn_continue");
+        final CompositeItem pausePopUpExitBtn = pausePopUp.getCompositeById("btn_exit");
         final CompositeItem btnPause = gameItem.getCompositeById("btn_pause");
 
         btnPause.addListener(new ClickListener(){
@@ -60,6 +70,8 @@ public class GameScreenScript implements IScript {
                     pointer, int button) {
                 btnPause.setLayerVisibilty("normal", false);
                 btnPause.setLayerVisibilty("pressed", true);
+                pausePopUp.setVisible(true);
+                backShadow.setVisible(true);
 
                 GlobalConstants.GAME_PAUSED = true;
                 pausePressed = true;
@@ -70,6 +82,50 @@ public class GameScreenScript implements IScript {
                                  int button) {
                 btnPause.setLayerVisibilty("normal", true);
                 btnPause.setLayerVisibilty("pressed", false);
+
+                pausePressed = false;
+            }
+        });
+        pausePopUpContBtn.addListener(new ClickListener(){
+            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
+            public boolean touchDown (InputEvent event, float x, float y, int
+                    pointer, int button) {
+                pausePopUpContBtn.setLayerVisibilty("normal", false);
+                pausePopUpContBtn.setLayerVisibilty("pressed", true);
+                pausePopUp.setVisible(false);
+                backShadow.setVisible(false);
+
+                GlobalConstants.GAME_PAUSED = false;
+
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer,
+                                 int button) {
+                pausePopUpContBtn.setLayerVisibilty("normal", true);
+                pausePopUpContBtn.setLayerVisibilty("pressed", false);
+
+                pausePressed = false;
+            }
+        });
+        pausePopUpExitBtn.addListener(new ClickListener(){
+            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
+            public boolean touchDown (InputEvent event, float x, float y, int
+                    pointer, int button) {
+                pausePopUpExitBtn.setLayerVisibilty("normal", false);
+                pausePopUpExitBtn.setLayerVisibilty("pressed", true);
+                pausePopUp.setVisible(false);
+                backShadow.setVisible(false);
+
+                stage.initMenu();
+                GlobalConstants.GAME_PAUSED = false;
+
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer,
+                                 int button) {
+                pausePopUpExitBtn.setLayerVisibilty("normal", true);
+                pausePopUpExitBtn.setLayerVisibilty("pressed", false);
+
                 pausePressed = false;
             }
         });
@@ -86,9 +142,6 @@ public class GameScreenScript implements IScript {
             if (bug.getController().isOutOfBounds() && flower.getCurHp()<=0){
                 GlobalConstants.GAME_OVER = true;
             }
-        }
-        if(GlobalConstants.GAME_PAUSED && !pausePressed && Gdx.input.justTouched()){
-            GlobalConstants.GAME_PAUSED = false;
         }
         if(!GlobalConstants.GAME_PAUSED) {
             timer++;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
+import com.uwsoft.editor.renderer.actor.SpriteAnimation;
 import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.stages.GameStage;
@@ -67,6 +68,8 @@ public class FlowerController implements IScript {
             if (Gdx.input.justTouched() && !isMovingUp && headBoundsRect.getY() < 1000){
                 isEating = false;
                 saHead.setAnimation(0);
+                System.out.println("saHead get animations: " + saHead.getAnimations());
+
                 eatCounter = 0;
             }
 

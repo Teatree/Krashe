@@ -28,7 +28,6 @@ public class SimpleBugController extends BugController implements IScript  {
         points = 10;
 
         boundsRect = new Rectangle();
-        spriterActor = item.getSpriterActorById("chargerBug");
 
         item.setOrigin(item.getWidth() / 2, 0);
     }

@@ -5,6 +5,7 @@ import com.uwsoft.editor.renderer.Overlap2DStage;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.resources.ResourceManager;
 import game.actors.*;
+import game.utils.GlobalConstants;
 
 /**
  * Created by Teatree on 5/25/2015.
@@ -32,6 +33,7 @@ public class GameStage extends Overlap2DStage {
         addActor(sceneLoader.sceneActor);
 
         Flower.init(this, sceneLoader);
+        GlobalConstants.CUR_SCREEN = "GAME";
     }
 
     public void initMenu(){
@@ -39,6 +41,7 @@ public class GameStage extends Overlap2DStage {
         MenuScreenScript menu = new MenuScreenScript(this);
         sceneLoader.sceneActor.addScript(menu);
         addActor(sceneLoader.sceneActor);
+        GlobalConstants.CUR_SCREEN = "MENU";
     }
 
     public void initShopMenu(){
@@ -46,6 +49,7 @@ public class GameStage extends Overlap2DStage {
         ShopScreenScript shop = new ShopScreenScript(this);
         sceneLoader.sceneActor.addScript(shop);
         addActor(sceneLoader.sceneActor);
+        GlobalConstants.CUR_SCREEN = "SHOP";
     }
 
     public void update() {

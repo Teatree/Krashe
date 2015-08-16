@@ -23,7 +23,7 @@ public class QueenBeeBugController extends SimpleBugController implements IScrip
 
         boundsRect = new Rectangle();
 
-        spriterActor = item.getSpriterActorById("drunkBug");
+        spriterActor = item.getSpriterActorById("QueenBeeBug");
 
         item.setOrigin(item.getWidth() / 2, 0);
     }

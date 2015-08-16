@@ -8,6 +8,7 @@ import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.actor.ImageItem;
 import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.script.IScript;
+import game.utils.GlobalConstants;
 
 /**
  * Created by Teatree on 7/25/2015.

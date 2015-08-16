@@ -42,6 +42,7 @@ public class FlowerController implements IScript {
     @Override
     public void init(CompositeItem item) {
         this.item = item;
+
         item.setX(Gdx.graphics.getWidth() - 200);
         item.setY(0);
         item.setOrigin(item.getWidth() / 2, 0);

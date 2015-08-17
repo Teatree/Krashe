@@ -42,7 +42,7 @@ public class CocoonController implements IScript {
 
     @Override
     public void act(float delta) {
-        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
+        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED && GlobalConstants.CUR_SCREEN == "GAME") {
             counter++;
             if (state == State.SPAWNING) {
                 if (counter >= GlobalConstants.COCOON_SPAWNING_DURATION) {

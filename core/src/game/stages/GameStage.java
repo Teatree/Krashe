@@ -42,6 +42,8 @@ public class GameStage extends Overlap2DStage {
         sceneLoader.sceneActor.addScript(menu);
         addActor(sceneLoader.sceneActor);
         GlobalConstants.CUR_SCREEN = "MENU";
+
+        GameScreenScript.isAngeredBeesMode = false;
     }
 
     public void initShopMenu(){

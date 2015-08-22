@@ -43,6 +43,7 @@ public class GameScreenScript implements IScript {
     public int cacoonSpawnCounter;
 
     private int aniTimer = 0;
+    private float aniAddition = 0F;
     private String aniName;
     private boolean isPlayAny = false;
     private boolean pausePressed = false;
@@ -84,7 +85,7 @@ public class GameScreenScript implements IScript {
                     pointer, int button) {
                 btnPause.setLayerVisibilty("normal", false);
                 btnPause.setLayerVisibilty("pressed", true);
-                playUIAnimation(100, "pauseAppear");
+                playUIAnimation(10, "pauseAppear");
 
                 pausePressed = true;
 
@@ -104,7 +105,7 @@ public class GameScreenScript implements IScript {
                     pointer, int button) {
                 pausePopUpContBtn.setLayerVisibilty("normal", false);
                 pausePopUpContBtn.setLayerVisibilty("pressed", true);
-                playUIAnimation(100, "pauseDisappear");
+                playUIAnimation(10, "pauseDisappear");
 
                 return true;
             }
@@ -122,7 +123,7 @@ public class GameScreenScript implements IScript {
                     pointer, int button) {
                 pausePopUpExitBtn.setLayerVisibilty("normal", false);
                 pausePopUpExitBtn.setLayerVisibilty("pressed", true);
-                playUIAnimation(100, "pauseExit");
+                playUIAnimation(10, "pauseExit");
 
                 return true;
             }
@@ -140,7 +141,7 @@ public class GameScreenScript implements IScript {
                     pointer, int button) {
                 gameoverPopUpVideoBtn.setLayerVisibilty("normal", false);
                 gameoverPopUpVideoBtn.setLayerVisibilty("pressed", true);
-                playUIAnimation(100, "gameoverDisappear");
+                playUIAnimation(10, "gameoverDisappear");
 
                 return true;
             }
@@ -158,7 +159,7 @@ public class GameScreenScript implements IScript {
                     pointer, int button) {
                 gameoverPopUpCloseBtn.setLayerVisibilty("normal", false);
                 gameoverPopUpCloseBtn.setLayerVisibilty("pressed", true);
-                playUIAnimation(100, "gameoverExit");
+                playUIAnimation(10, "gameoverExit");
 
                 return true;
             }
@@ -240,11 +241,12 @@ public class GameScreenScript implements IScript {
                 backShadow.setVisible(true);
 
                 if(pausePopUp.getColor().a<1){
-                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a+0.1f); // Some sort of a formula would be good here
-                    backShadow.setColor(1,1,1,backShadow.getColor().a+0.1f); // like a formula that replaces 0.1f with a portion of aniTimer
+                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a+aniAddition); // Some sort of a formula would be good here
+                    backShadow.setColor(1,1,1,backShadow.getColor().a+aniAddition); // like a formula that replaces 0.1f with a portion of aniTimer
                 }
                 if(pausePopUp.getColor().a==1){
                     GlobalConstants.GAME_PAUSED = true;
+                    isPlayAny = false;
                 }
             }
             //
@@ -252,13 +254,14 @@ public class GameScreenScript implements IScript {
             // Play pause pop-up disappear animation
             if(aniName == "pauseDisappear"){
                 if(pausePopUp.getColor().a>0){
-                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a-0.1f);
-                    backShadow.setColor(1,1,1,backShadow.getColor().a-0.1f);
+                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a-aniAddition);
+                    backShadow.setColor(1,1,1,backShadow.getColor().a-aniAddition);
                 }
                 if(pausePopUp.getColor().a==0){
                     GlobalConstants.GAME_PAUSED = false;
                     pausePopUp.setVisible(false);
                     backShadow.setVisible(false);
+                    isPlayAny = false;
                 }
             }
             //
@@ -266,16 +269,16 @@ public class GameScreenScript implements IScript {
             // Play pause disappear animation with Exit
             if(aniName == "pauseExit"){
                 if(pausePopUp.getColor().a>0){
-                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a-0.1f);
-                    backShadow.setColor(1,1,1,backShadow.getColor().a-0.1f);
+                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a-aniAddition);
+                    backShadow.setColor(1,1,1,backShadow.getColor().a-aniAddition);
                 }
                 if(pausePopUp.getColor().a==0){
                     GlobalConstants.GAME_PAUSED = false;
                     pausePopUp.setVisible(false);
                     backShadow.setVisible(false);
 
-                    stage.initMenu();
                     isPlayAny = false; // this is bad, think of a formula!
+                    stage.initMenu();
                 }
             }
             //
@@ -349,6 +352,7 @@ public class GameScreenScript implements IScript {
     private void playUIAnimation(int timer, String name){
         isPlayAny = true;
         aniTimer = timer;
+        aniAddition = 1f/aniTimer;
         aniName = name;
     }
 

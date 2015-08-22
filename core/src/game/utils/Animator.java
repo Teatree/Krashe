@@ -70,8 +70,6 @@ public class Animator {
             // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
             public boolean touchDown(InputEvent event, float x, float y, int
                     pointer, int button) {
-//                pausePopUpExitBtn.setLayerVisibilty(NORMAL_BTN_STATE, false);
-//                pausePopUpExitBtn.setLayerVisibilty(PRESSED_BTN_STATE, true);
                 touchDownButton(pausePopUpExitBtn);
                 playUIAnimation(10, PAUSE_EXIT);
 
@@ -80,8 +78,6 @@ public class Animator {
 
             public void touchUp(InputEvent event, float x, float y, int pointer,
                                 int button) {
-//                pausePopUpExitBtn.setLayerVisibilty(NORMAL_BTN_STATE, true);
-//                pausePopUpExitBtn.setLayerVisibilty(PRESSED_BTN_STATE, false);
                 touchUpButton(pausePopUpExitBtn);
                 pausePressed = false;
             }
@@ -91,8 +87,6 @@ public class Animator {
             public boolean touchDown(InputEvent event, float x, float y, int
                     pointer, int button) {
                 touchDownButton(gameoverPopUpVideoBtn);
-//                gameoverPopUpVideoBtn.setLayerVisibilty(NORMAL_BTN_STATE, false);
-//                gameoverPopUpVideoBtn.setLayerVisibilty(PRESSED_BTN_STATE, true);
                 playUIAnimation(10, GAMEOVER_DISAPPEAR);
 
                 return true;
@@ -100,8 +94,6 @@ public class Animator {
 
             public void touchUp(InputEvent event, float x, float y, int pointer,
                                 int button) {
-//                gameoverPopUpVideoBtn.setLayerVisibilty(NORMAL_BTN_STATE, true);
-//                gameoverPopUpVideoBtn.setLayerVisibilty(PRESSED_BTN_STATE, false);
                 touchUpButton(gameoverPopUpVideoBtn);
                 pausePressed = false;
             }
@@ -118,8 +110,6 @@ public class Animator {
 
             public void touchUp(InputEvent event, float x, float y, int pointer,
                                 int button) {
-//                gameoverPopUpCloseBtn.setLayerVisibilty(NORMAL_BTN_STATE, true);
-//                gameoverPopUpCloseBtn.setLayerVisibilty(PRESSED_BTN_STATE, false);
                 touchUpButton(gameoverPopUpCloseBtn);
                 pausePressed = false;
             }
@@ -234,7 +224,6 @@ public class Animator {
             if (aniTimer <= 0) {
                 isPlayAny = false;
             }
-            //
         }
     }
 

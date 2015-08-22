@@ -1,14 +1,9 @@
 package game.stages;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
-import com.uwsoft.editor.renderer.actor.ImageItem;
-import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.script.IScript;
-import game.utils.GlobalConstants;
 
 import static game.utils.Animator.*;
 /**
@@ -18,8 +13,6 @@ public class MenuScreenScript implements IScript {
 
     private GameStage stage;
     private CompositeItem menuItem;
-
-//    private CompositeItem groundRotator;
 
     public MenuScreenScript(GameStage stage) {
         this.stage = stage;
@@ -52,15 +45,11 @@ public class MenuScreenScript implements IScript {
             public boolean touchDown (InputEvent event, float x, float y, int
                     pointer, int button) {
                 touchDownButton(btnSettings);
-//                btnSettings.setLayerVisibilty("normal", false);
-//                btnSettings.setLayerVisibilty("pressed", true);
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer,
                                  int button) {
                 touchUpButton(btnSettings);
-//                btnSettings.setLayerVisibilty("normal", true);
-//                btnSettings.setLayerVisibilty("pressed", false);
             }
         });
         btnNoAds.addListener(new ClickListener(){
@@ -68,15 +57,11 @@ public class MenuScreenScript implements IScript {
             public boolean touchDown (InputEvent event, float x, float y, int
                     pointer, int button) {
                 touchDownButton(btnNoAds);
-//                btnNoAds.setLayerVisibilty("normal", false);
-//                btnNoAds.setLayerVisibilty("pressed", true);
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer,
                                  int button) {
                 touchUpButton(btnNoAds);
-//                btnNoAds.setLayerVisibilty("normal", true);
-//                btnNoAds.setLayerVisibilty("pressed", false);
             }
         });
         btnShop.addListener(new ClickListener(){
@@ -84,8 +69,6 @@ public class MenuScreenScript implements IScript {
             public boolean touchDown (InputEvent event, float x, float y, int
                     pointer, int button) {
                 touchDownButton(btnShop);
-//                btnShop.setLayerVisibilty("normal", false);
-//                btnShop.setLayerVisibilty("pressed", true);
                 stage.initShopMenu();
 
                 return true;
@@ -93,8 +76,6 @@ public class MenuScreenScript implements IScript {
             public void touchUp (InputEvent event, float x, float y, int pointer,
                                  int button) {
                 touchUpButton(btnShop);
-//                btnShop.setLayerVisibilty("normal", true);
-//                btnShop.setLayerVisibilty("pressed", false);
             }
         });
     }

@@ -27,8 +27,6 @@ public abstract class GlobalConstants {
     public static final int DEFAULT_MAX_HP = 2;
 
     public static String CUR_SCREEN = "MENU";
-    public static boolean GAME_OVER = false;
-    public static boolean GAME_PAUSED = false;
 
     public static int POINT_TRAVEL = Gdx.graphics.getHeight()-685;
 

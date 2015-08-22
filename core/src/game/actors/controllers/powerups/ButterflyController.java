@@ -8,7 +8,7 @@ import game.stages.GameStage;
 import game.utils.GlobalConstants;
 
 import java.util.Random;
-
+import static game.stages.GameScreenScript.*;
 /**
  * Created by MainUser on 12/07/2015.
  */
@@ -53,7 +53,7 @@ public class ButterflyController implements IScript{
 
     @Override
     public void act(float delta) {
-        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
+        if(isGameAlive()) {
             velocityX += gravity * delta;
             item.setX(item.getX() + velocityX * delta);
             item.setY(item.getY() + velocityY * delta);

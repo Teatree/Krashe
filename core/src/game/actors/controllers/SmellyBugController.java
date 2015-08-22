@@ -6,7 +6,7 @@ import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.stages.GameStage;
 import game.utils.GlobalConstants;
-
+import static game.stages.GameScreenScript.*;
 /**
  * Created by NastyaJoe on n/n/2015.
  */
@@ -34,7 +34,7 @@ public class SmellyBugController extends BugController implements IScript  {
 
     @Override
     public void act(float delta) {
-        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
+        if(isGameAlive()) {
             updateRect();
             item.setY(startYPosition + (-(float) Math.cos(item.getX() / 20) * 75));
             item.setX(item.getX() + velocity);

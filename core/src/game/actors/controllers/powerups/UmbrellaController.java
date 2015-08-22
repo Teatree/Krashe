@@ -4,11 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
-import game.stages.GameStage;
-import game.utils.GlobalConstants;
 
 import java.util.Random;
-
+import static game.stages.GameScreenScript.*;
 /**
  * Created by MainUser on 12/07/2015.
  */
@@ -53,7 +51,7 @@ public class UmbrellaController implements IScript{
 
     @Override
     public void act(float delta) {
-        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
+        if(isGameAlive()) {
             velocityX += gravity * delta;
             item.setX(item.getX() + velocityX * delta);
             item.setY(item.getY() + velocityY * delta);

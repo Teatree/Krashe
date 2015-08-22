@@ -4,23 +4,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
-import com.uwsoft.editor.renderer.actor.Image9patchItem;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.actors.*;
-import game.utils.BugGenerator;
-import game.utils.CollisionChecker;
-import game.utils.GlobalConstants;
-import game.utils.MrSpawner;
+import game.utils.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import static game.utils.Animator.*;
 /**
  * Created by MainUser on 26/07/2015.
  */
 public class GameScreenScript implements IScript {
+
+//    public static final String NORMAL_BTN_STATE = "normal";
+//    public static final String PRESSED_BTN_STATE = "pressed";
+
+    public static boolean GAME_OVER = false;
+    public static boolean GAME_PAUSED = false;
 
     private GameStage stage;
     private CompositeItem gameItem;
@@ -41,16 +44,18 @@ public class GameScreenScript implements IScript {
     public ButterflyPowerUp butterflyPowerUp;
     public int dandelionSpawnCounter;
     public int cacoonSpawnCounter;
+//
+//    private int aniTimer = 0;
+//    private float aniAddition = 0F;
+//    private String aniName;
+//    private boolean isPlayAny = false;
+//    private boolean pausePressed = false;
+//    private CompositeItem pausePopUp;
+//    private CompositeItem gameoverPopUp;
+//    private CompositeItem backShadow;
+//    private int gameOverCountDown = 300;
 
-    private int aniTimer = 0;
-    private float aniAddition = 0F;
-    private String aniName;
-    private boolean isPlayAny = false;
-    private boolean pausePressed = false;
-    private CompositeItem pausePopUp;
-    private CompositeItem gameoverPopUp;
-    private CompositeItem backShadow;
-    private int gameOverCountDown = 300;
+    private Animator uiController = new Animator();
 
     public GameScreenScript(GameStage stage) {
         this.stage = stage;
@@ -60,117 +65,121 @@ public class GameScreenScript implements IScript {
     public void init(CompositeItem item) {
         gameItem = item;
 
-        pausePopUp = gameItem.getCompositeById("pop-up_pause");
-        pausePopUp.setVisible(false);
-        gameoverPopUp = gameItem.getCompositeById("pop-up_gameover");
-        gameoverPopUp.setVisible(false);
-        backShadow = gameItem.getCompositeById("backShadow");
-        backShadow.setVisible(false);
-        pausePopUp.setColor(1,1,1,0);
-        gameoverPopUp.setColor(1,1,1,0);
-        backShadow.setColor(1,1,1,0);
+//        pausePopUp = gameItem.getCompositeById("pop-up_pause");
+//        pausePopUp.setVisible(false);
+//        gameoverPopUp = gameItem.getCompositeById("pop-up_gameover");
+//        gameoverPopUp.setVisible(false);
+//        backShadow = gameItem.getCompositeById("backShadow");
+//        backShadow.setVisible(false);
+//        pausePopUp.setColor(1,1,1,0);
+//        gameoverPopUp.setColor(1,1,1,0);
+//        backShadow.setColor(1,1,1,0);
 
         dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX - GlobalConstants.DANDELION_SPAWN_CHANCE_MIN) + GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
         cacoonSpawnCounter = random.nextInt(GlobalConstants.COCOON_SPAWN_MAX - GlobalConstants.COCOON_SPAWN_MIN) + GlobalConstants.COCOON_SPAWN_MIN;
 
-        final CompositeItem gameoverPopUpCloseBtn = gameoverPopUp.getCompositeById("btn_close");
-        final CompositeItem gameoverPopUpVideoBtn = gameoverPopUp.getCompositeById("btn_vid");
-        final CompositeItem pausePopUpContBtn = pausePopUp.getCompositeById("btn_continue");
-        final CompositeItem pausePopUpExitBtn = pausePopUp.getCompositeById("btn_exit");
+//        final CompositeItem gameoverPopUpCloseBtn = gameoverPopUp.getCompositeById("btn_close");
+//        final CompositeItem gameoverPopUpVideoBtn = gameoverPopUp.getCompositeById("btn_vid");
+//        final CompositeItem pausePopUpContBtn = pausePopUp.getCompositeById("btn_continue");
+//        final CompositeItem pausePopUpExitBtn = pausePopUp.getCompositeById("btn_exit");
         final CompositeItem btnPause = gameItem.getCompositeById("btn_pause");
 
         btnPause.addListener(new ClickListener(){
             // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
             public boolean touchDown (InputEvent event, float x, float y, int
                     pointer, int button) {
-                btnPause.setLayerVisibilty("normal", false);
-                btnPause.setLayerVisibilty("pressed", true);
-                playUIAnimation(10, "pauseAppear");
-
-                pausePressed = true;
+                touchDownButton(btnPause);
+//                btnPause.setLayerVisibilty(NORMAL_BTN_STATE, false);
+//                btnPause.setLayerVisibilty(PRESSED_BTN_STATE, true);
+                uiController.showPausePopup();
+//                playUIAnimation(10, "pauseAppear");
+//                pausePressed = true;
 
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer,
                                  int button) {
-                btnPause.setLayerVisibilty("normal", true);
-                btnPause.setLayerVisibilty("pressed", false);
-
-                pausePressed = false;
+                touchUpButton(btnPause);
+//                btnPause.setLayerVisibilty(NORMAL_BTN_STATE, true);
+//                btnPause.setLayerVisibilty(PRESSED_BTN_STATE, false);
+                uiController.pouseGame();
+//                pausePressed = false;
             }
         });
-        pausePopUpContBtn.addListener(new ClickListener(){
-            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
-            public boolean touchDown (InputEvent event, float x, float y, int
-                    pointer, int button) {
-                pausePopUpContBtn.setLayerVisibilty("normal", false);
-                pausePopUpContBtn.setLayerVisibilty("pressed", true);
-                playUIAnimation(10, "pauseDisappear");
-
-                return true;
-            }
-            public void touchUp (InputEvent event, float x, float y, int pointer,
-                                 int button) {
-                pausePopUpContBtn.setLayerVisibilty("normal", true);
-                pausePopUpContBtn.setLayerVisibilty("pressed", false);
-
-                pausePressed = false;
-            }
-        });
-        pausePopUpExitBtn.addListener(new ClickListener(){
-            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
-            public boolean touchDown (InputEvent event, float x, float y, int
-                    pointer, int button) {
-                pausePopUpExitBtn.setLayerVisibilty("normal", false);
-                pausePopUpExitBtn.setLayerVisibilty("pressed", true);
-                playUIAnimation(10, "pauseExit");
-
-                return true;
-            }
-            public void touchUp (InputEvent event, float x, float y, int pointer,
-                                 int button) {
-                pausePopUpExitBtn.setLayerVisibilty("normal", true);
-                pausePopUpExitBtn.setLayerVisibilty("pressed", false);
+//        pausePopUpContBtn.addListener(new ClickListener(){
+//            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
+//            public boolean touchDown (InputEvent event, float x, float y, int
+//                    pointer, int button) {
+//                pausePopUpContBtn.setLayerVisibilty("normal", false);
+//                pausePopUpContBtn.setLayerVisibilty("pressed", true);
+//                playUIAnimation(10, "pauseDisappear");
 //
-                pausePressed = false;
-            }
-        });
-        gameoverPopUpVideoBtn.addListener(new ClickListener(){
-            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
-            public boolean touchDown (InputEvent event, float x, float y, int
-                    pointer, int button) {
-                gameoverPopUpVideoBtn.setLayerVisibilty("normal", false);
-                gameoverPopUpVideoBtn.setLayerVisibilty("pressed", true);
-                playUIAnimation(10, "gameoverDisappear");
-
-                return true;
-            }
-            public void touchUp (InputEvent event, float x, float y, int pointer,
-                                 int button) {
-                gameoverPopUpVideoBtn.setLayerVisibilty("normal", true);
-                gameoverPopUpVideoBtn.setLayerVisibilty("pressed", false);
-
-                pausePressed = false;
-            }
-        });
-        gameoverPopUpCloseBtn.addListener(new ClickListener(){
-            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
-            public boolean touchDown (InputEvent event, float x, float y, int
-                    pointer, int button) {
-                gameoverPopUpCloseBtn.setLayerVisibilty("normal", false);
-                gameoverPopUpCloseBtn.setLayerVisibilty("pressed", true);
-                playUIAnimation(10, "gameoverExit");
-
-                return true;
-            }
-            public void touchUp (InputEvent event, float x, float y, int pointer,
-                                 int button) {
-                gameoverPopUpCloseBtn.setLayerVisibilty("normal", true);
-                gameoverPopUpCloseBtn.setLayerVisibilty("pressed", false);
+//                return true;
+//            }
+//            public void touchUp (InputEvent event, float x, float y, int pointer,
+//                                 int button) {
+//                pausePopUpContBtn.setLayerVisibilty("normal", true);
+//                pausePopUpContBtn.setLayerVisibilty("pressed", false);
 //
-                pausePressed = false;
-            }
-        });
+//                pausePressed = false;
+//            }
+//        });
+//        pausePopUpExitBtn.addListener(new ClickListener(){
+//            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
+//            public boolean touchDown (InputEvent event, float x, float y, int
+//                    pointer, int button) {
+//                pausePopUpExitBtn.setLayerVisibilty("normal", false);
+//                pausePopUpExitBtn.setLayerVisibilty("pressed", true);
+//                playUIAnimation(10, "pauseExit");
+//
+//                return true;
+//            }
+//            public void touchUp (InputEvent event, float x, float y, int pointer,
+//                                 int button) {
+//                pausePopUpExitBtn.setLayerVisibilty("normal", true);
+//                pausePopUpExitBtn.setLayerVisibilty("pressed", false);
+////
+//                pausePressed = false;
+//            }
+//        });
+//        gameoverPopUpVideoBtn.addListener(new ClickListener(){
+//            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
+//            public boolean touchDown (InputEvent event, float x, float y, int
+//                    pointer, int button) {
+//                gameoverPopUpVideoBtn.setLayerVisibilty("normal", false);
+//                gameoverPopUpVideoBtn.setLayerVisibilty("pressed", true);
+//                playUIAnimation(10, "gameoverDisappear");
+//
+//                return true;
+//            }
+//            public void touchUp (InputEvent event, float x, float y, int pointer,
+//                                 int button) {
+//                gameoverPopUpVideoBtn.setLayerVisibilty("normal", true);
+//                gameoverPopUpVideoBtn.setLayerVisibilty("pressed", false);
+//
+//                pausePressed = false;
+//            }
+//        });
+//        gameoverPopUpCloseBtn.addListener(new ClickListener(){
+//            // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
+//            public boolean touchDown (InputEvent event, float x, float y, int
+//                    pointer, int button) {
+//                gameoverPopUpCloseBtn.setLayerVisibilty("normal", false);
+//                gameoverPopUpCloseBtn.setLayerVisibilty("pressed", true);
+//                playUIAnimation(10, "gameoverExit");
+//
+//                return true;
+//            }
+//            public void touchUp (InputEvent event, float x, float y, int pointer,
+//                                 int button) {
+//                gameoverPopUpCloseBtn.setLayerVisibilty("normal", true);
+//                gameoverPopUpCloseBtn.setLayerVisibilty("pressed", false);
+////
+//                pausePressed = false;
+//            }
+//        });
+
+        uiController.init(this);
     }
 
     @Override
@@ -180,143 +189,147 @@ public class GameScreenScript implements IScript {
 
     @Override
     public void act(float delta) {
-        if(isPlayAny){
-            // Don't touch this
-            aniTimer--;
-            //
-
-            // Play gameover pop-up appear animation
-            if(aniName == "gameoverAppear"){
-                gameoverPopUp.setVisible(true);
-                backShadow.setVisible(true);
-
-                if(gameoverPopUp.getColor().a<1){
-                    gameoverPopUp.setColor(1,1,1,gameoverPopUp.getColor().a+0.1f); // Some sort of a formula would be good here
-                    backShadow.setColor(1,1,1,backShadow.getColor().a+0.1f); // like a formula that replaces 0.1f with a portion of aniTimer
-                }
-                if(gameoverPopUp.getColor().a==1){
-                    GlobalConstants.GAME_PAUSED = true;
-                }
-            }
-            //
-
-            // Play gameover pop-up disappear animation
-            if(aniName == "gameoverDisappear"){
-                if(gameoverPopUp.getColor().a>0){
-                    gameoverPopUp.setColor(1,1,1,gameoverPopUp.getColor().a-0.1f);
-                    backShadow.setColor(1,1,1,backShadow.getColor().a-0.1f);
-                }
-                if(gameoverPopUp.getColor().a==0){
-                    GlobalConstants.GAME_PAUSED = false;
-                    gameoverPopUp.setVisible(false);
-                    backShadow.setVisible(false);
-
-                    flower.setCurHp(3);
-                    gameOverCountDown = 300;
-                }
-            }
-            //
-
-            // Play gameover pop-up disappear animation with Exit
-            if(aniName == "gameoverExit"){
-                if(gameoverPopUp.getColor().a>0){
-                    gameoverPopUp.setColor(1,1,1,gameoverPopUp.getColor().a-0.1f);
-                    backShadow.setColor(1,1,1,backShadow.getColor().a-0.1f);
-                }
-                if(gameoverPopUp.getColor().a==0){
-                    GlobalConstants.GAME_PAUSED = false;
-                    gameoverPopUp.setVisible(false);
-                    backShadow.setVisible(false);
-
-                    flower.setCurHp(3);
-                    stage.initMenu();
-                    isPlayAny = false; // this is bad, think of a formula!
-                }
-            }
-            //
-
-            // Play pause pop-up appear animation
-            if(aniName == "pauseAppear"){
-                pausePopUp.setVisible(true);
-                backShadow.setVisible(true);
-
-                if(pausePopUp.getColor().a<1){
-                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a+aniAddition); // Some sort of a formula would be good here
-                    backShadow.setColor(1,1,1,backShadow.getColor().a+aniAddition); // like a formula that replaces 0.1f with a portion of aniTimer
-                }
-                if(pausePopUp.getColor().a==1){
-                    GlobalConstants.GAME_PAUSED = true;
-                    isPlayAny = false;
-                }
-            }
-            //
-
-            // Play pause pop-up disappear animation
-            if(aniName == "pauseDisappear"){
-                if(pausePopUp.getColor().a>0){
-                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a-aniAddition);
-                    backShadow.setColor(1,1,1,backShadow.getColor().a-aniAddition);
-                }
-                if(pausePopUp.getColor().a==0){
-                    GlobalConstants.GAME_PAUSED = false;
-                    pausePopUp.setVisible(false);
-                    backShadow.setVisible(false);
-                    isPlayAny = false;
-                }
-            }
-            //
-
-            // Play pause disappear animation with Exit
-            if(aniName == "pauseExit"){
-                if(pausePopUp.getColor().a>0){
-                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a-aniAddition);
-                    backShadow.setColor(1,1,1,backShadow.getColor().a-aniAddition);
-                }
-                if(pausePopUp.getColor().a==0){
-                    GlobalConstants.GAME_PAUSED = false;
-                    pausePopUp.setVisible(false);
-                    backShadow.setVisible(false);
-
-                    isPlayAny = false; // this is bad, think of a formula!
-                    stage.initMenu();
-                }
-            }
-            //
-
-            // Don't touch this
-            if(aniTimer<=0){
-                isPlayAny = false;
-            }
-            //
-        }
+        uiController.update();
+//        if(isPlayAny){
+//            // Don't touch this
+//            aniTimer--;
+//            //
+//
+//            // Play gameover pop-up appear animation
+//            if(aniName == "gameoverAppear"){
+//                gameoverPopUp.setVisible(true);
+//                backShadow.setVisible(true);
+//
+//                if(gameoverPopUp.getColor().a<1){
+//                    gameoverPopUp.setColor(1,1,1,gameoverPopUp.getColor().a+aniAddition);
+//                    backShadow.setColor(1,1,1,backShadow.getColor().a+aniAddition); // like a formula that replaces 0.1f with a portion of aniTimer
+//                }
+//                if(gameoverPopUp.getColor().a==1){
+//                    GlobalConstants.GAME_PAUSED = true;
+//                }
+//            }
+//            //
+//
+//            // Play gameover pop-up disappear animation
+//            if(aniName == "gameoverDisappear"){
+//                if(gameoverPopUp.getColor().a>0){
+//                    gameoverPopUp.setColor(1,1,1,gameoverPopUp.getColor().a-aniAddition);
+//                    backShadow.setColor(1,1,1,backShadow.getColor().a-aniAddition);
+//                }
+//                if(gameoverPopUp.getColor().a==0){
+//                    GlobalConstants.GAME_PAUSED = false;
+//                    gameoverPopUp.setVisible(false);
+//                    backShadow.setVisible(false);
+//
+//                    flower.setCurHp(3);
+//                    gameOverCountDown = 300;
+//                }
+//            }
+//            //
+//
+//            // Play gameover pop-up disappear animation with Exit
+//            if(aniName == "gameoverExit"){
+//                if(gameoverPopUp.getColor().a>0){
+//                    gameoverPopUp.setColor(1,1,1,gameoverPopUp.getColor().a-aniAddition);
+//                    backShadow.setColor(1,1,1,backShadow.getColor().a-aniAddition);
+//                }
+//                if(gameoverPopUp.getColor().a==0){
+//                    GlobalConstants.GAME_PAUSED = false;
+//                    gameoverPopUp.setVisible(false);
+//                    backShadow.setVisible(false);
+//
+//                    flower.setCurHp(3);
+//                    stage.initMenu();
+//                    isPlayAny = false;
+//                }
+//            }
+//            //
+//
+//            // Play pause pop-up appear animation
+//            if(aniName == "pauseAppear"){
+//                pausePopUp.setVisible(true);
+//                backShadow.setVisible(true);
+//
+//                if(pausePopUp.getColor().a<1){
+//                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a+aniAddition);
+//                    backShadow.setColor(1,1,1,backShadow.getColor().a+aniAddition);
+//                }
+//                if(pausePopUp.getColor().a==1){
+//                    GlobalConstants.GAME_PAUSED = true;
+//                    isPlayAny = false;
+//                }
+//            }
+//            //
+//
+//            // Play pause pop-up disappear animation
+//            if(aniName == "pauseDisappear"){
+//                if(pausePopUp.getColor().a>0){
+//                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a-aniAddition);
+//                    backShadow.setColor(1,1,1,backShadow.getColor().a-aniAddition);
+//                }
+//                if(pausePopUp.getColor().a==0){
+//                    GlobalConstants.GAME_PAUSED = false;
+//                    pausePopUp.setVisible(false);
+//                    backShadow.setVisible(false);
+//                    isPlayAny = false;
+//                }
+//            }
+//            //
+//
+//            // Play pause disappear animation with Exit
+//            if(aniName == "pauseExit"){
+//                if(pausePopUp.getColor().a>0){
+//                    pausePopUp.setColor(1,1,1,pausePopUp.getColor().a-aniAddition);
+//                    backShadow.setColor(1,1,1,backShadow.getColor().a-aniAddition);
+//                }
+//                if(pausePopUp.getColor().a==0){
+//                    GlobalConstants.GAME_PAUSED = false;
+//                    pausePopUp.setVisible(false);
+//                    backShadow.setVisible(false);
+//
+//                    isPlayAny = false;
+//                    stage.initMenu();
+//                }
+//            }
+//            //
+//
+//            // Don't touch this
+//            if(aniTimer<=0){
+//                isPlayAny = false;
+//            }
+//            //
+//        }
         for(Bug bug : bugs){
             if (bug.getController().isOutOfBounds() && flower.getCurHp()<=0){
-                GlobalConstants.GAME_PAUSED = true;
+                GAME_PAUSED = true;
             }
         }
-        if(flower.getCurHp()<=0 && !gameoverPopUp.isVisible()){
-            playUIAnimation(100, "gameoverAppear");
-
+//        if(flower.getCurHp()<=0 && !gameoverPopUp.isVisible()){
+//            playUIAnimation(100, "gameoverAppear");
+//        }
+        if (flower.getCurHp() <= 0) {
+           uiController.showGameOverPopup();
         }
+
         if(flower.getCurHp()<=0) {
-            gameOverCountDown--;
-            if (gameOverCountDown > 241) {
-                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("5");
-            } else if (gameOverCountDown > 181 && gameOverCountDown < 240) {
-                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("4");
-            } else if (gameOverCountDown > 121 && gameOverCountDown < 180) {
-                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("3");
-            } else if (gameOverCountDown > 61 && gameOverCountDown < 120) {
-                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("2");
-            } else if (gameOverCountDown > 0 && gameOverCountDown < 60) {
-                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("1");
-            } else if (gameOverCountDown <= 0) {
-                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("0");
-                playUIAnimation(100, "gameoverExit");
-            }
+//            gameOverCountDown--;
+//            if (gameOverCountDown > 241) {
+//                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("5");
+//            } else if (gameOverCountDown > 181 && gameOverCountDown < 240) {
+//                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("4");
+//            } else if (gameOverCountDown > 121 && gameOverCountDown < 180) {
+//                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("3");
+//            } else if (gameOverCountDown > 61 && gameOverCountDown < 120) {
+//                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("2");
+//            } else if (gameOverCountDown > 0 && gameOverCountDown < 60) {
+//                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("1");
+//            } else if (gameOverCountDown <= 0) {
+//                gameoverPopUp.getLabelById("pop-up_gameover_timer_txt").setText("0");
+//                playUIAnimation(100, "gameoverExit");
+//            }
         }
 
-        if(!GlobalConstants.GAME_PAUSED && !GlobalConstants.GAME_OVER && GlobalConstants.CUR_SCREEN == "GAME") {
+        if(isGameAlive() && GlobalConstants.CUR_SCREEN == "GAME") {
             timer++;
             dandelionSpawnCounter--;
             cacoonSpawnCounter--;
@@ -349,12 +362,12 @@ public class GameScreenScript implements IScript {
         }
     }
 
-    private void playUIAnimation(int timer, String name){
-        isPlayAny = true;
-        aniTimer = timer;
-        aniAddition = 1f/aniTimer;
-        aniName = name;
-    }
+//    private void playUIAnimation(int timer, String name){
+//        isPlayAny = true;
+//        aniTimer = timer;
+//        aniAddition = 1f/aniTimer;
+//        aniName = name;
+//    }
 
     private void reloadBugs() {
         bugs = new ArrayList<>();
@@ -394,6 +407,31 @@ public class GameScreenScript implements IScript {
         return spawner;
     }
 
+
+    public CompositeItem getGameItem() {
+        return gameItem;
+    }
+
+    public void setGameItem(CompositeItem gameItem) {
+        this.gameItem = gameItem;
+    }
+
+    public GameStage getStage() {
+        return stage;
+    }
+
+    public void setStage(GameStage stage) {
+        this.stage = stage;
+    }
+
+    public Flower getFlower() {
+        return flower;
+    }
+
+    public void setFlower(Flower flower) {
+        this.flower = flower;
+    }
+
     public boolean isGameOver() {
         for(Bug bug : bugs){
             if (bug.getController().isOutOfBounds() && flower.getCurHp()<=0){
@@ -403,4 +441,7 @@ public class GameScreenScript implements IScript {
         return false;
     }
 
+    public static boolean isGameAlive(){
+        return !GAME_PAUSED && !GAME_OVER;
+    }
 }

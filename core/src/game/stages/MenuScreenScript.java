@@ -10,6 +10,7 @@ import com.uwsoft.editor.renderer.actor.SpriterActor;
 import com.uwsoft.editor.renderer.script.IScript;
 import game.utils.GlobalConstants;
 
+import static game.utils.Animator.*;
 /**
  * Created by Teatree on 7/25/2015.
  */
@@ -50,44 +51,50 @@ public class MenuScreenScript implements IScript {
             // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
             public boolean touchDown (InputEvent event, float x, float y, int
                     pointer, int button) {
-                btnSettings.setLayerVisibilty("normal", false);
-                btnSettings.setLayerVisibilty("pressed", true);
+                touchDownButton(btnSettings);
+//                btnSettings.setLayerVisibilty("normal", false);
+//                btnSettings.setLayerVisibilty("pressed", true);
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer,
                                  int button) {
-                btnSettings.setLayerVisibilty("normal", true);
-                btnSettings.setLayerVisibilty("pressed", false);
+                touchUpButton(btnSettings);
+//                btnSettings.setLayerVisibilty("normal", true);
+//                btnSettings.setLayerVisibilty("pressed", false);
             }
         });
         btnNoAds.addListener(new ClickListener(){
             // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
             public boolean touchDown (InputEvent event, float x, float y, int
                     pointer, int button) {
-                btnNoAds.setLayerVisibilty("normal", false);
-                btnNoAds.setLayerVisibilty("pressed", true);
+                touchDownButton(btnNoAds);
+//                btnNoAds.setLayerVisibilty("normal", false);
+//                btnNoAds.setLayerVisibilty("pressed", true);
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer,
                                  int button) {
-                btnNoAds.setLayerVisibilty("normal", true);
-                btnNoAds.setLayerVisibilty("pressed", false);
+                touchUpButton(btnNoAds);
+//                btnNoAds.setLayerVisibilty("normal", true);
+//                btnNoAds.setLayerVisibilty("pressed", false);
             }
         });
         btnShop.addListener(new ClickListener(){
             // Need to keep touch down in order for touch up to work normal (libGDX awkwardness)
             public boolean touchDown (InputEvent event, float x, float y, int
                     pointer, int button) {
-                btnShop.setLayerVisibilty("normal", false);
-                btnShop.setLayerVisibilty("pressed", true);
+                touchDownButton(btnShop);
+//                btnShop.setLayerVisibilty("normal", false);
+//                btnShop.setLayerVisibilty("pressed", true);
                 stage.initShopMenu();
 
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer,
                                  int button) {
-                btnShop.setLayerVisibilty("normal", true);
-                btnShop.setLayerVisibilty("pressed", false);
+                touchUpButton(btnShop);
+//                btnShop.setLayerVisibilty("normal", true);
+//                btnShop.setLayerVisibilty("pressed", false);
             }
         });
     }

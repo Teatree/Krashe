@@ -8,7 +8,7 @@ import com.uwsoft.editor.renderer.script.IScript;
 import game.actors.UmbrellaPowerUp;
 import game.stages.GameStage;
 import game.utils.GlobalConstants;
-
+import static game.stages.GameScreenScript.*;
 /**
  * Created by MainUser on 12/07/2015.
  */
@@ -38,7 +38,7 @@ public class DandelionController implements IScript {
 
     @Override
     public void act(float delta) {
-        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED && GlobalConstants.CUR_SCREEN == "GAME") {
+        if(isGameAlive() && GlobalConstants.CUR_SCREEN == "GAME") {
             counter++;
             if (state == State.GROWING) {
                 if (counter >= GlobalConstants.DANDELION_GROWING_DURATION) {

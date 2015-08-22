@@ -13,7 +13,7 @@ import game.stages.GameStage;
 import game.utils.GlobalConstants;
 
 import static game.utils.GlobalConstants.POINT_TRAVEL;
-
+import static game.stages.GameScreenScript.*;
 /**
  * Created by MainUser on 07/06/2015.
  */
@@ -62,7 +62,7 @@ public class FlowerController implements IScript {
 
     @Override
     public void act(float delta) {
-        if(!GlobalConstants.GAME_OVER && !GlobalConstants.GAME_PAUSED) {
+        if(isGameAlive()) {
             updateRect();
 //            checkForCollisions();
 

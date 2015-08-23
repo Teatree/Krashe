@@ -1,5 +1,6 @@
 package game.utils;
 
+        import com.sun.org.apache.xpath.internal.SourceTree;
         import com.uwsoft.editor.renderer.Overlap2DStage;
         import com.uwsoft.editor.renderer.SceneLoader;
         import com.uwsoft.editor.renderer.actor.CompositeItem;
@@ -44,10 +45,10 @@ public class BugGenerator {
             } else if (probabilityValue >= 41 && probabilityValue < 60) {
                 //Charger
                 return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[1];
-            } else if (probabilityValue >= 61 && probabilityValue < 70){
-                return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[3];
-            } else {
+            } else if (probabilityValue >= 61 && probabilityValue < 70 && !hasQueen()){
                 return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[4];
+            } else {
+                return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[3];
             }
         }else{
             return (Map.Entry<String, Class>) libBugs.entrySet().toArray()[3];
@@ -76,5 +77,14 @@ public class BugGenerator {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean hasQueen(){
+        for(Bug bug : GameScreenScript.bugs){
+            if(bug.getController() instanceof QueenBeeBugController){
+                return true;
+            }
+        }
+        return false;
     }
 }

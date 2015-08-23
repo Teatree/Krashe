@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.*;
 import game.stages.GameStage;
 import game.utils.AssetsManager;
+import game.utils.SaveManager;
 
 public class Main extends ApplicationAdapter {
 
@@ -24,6 +25,7 @@ public class Main extends ApplicationAdapter {
 		stage = new GameStage(AssetsManager.resourceManager);
 		viewports = getViewports(stage.getCamera());
 		stage.setViewport(viewports.first());
+		SaveManager.loadProperties();
 
 		Gdx.input.setInputProcessor(stage);
 	}
@@ -41,6 +43,21 @@ public class Main extends ApplicationAdapter {
 
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
+	}
+
+	@Override
+	public void pause () {
+//		SaveManager.saveProperties();
+	}
+
+	@Override
+	public void resume () {
+//		SaveManager.loadProperties();
+	}
+
+	@Override
+	public void dispose () {
+		SaveManager.saveProperties();
 	}
 
 	static public Array<String> getViewportNames () {

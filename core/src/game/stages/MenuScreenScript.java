@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
+import game.utils.SaveManager;
 
 import static game.utils.Animator.*;
 /**
@@ -82,7 +83,7 @@ public class MenuScreenScript implements IScript {
 
     @Override
     public void dispose() {
-
+//        SaveManager.saveProperties();
     }
 
     @Override

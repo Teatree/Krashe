@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.uwsoft.editor.renderer.actor.CompositeItem;
 import com.uwsoft.editor.renderer.script.IScript;
+import game.utils.SaveManager;
 
 /**
  * Created by Teatree on 7/25/2015.
@@ -49,7 +50,6 @@ public class ShopScreenScript implements IScript {
 
     @Override
     public void dispose() {
-
     }
 
     @Override

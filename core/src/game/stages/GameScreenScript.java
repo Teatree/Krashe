@@ -27,7 +27,7 @@ public class GameScreenScript implements IScript {
     private CompositeItem gameItem;
 
     public Flower flower;
-    public List<Bug> bugs = new LinkedList<>();
+    public static List<Bug> bugs = new LinkedList<>();
     private int spawnInterval = 200;
     public Random random = new Random();
 
@@ -80,7 +80,7 @@ public class GameScreenScript implements IScript {
 
     @Override
     public void dispose() {
-
+//        SaveManager.saveProperties();
     }
 
     @Override

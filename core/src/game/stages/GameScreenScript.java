@@ -33,7 +33,7 @@ public class GameScreenScript implements IScript {
 
     private int timer;
     final MrSpawner spawner = new MrSpawner();
-    public BugGenerator bugGenerator = new BugGenerator();
+    public BugGenerator bugGenerator;
     public static boolean isAngeredBeesMode = false;
     public static int angeredBeesTimer = 0;
     public DandelionPowerUp dandelionPowerup;
@@ -56,6 +56,13 @@ public class GameScreenScript implements IScript {
         dandelionSpawnCounter = random.nextInt(GlobalConstants.DANDELION_SPAWN_CHANCE_MAX - GlobalConstants.DANDELION_SPAWN_CHANCE_MIN) + GlobalConstants.DANDELION_SPAWN_CHANCE_MIN;
         cacoonSpawnCounter = random.nextInt(GlobalConstants.COCOON_SPAWN_MAX - GlobalConstants.COCOON_SPAWN_MIN) + GlobalConstants.COCOON_SPAWN_MIN;
 
+        initPauseButton();
+
+        uiController.init(this);
+        bugGenerator = new BugGenerator(stage.sceneLoader);
+    }
+
+    public void initPauseButton() {
         final CompositeItem btnPause = gameItem.getCompositeById("btn_pause");
 
         btnPause.addListener(new ClickListener() {
@@ -74,8 +81,6 @@ public class GameScreenScript implements IScript {
                 uiController.pouseGame();
             }
         });
-
-        uiController.init(this);
     }
 
     @Override

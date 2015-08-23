@@ -10,9 +10,7 @@ package game.utils;
         import game.stages.GameStage;
 
         import java.lang.reflect.InvocationTargetException;
-        import java.util.HashMap;
-        import java.util.Map;
-        import java.util.Random;
+        import java.util.*;
 
 /**
  * Created by MainUser on 11/07/2015.
@@ -21,16 +19,27 @@ public class BugGenerator {
     private HashMap<String, Class> libBugs = new HashMap<>();
     private Random rand = new Random();
 
-    public BugGenerator(){
-        init();
+    public BugGenerator(SceneLoader sceneLoader) {
+        init(sceneLoader);
     }
 
-    private void init() {
-        libBugs.put("drunkBugLib", DrunkBugController.class);
-        libBugs.put("chargerBugLib", ChargerBugController.class);
-        libBugs.put("simpleBugLib", SimpleBugController.class);
-        libBugs.put("beeBugLib", BeeBugController.class);
-        libBugs.put("queenBeeLib", QueenBeeBugController.class);
+    Stack<CompositeItem> availableBugCompItems = new Stack<>();
+
+    private void init(SceneLoader sceneLoader) {
+        libBugs.put("Drunk_Bug_layer", DrunkBugController.class);
+        libBugs.put("Charger_Bug_layer", ChargerBugController.class);
+        libBugs.put("Simple_Bug_layer", SimpleBugController.class);
+        libBugs.put("Bee_layer", BeeBugController.class);
+        libBugs.put("Queen_layer", QueenBeeBugController.class);
+
+        availableBugCompItems.add(sceneLoader.getCompositeElementById("bug_1"));
+        availableBugCompItems.add(sceneLoader.getCompositeElementById("bug_2"));
+        availableBugCompItems.add(sceneLoader.getCompositeElementById("bug_3"));
+        availableBugCompItems.add(sceneLoader.getCompositeElementById("bug_4"));
+        availableBugCompItems.add(sceneLoader.getCompositeElementById("bug_5"));
+        availableBugCompItems.add(sceneLoader.getCompositeElementById("bug_6"));
+        availableBugCompItems.add(sceneLoader.getCompositeElementById("bug_7"));
+        availableBugCompItems.add(sceneLoader.getCompositeElementById("bug_8"));
     }
 
     private Map.Entry<String, Class> getType(){
@@ -57,8 +66,8 @@ public class BugGenerator {
 
     public Bug getBugUnsafe(Overlap2DStage stage, SceneLoader sceneLoader) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Map.Entry<String, Class> type = getType();
-        CompositeItem compI = sceneLoader.getLibraryAsActor(type.getKey());
-
+        CompositeItem compI = availableBugCompItems.pop();
+        compI.setLayerVisibilty(type.getKey(), true);
         BugController buntroller = (BugController) type.getValue().getConstructor(Overlap2DStage.class).newInstance(stage);
 
         return new Bug(buntroller, compI);

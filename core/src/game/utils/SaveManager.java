@@ -31,8 +31,12 @@ public class SaveManager {
     public static void saveProperties(){
         Json json = new Json();
         JsonProperties somProperties = new SaveManager.JsonProperties();
-        somProperties.bestScore = 100;
-        somProperties.bugJuiceAmount = Flower.pointsAmount;
+        somProperties.bugJuiceAmount = Flower.sessionPointsAmount;
+        if(Flower.sessionPointsAmount > GlobalConstants.BEST_SCORE){
+            somProperties.bestScore = Flower.sessionPointsAmount;
+        }else{
+            somProperties.bestScore = GlobalConstants.BEST_SCORE;
+        }
 
         writeFile(FILE_NAME, json.toJson(somProperties));
     }
@@ -43,7 +47,9 @@ public class SaveManager {
             Json json = new Json();
             JsonProperties somProperties = json.fromJson(JsonProperties.class, save);
             Flower.pointsAmount = somProperties.bugJuiceAmount;
+            GlobalConstants.BEST_SCORE = somProperties.bestScore;
             System.err.println("Load " + Flower.pointsAmount + " of bug juice");
+            System.err.println("BEST SCORE: " + GlobalConstants.BEST_SCORE);
         }
     }
 

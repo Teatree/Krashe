@@ -13,6 +13,7 @@ import game.utils.GlobalConstants;
 public class Flower {
 
     public static long pointsAmount = 0L;
+    public static long sessionPointsAmount = 0L;
 
     private int maxHp = GlobalConstants.DEFAULT_MAX_HP;
     private int curHp = maxHp;

@@ -101,6 +101,7 @@ public class GameScreenScript implements IScript {
             uiController.playGameOverTimer();
         }
 
+
         if (isGameAlive() && GlobalConstants.CUR_SCREEN == "GAME") {
             timer++;
             dandelionSpawnCounter--;
@@ -114,6 +115,7 @@ public class GameScreenScript implements IScript {
                 stage.getActors().removeRange(2, stage.getActors().size - 1);
                 reloadBugs();
                 isAngeredBeesMode = false;
+                Flower.pointsAmount += Flower.sessionPointsAmount;
             }
             if (isAngeredBeesMode) {
                 isAngeredBeesMode = angeredBeesTimer-- >= 0;

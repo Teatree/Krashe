@@ -34,13 +34,13 @@ public class CollisionChecker {
             if (posXrect.overlaps(posXbug)) {
                 itr.remove();
                 stage.removeActor(bug.getCompositeItem());
-                flower.pointsAmount += bug.getPoints();
+                flower.sessionPointsAmount += bug.getPoints();
                 if (bug.getController() instanceof QueenBeeBugController) {
                     stage.game.angeredBeesTimer = GlobalConstants.ANGERED_BEES_MODE_DURATION;
                     stage.game.isAngeredBeesMode = true;
                     System.out.println("BEE MODE ACTIVATED");
                 }
-                System.out.println("I have " + flower.pointsAmount + " points!");
+                System.out.println("I have " + flower.sessionPointsAmount + " points!");
                 flower.getController().eat();
             }
 
@@ -66,11 +66,11 @@ public class CollisionChecker {
             Rectangle posXumbrella = uc.getBoundsRectangle();
 
             if (posXrect.overlaps(posXumbrella)) {
-                flower.pointsAmount *= 2;
+                flower.sessionPointsAmount *= 2;
                 stage.removeActor(uc.getCompositeItem());
                 stage.game.umbrellaPowerUp = null;
                 System.out.println("Doubling points!");
-                System.out.println("I now have " + flower.pointsAmount + " points!");
+                System.out.println("I now have " + flower.sessionPointsAmount + " points!");
                 flower.getController().eat();
 
                 Iterator<Bug> itr = ((GameStage) stage).game.getBugs().iterator();
@@ -97,11 +97,11 @@ public class CollisionChecker {
             Rectangle posXbutterflyRectBehind = new Rectangle(posXbutterfly.getX() - 300, posXbutterfly.getY(), posXbutterfly.getWidth(), posXbutterfly.getHeight());
 
             if (posXrect.overlaps(posXbutterfly)) {
-                flower.pointsAmount += 200;
+                flower.sessionPointsAmount += 200;
                 stage.removeActor(bc.getCompositeItem());
                 stage.game.butterflyPowerUp = null;
                 System.out.println("Giving 200!");
-                System.out.println("I now have " + flower.pointsAmount + " points!");
+                System.out.println("I now have " + flower.sessionPointsAmount + " points!");
                 flower.getController().eat();
             }
 
